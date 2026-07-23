@@ -3,6 +3,20 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.1.3] — 2026-07-23
+
+### Fixed
+
+- **`build-flow-spec` now loads in GitHub Copilot CLI.** Its description was
+  1054 chars; Copilot CLI enforces a 1024-char limit (Claude Code does not, so
+  it only failed in one runtime). Rewritten to 993 chars, triggers preserved.
+
+### Added
+
+- Lint now enforces the 1024-char description limit, and a gotchas entry
+  records the dual-runtime asymmetry. Caught in the wild during first Copilot
+  CLI install on a customer VM.
+
 ## [0.1.2] — 2026-07-23
 
 ### Added

@@ -44,6 +44,10 @@ const MECHANICS_TOKENS = [
 
 const ALLOWED_FRONTMATTER_KEYS = new Set(["name", "description"]);
 const MAX_SKILL_LINES = 500;
+// GitHub Copilot CLI rejects any skill whose description exceeds 1024 chars.
+// Claude Code does not enforce this, so it only surfaces in one runtime —
+// exactly the drift this lint exists to catch. Keep a margin below the cap.
+const MAX_DESCRIPTION_CHARS = 1024;
 
 const violations = [];
 const v = (file, msg) => violations.push({ file: path.relative(ROOT, file), msg });
@@ -67,6 +71,21 @@ function parseFrontmatterKeys(content, file) {
     .map((line) => line.split(":")[0].trim());
 }
 
+// Extract the description value and return its length as the runtime sees it.
+// Handles a folded scalar (`description: >`) by joining wrapped lines with a
+// single space, and an inline `description: text` on one line.
+function descriptionLength(content) {
+  const end = content.indexOf("\n---", 3);
+  if (end === -1) return null;
+  const block = content.slice(3, end);
+  const folded = block.match(/description:\s*[>|][-+]?\s*\n([\s\S]*?)(?=\n[A-Za-z_][A-Za-z0-9_-]*:|$)/);
+  if (folded) {
+    return folded[1].split("\n").map((l) => l.trim()).filter(Boolean).join(" ").length;
+  }
+  const inline = block.match(/description:\s*(.+)/);
+  return inline ? inline[1].trim().replace(/^["']|["']$/g, "").length : null;
+}
+
 function lintSkill(skillMd) {
   const content = fs.readFileSync(skillMd, "utf8");
 
@@ -82,6 +101,15 @@ function lintSkill(skillMd) {
   }
   for (const required of ["name", "description"]) {
     if (!keys.includes(required)) v(skillMd, `frontmatter missing required key "${required}"`);
+  }
+
+  // description length (Copilot CLI hard limit)
+  const descLen = descriptionLength(content);
+  if (descLen !== null && descLen > MAX_DESCRIPTION_CHARS) {
+    v(
+      skillMd,
+      `description is ${descLen} chars — exceeds the ${MAX_DESCRIPTION_CHARS}-char limit GitHub Copilot CLI enforces (Claude Code does not, so it only fails in one runtime)`
+    );
   }
 
   // 2. line count

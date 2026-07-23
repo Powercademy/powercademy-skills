@@ -19,6 +19,14 @@ Format per entry: **Symptom** → **Cause** → **Fix**. Keep them short and mec
 
 ---
 
+## Dual-runtime portability
+
+**GitHub Copilot CLI rejects skill descriptions over 1024 characters; Claude Code does not.**
+A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI with *"Skill description must be at most 1024 characters"* — the skill silently doesn't load in that runtime. Because it only fails on one side, it survives any Claude-Code-only test.
+→ Keep every skill description ≤ 1024 characters, with margin. The repo lint (`scripts/lint/lint-skills.js`) enforces this now — but the lesson is general: a constraint present in one runtime and absent in the other must be encoded mechanically, because half your test surface won't see it.
+
+---
+
 ## Designer behaviour
 
 **Action descriptions truncate at 255 characters, silently.**
