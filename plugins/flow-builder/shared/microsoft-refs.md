@@ -96,6 +96,33 @@ Microsoft's own positioning; it is not a production automation surface.
 > no-install path. Re-check the command syntax against the docs — this surface
 > is preview-era.
 
+## Switching tenant — the full runbook
+
+Auth lives in more than one place; a tenant switch must update all of them, in
+this order, and is only done when verification proves it:
+
+```bash
+az logout
+az login --tenant <tenant-id> --use-device-code --allow-no-subscriptions
+pac auth create --environment <env> --deviceCode
+pac auth select --index <new-profile-index>
+```
+
+Then **fully quit and reopen the host application** — MCP tool servers capture
+their token at process start, and `/restart` only resets the conversation, not
+the server process. Warn the user of this step *at the start* of the switch.
+
+Verify (all three, no shortcuts):
+
+```bash
+az account show --query "{user:user.name,tenant:tenantId}" -o table
+pac auth who
+```
+
+…then re-list environments through the tools and confirm the tenant matches
+the **target**. A sign-in that succeeds against the wrong tenant looks
+identical to success until this comparison.
+
 ## Marketplace registration
 
 Inside a Claude Code or GitHub Copilot CLI session:

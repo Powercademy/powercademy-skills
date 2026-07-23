@@ -52,6 +52,12 @@ has opened"** — you cannot observe it. Re-run `pac auth who` afterwards and
 show the card to confirm. PCF is online-only, so also confirm the target isn't
 on-premises.
 
+**After any auth change, verify with evidence** — re-list and compare against
+the *target* tenant; a sign-in can succeed against the wrong one. MCP-served
+tools cache their token at process start: a tenant switch needs a full host-app
+quit and relaunch (`/restart` only resets the conversation) — say so upfront.
+Never fix CLI auth by sending the user to sign into a website.
+
 **3. Where does the control live?**
 Confirm the **publisher prefix** and **solution** the control belongs in
 (`pac solution list`), and the **target app** (model-driven or canvas — some

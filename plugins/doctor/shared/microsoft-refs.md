@@ -37,6 +37,20 @@ code appear in command output, so the agent relays them verbatim rather than
 guessing what happened on screen. (`--deviceCode` is a documented switch;
 Microsoft auto-applies it in Codespaces and recommends it for WSL2.)
 
+**Tenant-switch runbook** (all three auth surfaces, in order):
+
+```bash
+az logout
+az login --tenant <tenant-id> --use-device-code --allow-no-subscriptions
+pac auth create --environment <env> --deviceCode
+pac auth select --index <new-profile-index>
+```
+
+Then a **full host-app quit and relaunch** — MCP tool servers cache their token
+at process start; `/restart` resets only the conversation. Done means: fresh
+environment list matches the *target* tenant. Portal sign-ins in a browser
+change nothing locally — never offer them as the fix.
+
 ## Layer 3 — agent runtimes
 
 | Runtime | Check | Minimum | Install |

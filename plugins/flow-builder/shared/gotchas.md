@@ -33,6 +33,22 @@ An agent said *"a browser sign-in window has opened"* when it hadn't — it can'
 Cached auth profiles accumulate (multiple customers, multiple folders/CLIs) and the active one is invisible. On a real session the user had to interrogate the agent repeatedly to establish tenant/environment.
 → Lead every session with an unprompted **connection card** from `pac auth who`: user, tenant, environment, profile. List profiles when several exist and make the user pick. `pac auth name` per customer is the durable hygiene fix.
 
+**Signing into a portal in the browser does not change local auth.**
+An agent advised "open make.powerautomate.com and sign in with the other account, then let me know" as the fix for being on the wrong tenant. Browser cookies and CLI tokens are unrelated; nothing changed locally.
+→ Tenant switches happen in the local auth stacks (`az login --tenant … --use-device-code`, `pac auth create --deviceCode`), never in a website. If you catch yourself telling the user to sign into a portal to fix CLI auth, stop.
+
+**Auth lives in three places, and all of them must agree.**
+On a real tenant switch: the Azure CLI token (`az account show`), the pac profile (`pac auth who`), and *the MCP tool-server process*, which captured a token when it started. Getting the first two right while the third holds the old tenant produces "I re-authenticated but the tools still show the wrong environments" — which looks like a mystery and is just a stale process.
+→ Check all three. The third one only refreshes on a **full host-app quit and relaunch** — see the next entry.
+
+**MCP tool servers cache their token at startup; `/restart` does not fix a tenant switch.**
+`/restart` resets the conversation, not the server process. Symptoms seen live: az + pac both on the new tenant, tools still listing the old tenant's environments; after force-killing the process, tool calls return "Transport closed" until relaunch.
+→ After any tenant switch, require a full application quit (all windows + tray) and reopen, then re-verify. Say this *upfront* when a switch starts — it saves two failed restarts and fifteen minutes.
+
+**A tenant switch isn't done until the environment list proves it.**
+An agent declared "you're now authenticated as <user>" and then listed the *same environments from the old tenant* — sign-in succeeded, against the wrong place, and the success message taught the user nothing was wrong.
+→ Never declare an auth change successful from a command exit code. Re-list environments (or `pac auth who`) and compare against the **target** tenant; only the comparison is proof. This is "inference is not verification" applied to auth.
+
 **GitHub Copilot CLI rejects skill descriptions over 1024 characters; Claude Code does not.**
 A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI with *"Skill description must be at most 1024 characters"* — the skill silently doesn't load in that runtime. Because it only fails on one side, it survives any Claude-Code-only test.
 → Keep every skill description ≤ 1024 characters, with margin. The repo lint (`scripts/lint/lint-skills.js`) enforces this now — but the lesson is general: a constraint present in one runtime and absent in the other must be encoded mechanically, because half your test surface won't see it.

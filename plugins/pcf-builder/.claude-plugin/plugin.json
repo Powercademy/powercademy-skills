@@ -1,6 +1,6 @@
 {
   "name": "pcf-builder",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Design and build Power Apps Component Framework (PCF) code components end to end the Powercademy way — decide if PCF is even right, then a build plan and working control verified against Microsoft Learn, with checkpoints at the points PCF actually breaks (version bumps, harness-vs-real-host, deployment) and a living gotchas log. Methodology, not mechanics.",
   "author": {
     "name": "Howdang Rashid"

@@ -98,7 +98,12 @@ Label such reasoning as an inference when you offer it, keep it as an open quest
 
 ## Step 3: Write the build spec
 
-Output a markdown file. Structure:
+Output a markdown file **into the user's working directory** — confirm the
+location if it's unclear, and always tell them the full path. Never write the
+spec into the agent's internal or session-state folders: a spec the user can't
+find after the session is a spec that doesn't exist.
+
+Structure:
 
 ```markdown
 # <Name> — Build Spec

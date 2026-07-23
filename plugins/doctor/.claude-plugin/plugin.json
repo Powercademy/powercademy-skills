@@ -1,6 +1,6 @@
 {
   "name": "doctor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "One conversational check-up for the whole Power Platform dev toolchain — CLIs, auth profiles, agent runtimes, plugins, and MCP wiring. Diagnoses what's missing or misconfigured, fixes what it can with your consent, and ends with a readiness card. The answer to 'why is setting this up such a pain?'",
   "author": {
     "name": "Howdang Rashid"

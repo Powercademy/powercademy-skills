@@ -3,6 +3,30 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.3.1] — 2026-07-23
+
+Transcript-analysis release — fixes from the line-by-line review of the first
+real build session (flow-builder 0.1.7, pcf-builder 0.1.3, doctor 0.1.1).
+
+### Added
+
+- **Tenant-switch runbook** in flow-builder and doctor mechanics files: all
+  three auth surfaces (Azure CLI token, pac profile, MCP tool-server process
+  cache) in order, full host-app restart requirement (`/restart` is not
+  enough), and evidence-based verification.
+- Four gotchas from live failures: portal sign-in ≠ CLI auth; three auth
+  surfaces must agree; MCP servers cache tokens at startup; a tenant switch
+  isn't done until the environment list proves it.
+
+### Changed
+
+- Preflights: after any auth change, verify with evidence (re-list and compare
+  against the *target* tenant) — never declare success from an exit code; warn
+  about the full-restart requirement at the *start* of a tenant switch.
+- build-flow-spec: specs are written into the user's working directory with
+  the path stated — never into agent session-state folders (a live spec was
+  buried in `.copilot\session-state\…`).
+
 ## [0.3.0] — 2026-07-23
 
 First-session field feedback release — every change traces to a real friction

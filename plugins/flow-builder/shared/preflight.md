@@ -75,6 +75,18 @@ Always confirm the tenant via the card before any grounding or write; the cost
 of assuming is a spec against the wrong org. Re-show the card after any auth
 change.
 
+**After any auth change, verify with evidence — never with an exit code.**
+Re-run `pac auth who` (and `az account show` if the Azure CLI is in play),
+re-list environments, and compare against the *target* tenant: a sign-in can
+succeed against the wrong tenant and look identical to success. If tools served
+by an MCP process still show the old tenant after re-auth, that process cached
+its token at startup — a **full host-app quit and relaunch** is required
+(`/restart` only resets the conversation). Warn the user of the restart step at
+the *start* of a tenant switch, not after two failed attempts. The complete
+runbook is in `${PLUGIN_ROOT}/shared/microsoft-refs.md`. And never fix CLI auth
+by sending the user to sign into a website — portal cookies and local tokens
+are unrelated.
+
 **3. Where are we building?**
 List solutions (`pac solution list`) and confirm which unmanaged solution the
 flow belongs in. If it's unclear, ask — don't assume. Builds belong in a dev

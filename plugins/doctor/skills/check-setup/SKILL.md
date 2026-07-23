@@ -60,6 +60,13 @@ asked:
 - **Not signed in?** Use the device-code flow — it's fully observable: relay
   the URL and code from the command output and wait for the user to confirm.
   **Never claim a browser window opened; you can't see their screen.**
+- **Switching tenant? Say the whole cost upfront.** Auth lives in three places
+  — the Azure CLI token, the pac profile, and any MCP tool-server process
+  (which cached its token at startup and only refreshes on a **full host-app
+  quit and relaunch**; `/restart` resets the conversation, not the process).
+  Run the runbook in `${PLUGIN_ROOT}/shared/microsoft-refs.md`, and treat the
+  switch as done only when a fresh environment list matches the *target*
+  tenant — never on a command's exit code.
 
 ### Layer 3 — agent runtimes
 
