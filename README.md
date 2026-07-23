@@ -104,6 +104,18 @@ The answer to "why is setting this up such a pain?":
 
 ## Roadmap
 
+All tracked in [issues](https://github.com/HowdangPowercademy/powercademy-skills/issues) with the `roadmap` label. Headlines:
+
+- **audit-solution** — inherited-solution auditor (grounding as a product)
+- **advise-licensing** — doc-verified licensing verdicts, never from memory
+- **map-tenant** — first-day cartography of an unfamiliar customer tenant
+- **alm plugin** — ALM process design and checkpointed promotion discipline
+- **Interactive HTML artifacts** — specs, readiness cards, and reports as
+  styled, self-contained build-along pages
+- **Watch-mode building** — spec-driven execution with checkpoint gates when
+  Microsoft's tooling is present
+- **session-debrief** — end-of-session retrospective that drafts gotcha
+  contributions
 - **Next — the orchestrator.** A top-level "front door" skill that knows the
   whole Power Platform delivery surface (Dataverse, Power Automate, Power
   Pages, Code Apps, `pac`) and routes, sequences, and applies methodology
