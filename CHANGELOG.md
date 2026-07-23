@@ -3,6 +3,36 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.3.0] — 2026-07-23
+
+First-session field feedback release — every change traces to a real friction
+point from live use.
+
+### Added
+
+- **New plugin: `doctor` (0.1.0)** — skill `check-setup`: one conversational
+  check-up for the whole Power Platform toolchain (core tools, auth profiles,
+  agent runtimes, plugins across runtimes, MCP wiring). Diagnose-first,
+  fix-with-consent, ends with a readiness card. Born from the finding that
+  setup pain and tool sprawl are the biggest adoption blocker.
+- **Learn MCP auto-wiring (experimental):** `flow-builder` and `pcf-builder`
+  now ship a `.mcp.json` declaring the Microsoft Learn MCP server (remote,
+  no-auth) so verification tooling provisions on install where the runtime
+  supports plugin MCP configs. Skills keep the web-fetch fallback — nothing
+  depends on the server being present.
+
+### Changed
+
+- **Connection card** (`flow-builder` 0.1.6, `pcf-builder` 0.1.2): preflights
+  now lead by surfacing who you're connected as — user, tenant, environment,
+  profile — unprompted, with profile hygiene (`pac auth name`/`select`/
+  `delete`) offered when multiple cached profiles exist.
+- **Device-code sign-in**: preflights prefer `pac auth create --deviceCode` in
+  agent sessions (fully observable), and are forbidden from claiming
+  unobservable side effects ("a browser has opened").
+- Gotchas: two new entries — never claim unobserved side effects; users don't
+  know who they're connected as until it bites.
+
 ## [0.2.1] — 2026-07-23
 
 ### Fixed

@@ -25,6 +25,14 @@ Format per entry: **Symptom** → **Cause** → **Fix**. Keep them short and mec
 The shared files live at `<plugin>/shared/`, but a SKILL.md sits at `<plugin>/skills/<name>/SKILL.md`. A bare pointer to the shared gotchas file makes the agent look under `<plugin>/skills/<name>/shared/` — which doesn't exist ("Path does not exist"). The skill limps on from its inline text but never reads its own gotchas or preflight.
 → Reference plugin-root files as `${PLUGIN_ROOT}/shared/<file>.md` — the convention Microsoft's own dual-runtime skills use, which both Claude Code and Copilot expand to the plugin directory. The repo lint enforces this now. Caught live on the first Copilot desktop-app run.
 
+**Never claim a side effect you can't observe.**
+An agent said *"a browser sign-in window has opened"* when it hadn't — it can't see the user's screen. One false claim like that and the user stops trusting every status message.
+→ Prefer flows whose progress lives in observable command output. For auth, that's the device-code flow: `pac auth create --deviceCode` prints a URL and code the agent can relay verbatim. Say "go to <url>, enter <code>, tell me when done" — never narrate what "should" have happened on screen.
+
+**Users don't know who they're connected as, and won't ask until something's wrong.**
+Cached auth profiles accumulate (multiple customers, multiple folders/CLIs) and the active one is invisible. On a real session the user had to interrogate the agent repeatedly to establish tenant/environment.
+→ Lead every session with an unprompted **connection card** from `pac auth who`: user, tenant, environment, profile. List profiles when several exist and make the user pick. `pac auth name` per customer is the durable hygiene fix.
+
 **GitHub Copilot CLI rejects skill descriptions over 1024 characters; Claude Code does not.**
 A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI with *"Skill description must be at most 1024 characters"* — the skill silently doesn't load in that runtime. Because it only fails on one side, it survives any Claude-Code-only test.
 → Keep every skill description ≤ 1024 characters, with margin. The repo lint (`scripts/lint/lint-skills.js`) enforces this now — but the lesson is general: a constraint present in one runtime and absent in the other must be encoded mechanically, because half your test surface won't see it.

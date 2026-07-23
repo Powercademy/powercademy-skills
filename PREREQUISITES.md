@@ -7,6 +7,13 @@ gotchas log: it cost time once; it shouldn't again).
 **Last verified: 2026-07-23** against Claude Code 2.1.207, GitHub Copilot CLI
 1.0.73, pac CLI 2.7.4.
 
+## The fastest route
+
+Install the `doctor` plugin and say **"check my setup"** — it runs this whole
+document as a conversation: diagnoses every layer (tools, auth, runtimes,
+plugins, MCP), fixes what you consent to, and ends with a readiness card. The
+table below remains the human-readable reference behind it.
+
 ## The principle
 
 You should need to do almost nothing by hand. The installer and the skills

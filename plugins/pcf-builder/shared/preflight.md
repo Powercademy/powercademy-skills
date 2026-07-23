@@ -36,13 +36,21 @@ in `${PLUGIN_ROOT}/shared/microsoft-refs.md`) and, on a yes, run it. Node and th
 easy to forget — check them up front, because their absence surfaces as a
 confusing build error three steps later.
 
-**2. Are you connected — and to the right place?**
-Check auth (`pac auth list`) and where it points (`pac org who`). If not
-connected, ask for the environment in natural language and run
-`pac auth create --environment <url>` for them, saying plainly: *"A browser will
-open — sign in with your maker account; that part's yours."* Confirm: *"You're
-connected to **<env>** as **<user>** — right tenant?"* PCF is online-only, so
-also confirm the target isn't on-premises.
+**2. Are you connected — and to the right place? Lead with the connection card.**
+Before anything else, surface *who the user is connected as* unprompted — never
+make them ask. Run `pac auth who` (and `pac auth list` if profiles exist) and
+present a **connection card**: user, tenant, environment, profile name, and
+"is this the right place?". Multiple cached profiles → list them and ask which
+(`pac auth select`); offer `pac auth name` to label profiles per customer —
+cached-auth confusion is a known time sink.
+
+If not connected, authenticate with the **device-code flow**:
+`pac auth create --environment <env> --deviceCode` — fully observable in agent
+sessions. Present the code and URL from the command output: *"Go to <url> and
+enter code **XXXX-XXXX** — tell me when you're done."* **Never claim "a browser
+has opened"** — you cannot observe it. Re-run `pac auth who` afterwards and
+show the card to confirm. PCF is online-only, so also confirm the target isn't
+on-premises.
 
 **3. Where does the control live?**
 Confirm the **publisher prefix** and **solution** the control belongs in

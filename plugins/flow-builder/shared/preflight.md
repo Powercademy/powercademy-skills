@@ -43,15 +43,37 @@ Microsoft.PowerAppsCLI -e` (or via dotnet). On this VM, okay for me to run
 that?"* Then run it. If neither winget nor dotnet exists, hand the user
 https://aka.ms/PowerPlatformCLI.
 
-**2. Are you connected — and to the right place?**
-Check existing auth (`pac auth list`) and where it points (`pac org who`). If
-not connected, ask for the environment in natural language: *"Which environment
-— paste the URL, or tell me the org."* Then run it for them:
-`pac auth create --environment <url>`, and say plainly: *"A browser will open —
-sign in with your maker account. That sign-in is the one part I can't do for
-you."* Confirm afterwards: *"You're connected to **<env>** as **<user>** — is
-that the right tenant?"* Always confirm the tenant before any grounding or
-write; the cost of assuming is a spec against the wrong org.
+**2. Are you connected — and to the right place? Lead with the connection card.**
+The user's most common early frustration is not knowing *who they're connected
+as*. So before anything else, surface it unprompted — never make them ask. Run
+`pac auth who` (and `pac auth list` if profiles exist) and present a
+**connection card**:
+
+> **Connected as:** user@contoso.com · **Tenant:** Contoso · **Environment:**
+> HR-Dev (https://…crm.dynamics.com) · **Profile:** "Contoso Dev" (1 of 3 on
+> this machine)
+>
+> Is this the right place for this build?
+
+If **multiple cached profiles** exist — common on consultant machines — list
+them (index, name, user, environment) and ask which one, then `pac auth select`.
+Offer `pac auth name` to label unnamed profiles per customer, and
+`pac auth delete`/`pac auth clear` to prune stale ones: cached-auth confusion
+is a known time sink, and naming profiles is the durable fix.
+
+If **not connected**, ask for the environment in natural language and
+authenticate with the **device-code flow**:
+`pac auth create --environment <env> --deviceCode`. Device code is preferred in
+agent sessions because it's fully observable — you present the code and URL
+from the command output and the user completes sign-in wherever they like.
+**Never claim "a browser has opened"** — you cannot see whether it did, and
+claiming an unobserved side effect destroys trust the moment it's false. Say
+instead: *"Go to <url> and enter code **XXXX-XXXX** — tell me when you're
+done."* Then re-run `pac auth who` and show the connection card to confirm.
+
+Always confirm the tenant via the card before any grounding or write; the cost
+of assuming is a spec against the wrong org. Re-show the card after any auth
+change.
 
 **3. Where are we building?**
 List solutions (`pac solution list`) and confirm which unmanaged solution the

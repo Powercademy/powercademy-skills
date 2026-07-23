@@ -91,6 +91,17 @@ without the afternoons PCF usually costs:
 
 Fills genuine white space — Microsoft's own plugins don't cover PCF.
 
+### doctor (0.1.0)
+
+The answer to "why is setting this up such a pain?":
+
+- **`check-setup`** — one conversational check-up for the whole toolchain:
+  CLIs (git, Node, .NET, pac, az), **auth profiles** (who am I signed in as,
+  where, with which cached profile — the pain centre), agent runtimes, plugins
+  across runtimes, and MCP wiring. Diagnoses everything first, fixes with your
+  consent, and ends with a **readiness card**: ready for X, not yet for Y,
+  fixed this session. Say "am I set up?", "new laptop", or "my auth is a mess".
+
 ## Roadmap
 
 - **Next — the orchestrator.** A top-level "front door" skill that knows the
