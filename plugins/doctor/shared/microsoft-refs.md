@@ -83,7 +83,16 @@ marketplaces + plugins + pac in one pass.
 ## Layer 5 — MCP wiring
 
 **Microsoft Learn MCP server** — remote, streamable HTTP, no auth, free:
-endpoint `https://learn.microsoft.com/api/mcp`. Register in Claude Code:
+endpoint `https://learn.microsoft.com/api/mcp`.
+
+> **Do not probe this endpoint with a plain HTTP fetch.** It only speaks the
+> MCP streamable-HTTP protocol; Microsoft documents that browser-style access
+> "may return a `405 Method Not Allowed`". A 405 therefore means the endpoint
+> is *alive* — it is a pass, not a failure. The correct reachability check is
+> whether the runtime lists a registered/connected MCP server for it (or
+> whether its doc-search tools appear in the session's tool list).
+
+Register in Claude Code:
 `claude mcp add --transport http microsoft-learn https://learn.microsoft.com/api/mcp`.
 In Copilot CLI: `/mcp add` (or the desktop app's MCP servers settings page).
 Serves public documentation only — it answers "what does this require", never
