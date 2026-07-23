@@ -74,9 +74,26 @@ Works in both runtimes with no plugin-specific tooling required. When
 Microsoft's `power-automate` plugin (FlowAgent) is installed alongside, the
 spec drives it; when it isn't, the spec is built by hand in the designer.
 
+### pcf-builder (0.1.0)
+
+Build Power Apps Component Framework (PCF) code components **end to end** —
+without the afternoons PCF usually costs:
+
+- **`build-pcf-control`** — decides first whether PCF is even the right tool
+  (often it isn't), then produces a manifest-first build plan and working
+  control, verified against Microsoft Learn (APIs, manifest schema, and the
+  premium-licensing trap). Checkpoints sit exactly where PCF breaks: the
+  version-bump-or-cached-bundle gotcha, the harness-is-not-the-real-host gap,
+  and `pac pcf push` vs a proper managed-solution ALM deploy.
+- **`shared/gotchas.md`** — the accumulated PCF failure log (versioning,
+  manifest, lifecycle, harness-vs-host, licensing, bundling), read before every
+  build.
+
+Fills genuine white space — Microsoft's own plugins don't cover PCF.
+
 ## Roadmap
 
-- **0.2 — the orchestrator.** A top-level "front door" skill that knows the
+- **Next — the orchestrator.** A top-level "front door" skill that knows the
   whole Power Platform delivery surface (Dataverse, Power Automate, Power
   Pages, Code Apps, `pac`) and routes, sequences, and applies methodology
   across them. Skills can't wrap each other, but they *can* tell the agent

@@ -3,6 +3,22 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.2.0] — 2026-07-23
+
+### Added
+
+- **New plugin: `pcf-builder` (0.1.0)** — Power Apps Component Framework code
+  components end to end. Skill `build-pcf-control`: PCF-vs-alternatives
+  decision gate, manifest-first build plan, Microsoft Learn verification
+  (including the premium-licensing trap), and checkpoints at the points PCF
+  actually breaks (version bump, harness-vs-real-host, `pac pcf push` vs
+  managed-solution ALM). Ships `shared/gotchas.md` (seeded with real PCF
+  pain), `shared/microsoft-refs.md` (Learn MCP + pac MCP + pac pcf lifecycle),
+  and `shared/preflight.md` (conversational toolchain/environment onboarding).
+  Fills genuine white space — Microsoft's marketplaces don't cover PCF.
+- Marketplace now lists two plugins; the repo is a methodology marketplace, not
+  a single skill.
+
 ## [0.1.4] — 2026-07-23
 
 ### Changed
