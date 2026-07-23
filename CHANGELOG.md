@@ -3,6 +3,19 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.1.4] — 2026-07-23
+
+### Changed
+
+- **Preflight is now conversational onboarding, not a silent check.** The skill
+  drives connection in natural language — the user says "connect me to Contoso"
+  and the agent runs the auth; they never type a `pac` command. Gaps (missing
+  tool, no auth, missing plugin) are surfaced plainly with an offered fix rather
+  than failing silently. On a customer machine the agent offers before
+  installing. Preferred mechanism is the pac CLI's built-in MCP server where
+  available (natural-language tool calls), falling back to `pac` commands.
+- SKILL.md Step 0 rewritten to match the natural-language, do-the-work posture.
+
 ## [0.1.3] — 2026-07-23
 
 ### Fixed

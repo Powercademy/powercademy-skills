@@ -32,14 +32,18 @@ references to Microsoft plugin mechanics live there and nowhere else.
 
 ---
 
-## Step 0: Preflight — do the heavy lifting yourself
+## Step 0: Preflight — onboard the user in natural language
 
-Before grounding, run the checks in `shared/preflight.md`: pac CLI present,
-authenticated, pointed at the *right* environment, a dev solution to build in,
-and a route to Microsoft Learn. Fix everything a terminal can fix without
-announcing it. Surface — once, in a single message — only what genuinely needs
-the user (browser sign-ins, licences, admin-held permissions), each with its
-exact command. Never open a build by handing the user a prerequisites list.
+The moment the user expresses intent to connect or build ("connect me to my
+tenant", "let's build a flow", "spec a flow that…"), run the onboarding in
+`shared/preflight.md` yourself. Do the work for them: when they name a tenant
+in plain language, *you* run the connection — they never type a `pac` command.
+Narrate what you're checking, and when something's missing (a tool, an auth, a
+plugin), surface it plainly, say why it matters, and offer the fix — never let
+a gap fail silently and leave the user guessing. On a customer's machine, offer
+before installing, don't act by surprise. The only things that stay with the
+user are a browser sign-in and permissions someone else controls; everything
+else is yours to handle.
 
 ---
 
