@@ -60,6 +60,42 @@ pac solution export --name <name>  # export for grounding (Step 1)
 Install: `dotnet tool install --global Microsoft.PowerApps.CLI.Tool` or
 https://aka.ms/PowerPlatformCLI.
 
+### pac CLI built-in MCP server (Microsoft-sanctioned Claude Code bridge)
+
+The pac CLI ships an integrated MCP server that lets an agent invoke pac
+commands in natural language. Microsoft documents Claude Code as a supported
+client — this is the strongest Microsoft-blessed bridge between the runtimes
+this plugin targets and a live Power Platform environment.
+
+Microsoft's framing, quoted for enterprise reviewers who need to see the
+vendor's own positioning: it is *"an integrated Model Context Protocol (MCP)
+server designed for local development and testing purposes."*
+
+Start it:
+
+```bash
+pac copilot mcp --run
+# or zero-install (requires .NET 10+):
+dnx Microsoft.PowerApps.CLI.Tool --yes copilot mcp --run
+```
+
+Register it with Claude Code using the `claude mcp add-json pac-cli …` command
+Microsoft publishes. Applicable on Windows, Linux, and macOS.
+
+**Use in this plugin:** `build-flow-spec`'s preflight (Step 0) can lean on this
+server as the sanctioned way to check auth, environment, and solution state
+from inside a session — instead of shelling out to raw pac commands — where it
+is available. Treat it as *local development and testing* tooling, matching
+Microsoft's own positioning; it is not a production automation surface.
+
+- Docs: https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp
+- Command reference: https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/copilot
+
+> **Verified 2026-07-23.** Microsoft docs list Claude Code as a client and
+> publish the exact registration JSON; `.NET 10+` is required for the `dnx`
+> no-install path. Re-check the command syntax against the docs — this surface
+> is preview-era.
+
 ## Marketplace registration
 
 Inside a Claude Code or GitHub Copilot CLI session:

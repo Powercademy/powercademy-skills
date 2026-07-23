@@ -13,6 +13,14 @@ architecture thinking from real Power Platform engagements, encoded as skills.
 Complementary, not competing. Nothing here duplicates what Microsoft ships —
 the installer sets up both marketplaces side by side.
 
+Microsoft ships the verbs; Powercademy ships the sentence. Their skills know
+*how* to create a table or a flow; these skills carry the judgement about
+*whether, in what order, and what breaks if you don't* — the delivery
+methodology the capability-scoped Microsoft skills can't hold.
+
+> **New here and using Copilot?** Jump to the
+> [GitHub Copilot setup guide](docs/copilot-setup.md).
+
 ## Prerequisites
 
 Almost none by hand — the installer and the skills do the heavy lifting
@@ -47,7 +55,7 @@ Manual install, inside a Claude Code or Copilot CLI session:
 
 ## What's included
 
-### flow-builder (0.1.0)
+### flow-builder (0.1.2)
 
 Build Power Automate cloud flows from a **designer-ready build spec**, not
 from vibes:
@@ -68,9 +76,30 @@ spec drives it; when it isn't, the spec is built by hand in the designer.
 
 ## Roadmap
 
-- **0.2** — conventions plugin: solution naming, environment strategy, and
-  ALM conventions as skills.
+- **0.2 — the orchestrator.** A top-level "front door" skill that knows the
+  whole Power Platform delivery surface (Dataverse, Power Automate, Power
+  Pages, Code Apps, `pac`) and routes, sequences, and applies methodology
+  across them. Skills can't wrap each other, but they *can* tell the agent
+  which capability to reach for, in what order, with what checks — which is
+  where the consolidation value actually lives. Ships alongside the first
+  conventions skills (solution naming, environment strategy, ALM).
+- **0.3 — installer config interview + eval harness.** A guided setup, and
+  automated checks that each skill triggers and behaves in both runtimes.
 
-## Licence
+Tracked in [issues](https://github.com/HowdangPowercademy/powercademy-skills/issues).
 
-[MIT](LICENSE)
+## Security
+
+These skills instruct an agent that may act on a live tenant. The threat model
+and safeguards are in [SECURITY.md](SECURITY.md); a CI lint enforces the
+portability and mechanics-quarantine constraints on every change.
+
+## Licence & trademarks
+
+[MIT](LICENSE).
+
+Powercademy Skills is an independent, community project. It is **not affiliated
+with, endorsed by, or sponsored by Microsoft**. "Power Platform", "Power
+Automate", "Dataverse", "Power Pages", and "Copilot" are trademarks of the
+Microsoft group of companies; they are used here only to describe what the
+software works with (nominative use).

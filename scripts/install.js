@@ -45,6 +45,27 @@ const fail = (msg) => console.log(`  ${red("✗")} ${msg}`);
 const header = (msg) => console.log(`\n${bold(msg)}`);
 const info = (msg) => console.log(`  ${msg}`);
 
+// Copilot CLI's plugin/marketplace subcommands only stabilised at v1.0.71
+// (July 2026). Below this, the install commands below will fail confusingly.
+const COPILOT_MIN_VERSION = "1.0.71";
+
+// Compare dotted numeric versions. Returns -1 / 0 / 1.
+function compareVersions(a, b) {
+  const pa = a.split(".").map(Number);
+  const pb = b.split(".").map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const d = (pa[i] || 0) - (pb[i] || 0);
+    if (d !== 0) return d < 0 ? -1 : 1;
+  }
+  return 0;
+}
+
+// Pull a dotted version out of arbitrary CLI --version output.
+function extractVersion(s) {
+  const m = s && s.match(/(\d+\.\d+\.\d+)/);
+  return m ? m[1] : null;
+}
+
 // ── Helpers ───────────────────────────────────────────────────
 function hasCommand(cmd) {
   try {
@@ -117,6 +138,12 @@ async function main() {
     const ver = run("copilot --version");
     tools.push("copilot");
     ok(`GitHub Copilot CLI ${ver.ok ? ver.output : "(version unknown)"}`);
+    const cv = ver.ok ? extractVersion(ver.output) : null;
+    if (cv && compareVersions(cv, COPILOT_MIN_VERSION) < 0) {
+      warn(
+        `Copilot CLI ${cv} is below ${COPILOT_MIN_VERSION} — plugin/marketplace commands may fail. Run 'copilot update' first.`
+      );
+    }
   }
 
   if (tools.length === 0) {

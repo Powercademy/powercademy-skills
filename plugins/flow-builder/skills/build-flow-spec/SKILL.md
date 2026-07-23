@@ -283,4 +283,4 @@ Wrong, because Condition has no advanced mode. It looks authoritative and wastes
 
 - `shared/preflight.md` — prerequisite checks the skill runs itself at session start (Step 0). Fix what's fixable; batch what isn't.
 - `shared/gotchas.md` — accumulated failure log. **Read before writing any spec.** Feed lessons back per Step 6.
-- `shared/microsoft-refs.md` — the only place this plugin references Microsoft plugin mechanics: Learn MCP server, FlowAgent tools, `pac` CLI, marketplace commands. Read when you need to reach any of them.
+- `shared/microsoft-refs.md` — the only place this plugin references Microsoft plugin mechanics: the Learn MCP server, Microsoft's Power Automate plugin, the `pac` CLI, and marketplace commands. Read when you need to reach any of them.

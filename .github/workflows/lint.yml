@@ -1,0 +1,26 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Portability & convention lint
+        run: node scripts/lint/lint-skills.js
+
+      - name: Validate marketplace + plugin manifests
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('.claude-plugin/marketplace.json','utf8')); console.log('marketplace.json OK')"
+          for f in plugins/*/.claude-plugin/plugin.json; do
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8')); console.log('$f OK')"
+          done
