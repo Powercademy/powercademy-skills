@@ -21,13 +21,13 @@ work from in the designer, which stays accurate as reality contradicts it.
 2. **Verify every API touchpoint against Microsoft Learn** — never from memory.
 3. **Produce a build spec** with per-action detail, descriptions, and testing checkpoints.
 4. **Update the spec whenever reality contradicts it**, and say explicitly whether rework is needed.
-5. **Capture reusable lessons** and feed them back into `shared/gotchas.md` (see Step 6).
+5. **Capture reusable lessons** and feed them back into `${PLUGIN_ROOT}/shared/gotchas.md` (see Step 6).
 
-Read `shared/gotchas.md` before writing any spec. It is the accumulated failure
+Read `${PLUGIN_ROOT}/shared/gotchas.md` before writing any spec. It is the accumulated failure
 log — most of it cost hours to learn once, and it should never cost hours again.
 
 For how to reach Microsoft Learn, the `pac` CLI, or Microsoft's own Power
-Platform plugins from this skill, read `shared/microsoft-refs.md` — all
+Platform plugins from this skill, read `${PLUGIN_ROOT}/shared/microsoft-refs.md` — all
 references to Microsoft plugin mechanics live there and nowhere else.
 
 ---
@@ -36,7 +36,7 @@ references to Microsoft plugin mechanics live there and nowhere else.
 
 The moment the user expresses intent to connect or build ("connect me to my
 tenant", "let's build a flow", "spec a flow that…"), run the onboarding in
-`shared/preflight.md` yourself. Do the work for them: when they name a tenant
+`${PLUGIN_ROOT}/shared/preflight.md` yourself. Do the work for them: when they name a tenant
 in plain language, *you* run the connection — they never type a `pac` command.
 Narrate what you're checking, and when something's missing (a tool, an auth, a
 plugin), surface it plainly, say why it matters, and offer the fix — never let
@@ -74,7 +74,7 @@ Audit and record:
 
 Training data goes stale and Power Platform moves. Verify against live
 Microsoft Learn documentation — via the Learn MCP server when available, or by
-fetching learn.microsoft.com directly (see `shared/microsoft-refs.md` for the
+fetching learn.microsoft.com directly (see `${PLUGIN_ROOT}/shared/microsoft-refs.md` for the
 mechanics in each runtime).
 
 Verify, at minimum:
@@ -240,7 +240,7 @@ Don't nag. Don't do it mid-build. One suggestion, at a natural pause, with the c
 
 If they say yes, where it lands depends on how the skill is installed:
 
-- **Working in a clone of the marketplace repo** (or the user maintains it): append to `shared/gotchas.md` directly, in the established Symptom → Cause → Fix format, and add a session-log line.
+- **Working in a clone of the marketplace repo** (or the user maintains it): append to `${PLUGIN_ROOT}/shared/gotchas.md` directly, in the established Symptom → Cause → Fix format, and add a session-log line.
 - **Installed from the marketplace**: the installed copy is overwritten on update, so don't edit it. Draft the gotcha entry in full and hand it to the user to contribute back to the repo — a lesson that only lives in a plugin cache dies at the next update.
 
 **Also propose structural changes** when a pattern repeats: if three separate sessions hit connector-specific quirks, propose a `shared/connectors/` directory. If the same solution keeps coming up, propose a house-conventions reference file for it.
@@ -285,6 +285,6 @@ Wrong, because Condition has no advanced mode. It looks authoritative and wastes
 
 ## Reference files
 
-- `shared/preflight.md` — prerequisite checks the skill runs itself at session start (Step 0). Fix what's fixable; batch what isn't.
-- `shared/gotchas.md` — accumulated failure log. **Read before writing any spec.** Feed lessons back per Step 6.
-- `shared/microsoft-refs.md` — the only place this plugin references Microsoft plugin mechanics: the Learn MCP server, Microsoft's Power Automate plugin, the `pac` CLI, and marketplace commands. Read when you need to reach any of them.
+- `${PLUGIN_ROOT}/shared/preflight.md` — prerequisite checks the skill runs itself at session start (Step 0). Fix what's fixable; batch what isn't.
+- `${PLUGIN_ROOT}/shared/gotchas.md` — accumulated failure log. **Read before writing any spec.** Feed lessons back per Step 6.
+- `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin references Microsoft plugin mechanics: the Learn MCP server, Microsoft's Power Automate plugin, the `pac` CLI, and marketplace commands. Read when you need to reach any of them.

@@ -21,6 +21,10 @@ Format per entry: **Symptom** → **Cause** → **Fix**. Keep them short and mec
 
 ## Dual-runtime portability
 
+**A bare `shared/x.md` reference in a SKILL.md fails to load — it resolves relative to the skill folder, not the plugin root.**
+The shared files live at `<plugin>/shared/`, but a SKILL.md sits at `<plugin>/skills/<name>/SKILL.md`. Writing "read `shared/gotchas.md`" makes the agent look for `<plugin>/skills/<name>/shared/gotchas.md` — which doesn't exist ("Path does not exist"). The skill limps on from its inline text but never reads its own gotchas or preflight.
+→ Reference plugin-root files as `${PLUGIN_ROOT}/shared/x.md` — the convention Microsoft's own dual-runtime skills use, which both Claude Code and Copilot expand to the plugin directory. The repo lint enforces this now. Caught live on the first Copilot desktop-app run.
+
 **GitHub Copilot CLI rejects skill descriptions over 1024 characters; Claude Code does not.**
 A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI with *"Skill description must be at most 1024 characters"* — the skill silently doesn't load in that runtime. Because it only fails on one side, it survives any Claude-Code-only test.
 → Keep every skill description ≤ 1024 characters, with margin. The repo lint (`scripts/lint/lint-skills.js`) enforces this now — but the lesson is general: a constraint present in one runtime and absent in the other must be encoded mechanically, because half your test surface won't see it.

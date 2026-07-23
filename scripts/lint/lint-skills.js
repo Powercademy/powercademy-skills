@@ -124,6 +124,24 @@ function lintSkill(skillMd) {
       v(skillMd, `Microsoft mechanics token "${token}" must live only in shared/microsoft-refs.md`);
     }
   }
+
+  // 4. bare shared/ reference paths
+  for (const ref of bareSharedRefs(content)) {
+    v(skillMd, sharedRefMessage(ref));
+  }
+}
+
+// A file-read reference to shared/<file>.md must be written
+// ${PLUGIN_ROOT}/shared/<file>.md. A bare "shared/x.md" resolves relative to
+// the skill folder and fails to load — the shared files live at the plugin
+// root, not under the skill. This is the exact bug that broke a real load.
+function bareSharedRefs(content) {
+  const matches = content.match(/(?<!\}\/)shared\/[\w-]+\.md/g) || [];
+  return [...new Set(matches)];
+}
+
+function sharedRefMessage(ref) {
+  return `reference "${ref}" must be written "\${PLUGIN_ROOT}/${ref}" — a bare shared/ path resolves relative to the skill folder and fails to load (shared files live at the plugin root)`;
 }
 
 function lintSharedFile(file) {
@@ -180,10 +198,15 @@ function main() {
       lintSkill(skillMd);
     }
 
-    // shared files other than microsoft-refs.md
+    // shared files
     const sharedDir = path.join(plugin, "shared");
     for (const md of walk(sharedDir, ".md")) {
+      // mechanics quarantine: everything except microsoft-refs.md
       if (path.basename(md) !== "microsoft-refs.md") lintSharedFile(md);
+      // bare shared/ references: every shared file, microsoft-refs included
+      for (const ref of bareSharedRefs(fs.readFileSync(md, "utf8"))) {
+        v(md, sharedRefMessage(ref));
+      }
     }
   }
 

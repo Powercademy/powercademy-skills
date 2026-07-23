@@ -20,7 +20,7 @@ doing the work for them.
   sign-in, and licences/roles someone else controls.
 
 **Preferred mechanism:** where the pac CLI's built-in MCP server is available
-(see `shared/microsoft-refs.md`), use its tools for environment/solution steps
+(see `${PLUGIN_ROOT}/shared/microsoft-refs.md`), use its tools for environment/solution steps
 rather than shelling out. Otherwise run the `pac` commands directly.
 
 ## The onboarding sequence
@@ -32,7 +32,7 @@ consent) → confirm. Resolve a gap before moving on.
 PCF needs **Node.js LTS** (`node --version`), **npm**, the **pac CLI**
 (`pac help`), and a **.NET SDK** for solution packaging (`dotnet --version`).
 For anything missing, offer the install (`winget install …` / the vendor link
-in `shared/microsoft-refs.md`) and, on a yes, run it. Node and the .NET SDK are
+in `${PLUGIN_ROOT}/shared/microsoft-refs.md`) and, on a yes, run it. Node and the .NET SDK are
 easy to forget — check them up front, because their absence surfaces as a
 confusing build error three steps later.
 
@@ -53,7 +53,7 @@ now, not later. If there's an existing controls repo, match its setup.
 **4. Can you reach Microsoft Learn?**
 Confirm a route for Step 3 verification — especially the *licensing* check
 (premium vs standard). Learn MCP tools if present, else web fetch. See
-`shared/microsoft-refs.md`. Memory is not a route.
+`${PLUGIN_ROOT}/shared/microsoft-refs.md`. Memory is not a route.
 
 ## What is never the skill's job
 

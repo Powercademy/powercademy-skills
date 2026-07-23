@@ -25,7 +25,7 @@ onboarding yourself, in plain language, doing the work for them.
   you handle.
 
 **Preferred mechanism:** where the pac CLI's built-in MCP server is available
-in the session (see `shared/microsoft-refs.md`), use its tools for these steps
+in the session (see `${PLUGIN_ROOT}/shared/microsoft-refs.md`), use its tools for these steps
 rather than shelling out — it's the native natural-language path, so the user
 says "connect me to Contoso" and you make a tool call, not a command string.
 Where it isn't available, run the `pac` commands below directly. Auth still
@@ -64,12 +64,12 @@ this skill produces a spec you build in the designer — no other plugin needed.
 If the user would rather the agent *execute* the flow, that needs Microsoft's
 Power Automate plugin. Check whether its tools are already available in the
 session; if not, tell the user what it adds and point them to the exact install
-commands in `shared/microsoft-refs.md`. Either way the build proceeds — one
+commands in `${PLUGIN_ROOT}/shared/microsoft-refs.md`. Either way the build proceeds — one
 path just hands them a spec, the other drives the designer for them.
 
 **5. Can you reach Microsoft Learn?**
 Confirm a route for Step 2 verification (Learn MCP tools if present, else web
-fetch). See `shared/microsoft-refs.md`. Memory is not a route.
+fetch). See `${PLUGIN_ROOT}/shared/microsoft-refs.md`. Memory is not a route.
 
 ## What is never the skill's job
 

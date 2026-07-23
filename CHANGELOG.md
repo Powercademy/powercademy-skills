@@ -3,6 +3,21 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.2.1] — 2026-07-23
+
+### Fixed
+
+- **Skills now load their `shared/` reference files in every runtime.** Both
+  SKILL.md files referenced `shared/x.md` with a bare path, which the agent
+  resolved relative to the skill folder (`skills/<name>/shared/…`) — where the
+  files don't exist — so `gotchas.md`, `preflight.md`, and `microsoft-refs.md`
+  failed to load ("Path does not exist"). Now referenced as
+  `${PLUGIN_ROOT}/shared/x.md`, the convention Microsoft's own dual-runtime
+  skills use. Affects `flow-builder` (0.1.5) and `pcf-builder` (0.1.1). Caught
+  live on the first Copilot desktop-app run.
+- Lint now rejects any bare `shared/x.md` reference; a gotchas entry records the
+  path-resolution rule.
+
 ## [0.2.0] — 2026-07-23
 
 ### Added

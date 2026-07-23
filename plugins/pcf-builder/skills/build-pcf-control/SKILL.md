@@ -19,25 +19,25 @@ the deployment, every one of which has wasted an afternoon for someone before.
 
 ## The core loop
 
-0. **Onboard the user** — tooling, environment, target app (`shared/preflight.md`).
+0. **Onboard the user** — tooling, environment, target app (`${PLUGIN_ROOT}/shared/preflight.md`).
 1. **Decide whether PCF is even right.** It often isn't.
 2. **Ground** in the existing solution, app, and conventions.
 3. **Verify against Microsoft Learn** — APIs, manifest, and *licensing*. Never from memory.
 4. **Produce the build plan and control**, manifest-first.
 5. **Checkpoint at the points PCF actually breaks**, with risk tiers.
 6. **Keep the plan alive** as reality contradicts it.
-7. **Capture reusable lessons** into `shared/gotchas.md`.
+7. **Capture reusable lessons** into `${PLUGIN_ROOT}/shared/gotchas.md`.
 
-Read `shared/gotchas.md` before building — it is the accumulated failure log.
+Read `${PLUGIN_ROOT}/shared/gotchas.md` before building — it is the accumulated failure log.
 For pac commands, the Learn MCP server, the pac CLI's built-in MCP server, and
-solution packaging, read `shared/microsoft-refs.md`; that is the only place
+solution packaging, read `${PLUGIN_ROOT}/shared/microsoft-refs.md`; that is the only place
 this plugin names Microsoft plugin mechanics.
 
 ---
 
 ## Step 0: Preflight — onboard in natural language
 
-Run `shared/preflight.md` the moment the user expresses intent. Do the work for
+Run `${PLUGIN_ROOT}/shared/preflight.md` the moment the user expresses intent. Do the work for
 them: check Node/npm, the pac CLI, and the build toolchain; get connected to the
 right environment; confirm the target app. Narrate what you find, offer fixes,
 and surface any gap plainly — never let the user guess why something failed. On
@@ -91,7 +91,7 @@ problem to fix, not a pattern to copy.
 
 PCF's framework APIs, manifest schema, and especially **licensing** move and
 are easy to get wrong from memory. Verify against live Learn (Learn MCP server
-or web fetch — see `shared/microsoft-refs.md`).
+or web fetch — see `${PLUGIN_ROOT}/shared/microsoft-refs.md`).
 
 Verify, at minimum:
 
@@ -179,7 +179,7 @@ is required**, which file, what to change, why. Add a versioned change-log entry
 After a build, scan for lessons *not specific to this control*: a manifest
 constraint, a harness-vs-host difference, a deployment surprise, a licensing
 edge. Tell the user once, at a natural pause, with the concrete lesson — then,
-if they agree, add it to `shared/gotchas.md` (or, if installed from the
+if they agree, add it to `${PLUGIN_ROOT}/shared/gotchas.md` (or, if installed from the
 marketplace where the copy is overwritten on update, draft it for them to
 contribute back). Don't nag; don't do it mid-build.
 
@@ -226,6 +226,6 @@ premium.
 
 ## Reference files
 
-- `shared/preflight.md` — onboarding checks the skill runs itself (Step 0).
-- `shared/gotchas.md` — accumulated failure log. **Read before building.**
-- `shared/microsoft-refs.md` — the only place this plugin names Microsoft plugin mechanics: pac commands, the Learn MCP server, the pac CLI's MCP server, solution packaging. Read when you need to reach any of them.
+- `${PLUGIN_ROOT}/shared/preflight.md` — onboarding checks the skill runs itself (Step 0).
+- `${PLUGIN_ROOT}/shared/gotchas.md` — accumulated failure log. **Read before building.**
+- `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin names Microsoft plugin mechanics: pac commands, the Learn MCP server, the pac CLI's MCP server, solution packaging. Read when you need to reach any of them.
