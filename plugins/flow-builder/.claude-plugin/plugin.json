@@ -1,0 +1,19 @@
+{
+  "name": "flow-builder",
+  "version": "0.1.0",
+  "description": "Design and build Power Automate cloud flows the Powercademy way — designer-ready build specs with per-action detail, verified API touchpoints, testing checkpoints with risk tiers, and a living gotchas log. Methodology, not mechanics: complements Microsoft's power-automate plugin rather than competing with it.",
+  "author": {
+    "name": "Howdang Rashid"
+  },
+  "homepage": "https://github.com/HowdangPowercademy/powercademy-skills",
+  "repository": "https://github.com/HowdangPowercademy/powercademy-skills",
+  "license": "MIT",
+  "keywords": [
+    "power-automate",
+    "cloud-flows",
+    "power-platform",
+    "build-spec",
+    "delivery-methodology",
+    "powercademy"
+  ]
+}

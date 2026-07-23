@@ -1,0 +1,16 @@
+{
+    "name": "powercademy-skills",
+    "owner": {
+        "name": "Powercademy"
+    },
+    "metadata": {
+        "description": "Opinionated Power Platform delivery skills that layer on top of Microsoft's official plugins — methodology, conventions, and architecture judgement for Claude Code and GitHub Copilot",
+        "pluginRoot": "."
+    },
+    "plugins": [
+        {
+            "name": "flow-builder",
+            "source": "./plugins/flow-builder"
+        }
+    ]
+}
