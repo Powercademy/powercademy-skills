@@ -13,6 +13,13 @@ architecture thinking from real Power Platform engagements, encoded as skills.
 Complementary, not competing. Nothing here duplicates what Microsoft ships —
 the installer sets up both marketplaces side by side.
 
+## Prerequisites
+
+Almost none by hand — the installer and the skills do the heavy lifting
+(tool installs, marketplace registration, environment checks). What remains
+for you is only what can't be automated: sign-ins, licences, permissions.
+[PREREQUISITES.md](PREREQUISITES.md) is the living who-handles-what list.
+
 ## Install
 
 One command, from any terminal with Node.js:

@@ -32,6 +32,17 @@ references to Microsoft plugin mechanics live there and nowhere else.
 
 ---
 
+## Step 0: Preflight — do the heavy lifting yourself
+
+Before grounding, run the checks in `shared/preflight.md`: pac CLI present,
+authenticated, pointed at the *right* environment, a dev solution to build in,
+and a route to Microsoft Learn. Fix everything a terminal can fix without
+announcing it. Surface — once, in a single message — only what genuinely needs
+the user (browser sign-ins, licences, admin-held permissions), each with its
+exact command. Never open a build by handing the user a prerequisites list.
+
+---
+
 ## Step 1: Ground yourself in the existing solution
 
 If a solution export or existing flows are available, read them **before** proposing anything. Never design in a vacuum against a solution that already has conventions.
@@ -270,5 +281,6 @@ Wrong, because Condition has no advanced mode. It looks authoritative and wastes
 
 ## Reference files
 
+- `shared/preflight.md` — prerequisite checks the skill runs itself at session start (Step 0). Fix what's fixable; batch what isn't.
 - `shared/gotchas.md` — accumulated failure log. **Read before writing any spec.** Feed lessons back per Step 6.
 - `shared/microsoft-refs.md` — the only place this plugin references Microsoft plugin mechanics: Learn MCP server, FlowAgent tools, `pac` CLI, marketplace commands. Read when you need to reach any of them.

@@ -3,6 +3,16 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.1.1] — 2026-07-23
+
+### Added
+
+- `PREREQUISITES.md` — living, human-facing prerequisites document with a
+  who-handles-what split; updated over time like the gotchas log.
+- `flow-builder` 0.1.1: `shared/preflight.md` — prerequisite checks the skill
+  runs itself, wired in as Step 0 of `build-flow-spec`. The skill fixes what a
+  terminal can fix and batches human-only steps into a single message.
+
 ## [0.1.0] — 2026-07-23
 
 ### Added
