@@ -1,0 +1,19 @@
+{
+  "name": "canvas-planner",
+  "version": "0.1.0",
+  "description": "Make the canvas app decisions that generation can't — is canvas even the right shape, delegation and data strategy, screen and navigation architecture, conventions — then hand a decided build plan to Microsoft's canvas authoring tooling. Checkpoints at real data volumes, because a 50-row test proves nothing. Methodology, not mechanics.",
+  "author": {
+    "name": "Howdang Rashid"
+  },
+  "homepage": "https://github.com/HowdangPowercademy/powercademy-skills",
+  "repository": "https://github.com/HowdangPowercademy/powercademy-skills",
+  "license": "MIT",
+  "keywords": [
+    "canvas-apps",
+    "power-apps",
+    "delegation",
+    "app-architecture",
+    "power-platform",
+    "powercademy"
+  ]
+}

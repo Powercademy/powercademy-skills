@@ -91,6 +91,21 @@ without the afternoons PCF usually costs:
 
 Fills genuine white space — Microsoft's own plugins don't cover PCF.
 
+### canvas-planner (0.1.0)
+
+The decisions that determine whether a canvas app survives contact with real
+data — made *before* anything is generated:
+
+- **`plan-canvas-app`** — is canvas even the right shape (or is this a
+  model-driven app?), then the decision that ages worst: **delegation and data
+  strategy**, verified per connector against Microsoft Learn rather than from
+  memory. Plus screen and navigation architecture, and conventions set before
+  generation. Produces a build plan, then hands execution to Microsoft's canvas
+  authoring tooling — it generates far faster than you can by hand; it just
+  can't tell you the app will silently return the wrong rows at 50,000 records.
+- Checkpoints run at **production volumes**, because a 50-row test proves
+  nothing about delegation.
+
 ### doctor (0.1.0)
 
 The answer to "why is setting this up such a pain?":

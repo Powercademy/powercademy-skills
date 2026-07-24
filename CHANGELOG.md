@@ -3,6 +3,27 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.6.0] — 2026-07-24
+
+### Added
+
+- **New plugin: `canvas-planner` (0.1.0)** — skill `plan-canvas-app`. Microsoft's
+  canvas tooling generates apps well; what it can't do is decide whether canvas
+  is the right shape, or warn that a query silently returns the first 500 of
+  50,000 rows. This plugin makes those decisions and hands a decided plan to
+  their tooling to build:
+  - Shape gate (canvas vs model-driven / code app / Pages / nothing).
+  - **Delegation and data strategy** — volumes per table, delegability verified
+    *per connector* against Learn (never from memory, never carried between
+    projects), delegable query design, bounded working sets where delegation
+    isn't possible, and an explicit rule that raising the row limit is not a fix.
+  - Screen inventory, navigation model, state, and conventions decided before
+    generation.
+  - Checkpoints at **production volumes** — plus startup timing on real devices
+    and testing as a least-privileged user.
+  - Seeded gotchas log (delegation, shape, performance), with unproven entries
+    marked as such pending real engagement evidence.
+
 ## [0.5.0] — 2026-07-24
 
 ### Added

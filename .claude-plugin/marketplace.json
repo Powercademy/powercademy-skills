@@ -19,6 +19,10 @@
         {
             "name": "doctor",
             "source": "./plugins/doctor"
+        },
+        {
+            "name": "canvas-planner",
+            "source": "./plugins/canvas-planner"
         }
     ]
 }
