@@ -63,6 +63,26 @@ A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI 
 
 ---
 
+## Editing flows that already run
+
+**Renaming an action silently breaks everything that referenced it.**
+`runAfter` chains reference action names as strings, and so does every expression using `body('Old_Name')` / `outputs('Old_Name')`. The designer does not refactor them for you.
+→ Treat a rename as a breaking change: search the whole definition for the old name first, and flag it in the spec rather than slipping it in as tidy-up. If the name is genuinely wrong, rename deliberately with the reference list in hand.
+
+**Changing a child flow's response shape breaks its callers silently.**
+Callers read a specific payload (`body('Run_child')?['result']?['thing']`). Change the envelope and the caller's expression returns null — and because the house contract is usually "child flows never fail", the caller reports success while doing nothing.
+→ Before editing a child flow's `Response`, list its callers and treat the response shape as a published contract. Get the owner's agreement; other flows depend on it.
+
+**A flow is "production" until proven otherwise.**
+Environment names lie — "test" groups turn out to hold real users, and a flow in a non-dev environment is usually load-bearing for someone.
+→ Establish who/what triggers it today and what it writes, *before* editing. Put the answer in the spec's blast-radius section.
+
+**The edit checkpoint that matters is the regression one.**
+People test the change and stop. The likelier failure is a path they didn't touch that stopped working.
+→ Script a run of the existing happy path both before and after the change, and prove the rollback works before making the change that might need it.
+
+---
+
 ## Designer behaviour
 
 **Action descriptions truncate at 255 characters, silently.**

@@ -3,6 +3,27 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.5.0] — 2026-07-24
+
+### Added
+
+- **flow-builder 0.2.0 — edit mode.** The skill was build-first; editing a flow
+  that already runs is a different risk profile and now has its own discipline:
+  - Trigger description now fires on edit phrasing ("edit this flow", "change
+    this flow", "modify a flow", "add a step to", "fix this flow", "extend
+    this flow") as strongly as on build phrasing.
+  - **Step 1b**: read the real definition before proposing any change (and
+    stop if you can't see it — never edit an inferred flow); establish and
+    record blast radius (is it live, who calls it, what it writes, in-flight
+    runs, trigger-change risk); back up with a stated rollback plan; write the
+    spec as a **diff** (unchanged / changed / added-removed) using the flow's
+    existing action names; and shift checkpoint discipline to **regression** —
+    prove the untouched paths still work, and prove rollback before you need it.
+  - Four edit-specific gotchas: renames break `runAfter` and expression
+    references; child-flow response-shape changes break callers silently; a
+    flow is production until proven otherwise; the regression checkpoint is the
+    one people skip.
+
 ## [0.4.0] — 2026-07-24
 
 Managed-device release — everything here came from setting up on a real

@@ -1,7 +1,7 @@
 ---
 name: build-flow-spec
 description: >
-  Design, spec, and build Power Automate cloud flows - producing designer-ready, action-by-action build specs verified against Microsoft Learn, with testing checkpoints and risk tiers. Trigger whenever the user says "build a flow", "I need a flow that", "spec this flow", "how do I build", "create a flow", "add a flow to this solution", "what actions do I need", "give me the expressions for", or describes a Power Platform automation to construct. Also trigger mid-build on questions about a specific action, expression, connector operation, or designer error ("why is this invalid JSON", "what do I put in the inputs", "this condition isn't working"), or requests to update a build spec or align a flow to existing solution conventions. Decides what to build and produces the spec to build from; pairs with Microsoft's Power Automate plugin, which executes changes against live flows. If the task is constructing, specifying, or debugging a flow being built - trigger. When in doubt, trigger.
+  Design, spec, build and safely edit Power Automate cloud flows - producing designer-ready, action-by-action specs verified against Microsoft Learn, with testing checkpoints and risk tiers. Trigger on building: "build a flow", "create a flow", "I need a flow that", "spec this flow", or any automation to construct. Trigger equally on editing an existing flow: "edit this flow", "change this flow", "modify a flow", "add a step to", "update the flow that", "fix this flow", "extend this flow". Also trigger mid-build on an action, expression, connector operation or designer error ("why is this invalid JSON", "what do I put in the inputs", "this condition isn't working"), or to update a spec or align a flow to existing conventions. Decides what to build or change and produces the spec to work from; pairs with Microsoft's Power Automate plugin, which executes against live flows. If the task is constructing, changing, specifying or debugging a flow - trigger. When in doubt, trigger.
 ---
 
 # Flow Builder — Build Spec Methodology
@@ -17,7 +17,9 @@ work from in the designer, which stays accurate as reality contradicts it.
 
 ## The core loop
 
-1. **Understand the existing solution before designing anything new.**
+1. **Understand what exists before designing anything** — the solution's
+   conventions before a new flow, the actual current definition before an edit
+   (Step 1b).
 2. **Verify every API touchpoint against Microsoft Learn** — never from memory.
 3. **Produce a build spec** with per-action detail, descriptions, and testing checkpoints.
 4. **Update the spec whenever reality contradicts it**, and say explicitly whether rework is needed.
@@ -67,6 +69,56 @@ Audit and record:
 - **Anti-patterns**: things the solution does that are *wrong*. Name them. Don't propagate them.
 
 **Absence is a finding.** If a mechanism is supposed to exist and doesn't appear anywhere across all flows, say so plainly and prove it (grep results, component lists). That is a valid, important diagnostic result.
+
+---
+
+## Step 1b: Editing a flow that already exists
+
+Editing is not building with extra steps. A new flow in dev can only fail; an
+existing flow **already works for someone**, and the dominant risk is breaking a
+path that currently runs. Everything below is in addition to Step 1 grounding.
+
+**Read the current definition before proposing a single change.** If you cannot
+see the actual flow — via a solution export or the live definition — say so and
+stop. Never propose edits against a flow you have inferred. A confident edit
+spec written from the user's description is the most dangerous artifact this
+skill can produce.
+
+**Establish the blast radius, and put it in the spec:**
+
+- **Is it live?** Who or what triggers it today, how often, and against what
+  data. Treat any flow in a non-dev environment as production until proven
+  otherwise.
+- **Who calls it?** If it's a child flow, its callers depend on its response
+  contract — changing the shape breaks them silently (the caller's `success`
+  check reads a payload that no longer exists).
+- **What does it write?** The actions that mutate data set the risk tier for
+  the whole edit.
+- **In-flight runs.** Editing while runs are executing can strand them.
+- **Trigger changes are the sharpest edge.** Altering a trigger can silently
+  change what the flow fires on — and can drop the trigger's history.
+
+**Back up before touching anything.** Export the solution (or take the platform's
+own backup where the tooling offers one) and say in the spec exactly how to roll
+back. "Undo" is not a rollback plan.
+
+**Write the spec as a diff, not a rebuild.** Three explicit sections:
+
+| Section | Contents |
+|---|---|
+| **Unchanged** | What you are deliberately not touching — so the builder doesn't "tidy" it |
+| **Changed** | Per action: current state → target state, and why |
+| **Added / removed** | New actions with full per-action detail; removals with what depended on them |
+
+Name every action by its **existing** name in the flow. If a change requires
+renaming an action, flag it loudly: renames break `runAfter` chains and any
+expression that references the old name by string.
+
+**Checkpoint discipline shifts up a tier.** For an edit, the checkpoint that
+matters most is the one proving *the paths you didn't touch still work* —
+regression, not just the new behaviour. Script a run of the existing happy path
+before and after. And the rollback step itself deserves a checkpoint: prove you
+can restore before you make the change that might need restoring.
 
 ---
 
@@ -277,6 +329,8 @@ Wrong, because Condition has no advanced mode. It looks authoritative and wastes
 ## Calibration
 
 **"Build me a flow that does X"** → Interview first. Existing solution? Environment? Who owns it? Then ground, then spec.
+
+**"Edit / change / add a step to this flow"** → Step 1b. Read the real definition first, establish blast radius and whether it's live, back up, then spec the change as a diff. If you can't see the flow, say so and stop rather than inferring it.
 
 **"What do I put in this box?"** → Answer the box. Then check whether the spec should say so, and update it if not.
 

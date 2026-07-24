@@ -1,7 +1,7 @@
 {
   "name": "flow-builder",
-  "version": "0.1.8",
-  "description": "Design and build Power Automate cloud flows the Powercademy way — designer-ready build specs with per-action detail, verified API touchpoints, testing checkpoints with risk tiers, and a living gotchas log. Methodology, not mechanics: complements Microsoft's power-automate plugin rather than competing with it.",
+  "version": "0.2.0",
+  "description": "Design, build and safely edit Power Automate cloud flows the Powercademy way — designer-ready specs with per-action detail, verified API touchpoints, testing checkpoints with risk tiers, blast-radius and rollback discipline for changes to flows that already run, and a living gotchas log. Methodology, not mechanics: complements Microsoft's power-automate plugin rather than competing with it.",
   "author": {
     "name": "Howdang Rashid"
   },
