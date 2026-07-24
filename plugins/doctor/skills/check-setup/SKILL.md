@@ -41,9 +41,25 @@ Work through five layers. Exact commands, install routes, and versions live in
 ### Layer 1 — core tools
 
 git, Node.js LTS + npm, .NET SDK, the Power Platform CLI (pac), and optionally
-the Azure CLI. For each: present? on PATH? recent enough? The two people forget
-are the .NET SDK and git — both surface later as unrelated-looking errors
-(solution packaging fails; plugin marketplaces won't add).
+the Azure CLI. For each: present? **functional?** recent enough? The two people
+forget are the .NET SDK and git — both surface later as unrelated-looking
+errors (solution packaging fails; plugin marketplaces won't add).
+
+**Present on PATH is not the same as working.** Managed deployments (Intune,
+MSI) often install a `pac.cmd` **shim** without the CLI package: `pac` resolves,
+then the first real command fails with *"No Microsoft.PowerApps.CLI has been
+installed."* Always run a real command (`pac help`) rather than trusting a PATH
+lookup. The fix — `pac install latest` — is a **user-scoped NuGet install
+needing no admin**, so it's self-service even on a locked-down corporate
+device, and usually lands a newer version than IT deployed. Apply the same
+scepticism to any tool a managed device claims to have.
+
+**On managed/corporate devices, expect elevation to be the wall.** Machine-wide
+installers (Azure CLI's MSI is the common one) fail at the UAC prompt with exit
+code **1602** for a standard user. Distinguish clearly for the user between
+what they can self-serve (user-scoped: `pac install latest`, dotnet global
+tools, npm globals when the prefix is under their profile) and what genuinely
+needs IT. Never leave them thinking a 1602 was their mistake.
 
 ### Layer 2 — identity & auth (the pain centre)
 
@@ -57,9 +73,18 @@ asked:
   normal on consultant machines — and invisible until they bite. List them all;
   offer to name unnamed ones per customer, delete stale ones, and select the
   right one for today's work.
-- **Not signed in?** Use the device-code flow — it's fully observable: relay
-  the URL and code from the command output and wait for the user to confirm.
-  **Never claim a browser window opened; you can't see their screen.**
+- **Not signed in?** Work the **auth ladder**, don't stop at rung one:
+  (1) device code (`--deviceCode`) — fully observable, relay the URL and code
+  from output; (2) if Conditional Access blocks it (*"your sign-in was
+  successful but does not meet the criteria to access this resource"*), fall
+  back to **interactive** `pac auth create` — enterprises commonly block
+  device-code flow by policy, and it can't satisfy device-compliance rules,
+  whereas interactive on a compliant Entra-joined machine carries the device
+  state; (3) if both fail, it's a policy exemption request — have the user grab
+  the error code, correlation ID and timestamp from *More details* so IT can
+  find the policy in the sign-in logs, and put it in the readiness card as
+  blocked-on-IT. **Never claim a browser window opened; you can't see their
+  screen.**
 - **Switching tenant? Say the whole cost upfront.** Auth lives in three places
   — the Azure CLI token, the pac profile, and any MCP tool-server process
   (which cached its token at startup and only refreshes on a **full host-app

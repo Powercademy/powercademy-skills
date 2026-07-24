@@ -36,10 +36,14 @@ ends in a browser sign-in either way — that part is always the user's.
 Each step: check → if there's a gap, explain it and offer the fix → do it (on
 consent) → confirm out loud. Stop and resolve a gap before moving on.
 
-**1. Is the tooling here?**
-Check the Power Platform CLI is available (`pac help`). If not: *"The Power
-Platform CLI isn't installed — I can add it with `winget install --id
-Microsoft.PowerAppsCLI -e` (or via dotnet). On this VM, okay for me to run
+**1. Is the tooling here — and actually working?**
+Check the Power Platform CLI **functions**, not merely that it's on PATH
+(`pac help`). Enterprise deployments often place a `pac.cmd` shim without the
+CLI package: the command exists but the first real call fails with *"No
+Microsoft.PowerApps.CLI has been installed."* That fix is **self-service and
+needs no admin** — run `pac install latest`. If pac is genuinely absent: *"The
+Power Platform CLI isn't installed — I can add it with `winget install --id
+Microsoft.PowerAppsCLI -e` (or via dotnet). On this machine, okay for me to run
 that?"* Then run it. If neither winget nor dotnet exists, hand the user
 https://aka.ms/PowerPlatformCLI.
 
@@ -61,15 +65,32 @@ Offer `pac auth name` to label unnamed profiles per customer, and
 `pac auth delete`/`pac auth clear` to prune stale ones: cached-auth confusion
 is a known time sink, and naming profiles is the durable fix.
 
-If **not connected**, ask for the environment in natural language and
-authenticate with the **device-code flow**:
-`pac auth create --environment <env> --deviceCode`. Device code is preferred in
-agent sessions because it's fully observable — you present the code and URL
-from the command output and the user completes sign-in wherever they like.
-**Never claim "a browser has opened"** — you cannot see whether it did, and
-claiming an unobserved side effect destroys trust the moment it's false. Say
-instead: *"Go to <url> and enter code **XXXX-XXXX** — tell me when you're
-done."* Then re-run `pac auth who` and show the connection card to confirm.
+If **not connected**, ask for the environment in natural language and work down
+this **auth ladder** — don't stop at the first failure:
+
+1. **Device code first** — `pac auth create --environment <env> --deviceCode`.
+   Preferred in agent sessions because it's fully observable: you relay the URL
+   and code straight from command output. Say *"Go to <url> and enter code
+   **XXXX-XXXX** — tell me when you're done."*
+2. **If Conditional Access blocks it** — the user reports *"your sign-in was
+   successful but does not meet the criteria to access this resource"* — fall
+   back to **interactive**: `pac auth create --environment <env>`. Many
+   enterprises block device-code flow by policy, and device-compliance
+   policies can't be satisfied by it; on a compliant, Entra-joined machine the
+   interactive flow carries the device state and usually just works. Explain
+   *why* you're switching — the user should understand it's their tenant's
+   policy, not a broken tool.
+3. **If both are blocked** — it's a policy exemption request, not something you
+   can fix. Tell the user to open *More details* on the error dialog and
+   capture the **error code, correlation ID, and timestamp**; that is what lets
+   their IT find the exact policy in the sign-in logs. Record it as an open
+   question and stop.
+
+**Never claim "a browser has opened"** at any rung — you cannot see whether it
+did, and claiming an unobserved side effect destroys trust the moment it's
+false. For the interactive rung say *"I've started the interactive sign-in —
+complete it in the browser and tell me when you're done."* Then re-run
+`pac auth who` and show the connection card to confirm.
 
 Always confirm the tenant via the card before any grounding or write; the cost
 of assuming is a spec against the wrong org. Re-show the card after any auth

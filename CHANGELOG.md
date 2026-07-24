@@ -3,6 +3,30 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.4.0] — 2026-07-24
+
+Managed-device release — everything here came from setting up on a real
+locked-down corporate Cloud PC (doctor 0.2.0, flow-builder 0.1.8,
+pcf-builder 0.1.4).
+
+### Added
+
+- **Auth ladder** across all three plugins: device code first (observable),
+  **falling back to interactive when Conditional Access blocks it**, then to a
+  policy-exemption request with the error code / correlation ID / timestamp IT
+  needs. Enterprises commonly block device-code flow by policy and it cannot
+  satisfy device-compliance rules — confirmed live: device code refused,
+  interactive succeeded immediately.
+- **Functional-not-present tool checks**: a `pac.cmd` shim can sit on PATH
+  without the CLI package (managed Intune/MSI deployments), so `pac` resolves
+  but every real command fails. Skills now verify pac *works* and offer
+  `pac install latest` — user-scoped, **no admin required**, self-service even
+  on a locked-down device.
+- doctor: explicit managed-device guidance — distinguish what the user can
+  self-serve (user-scoped installs) from what genuinely needs IT, and never
+  let a UAC exit code 1602 read as user error.
+- Two gotchas recording both failures.
+
 ## [0.3.1] — 2026-07-23
 
 Transcript-analysis release — fixes from the line-by-line review of the first

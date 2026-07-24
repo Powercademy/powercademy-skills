@@ -14,7 +14,7 @@ surface moves weekly.
 | git | `git --version` | `winget install --id Git.Git -e` | Needed for remote plugin marketplaces |
 | Node.js LTS | `node --version` | `winget install OpenJS.NodeJS.LTS` | 18+ required; also gives npm |
 | .NET SDK | `dotnet --version` | `winget install Microsoft.DotNet.SDK.8` | Solution packaging; pac install route |
-| pac CLI | `pac help` | `dotnet tool install --global Microsoft.PowerApps.CLI.Tool` or `winget install --id Microsoft.PowerAppsCLI -e` | https://aka.ms/PowerPlatformCLI · restart terminal after install |
+| pac CLI | `pac help` (a real command — PATH presence can be a shim) | `pac install latest` if a shim is present (**user-scoped, no admin**); else `dotnet tool install --global Microsoft.PowerApps.CLI.Tool` or `winget install --id Microsoft.PowerAppsCLI -e` | https://aka.ms/PowerPlatformCLI · restart terminal after install |
 | Azure CLI (optional) | `az version` | `winget install -e --id Microsoft.AzureCLI` | Only needed for Azure-adjacent work (app registrations, Key Vault) |
 
 macOS/Linux: `brew` equivalents; pac via `dotnet tool install`.
@@ -32,10 +32,21 @@ pac auth create --environment <env> --deviceCode   # sign in — device-code flo
 az account show                                # Azure CLI identity, if az installed
 ```
 
-Device code is the preferred interactive flow in agent sessions: the URL and
-code appear in command output, so the agent relays them verbatim rather than
+Device code is the preferred *first* flow in agent sessions: the URL and code
+appear in command output, so the agent relays them verbatim rather than
 guessing what happened on screen. (`--deviceCode` is a documented switch;
 Microsoft auto-applies it in Codespaces and recommends it for WSL2.)
+
+**Auth ladder — enterprises frequently block rung 1:**
+
+| Rung | Command | When |
+|---|---|---|
+| 1 | `pac auth create --environment <env> --deviceCode` | Default — observable |
+| 2 | `pac auth create --environment <env>` | Rung 1 refused by Conditional Access (*"sign-in was successful but does not meet the criteria"*). Interactive carries device-compliance state on an Entra-joined machine |
+| 3 | — | Both blocked → policy exemption request. Capture error code + correlation ID + timestamp from *More details* for IT's sign-in-log lookup |
+
+Verified live on a managed corporate Cloud PC (2026-07-24): device code blocked
+by tenant policy, interactive succeeded immediately.
 
 **Tenant-switch runbook** (all three auth surfaces, in order):
 

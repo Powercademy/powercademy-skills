@@ -49,6 +49,14 @@ On a real tenant switch: the Azure CLI token (`az account show`), the pac profil
 An agent declared "you're now authenticated as <user>" and then listed the *same environments from the old tenant* — sign-in succeeded, against the wrong place, and the success message taught the user nothing was wrong.
 → Never declare an auth change successful from a command exit code. Re-list environments (or `pac auth who`) and compare against the **target** tenant; only the comparison is proof. This is "inference is not verification" applied to auth.
 
+**Enterprise Conditional Access frequently blocks device-code sign-in — fall back to interactive.**
+Symptom: the user completes the device-code page and gets *"Your sign-in was successful but does not meet the criteria to access this resource"* (AADSTS53003-class). Credentials were fine; the **policy** refused the token. Device-code flow is commonly blocked deliberately (device-code phishing is a known attack vector), and it also can't satisfy device-compliance policies — the browser completing sign-in is decoupled from the app requesting the token, so a compliant device never proves itself.
+→ Ladder: try `pac auth create --deviceCode` first (agent-observable), and on that error fall back to plain `pac auth create` (interactive) — on a compliant, Entra-joined machine it carries the device state and usually succeeds. Confirmed live on a managed corporate Cloud PC: device code blocked, interactive worked immediately. If **both** fail it's a real policy exemption request — capture the error code, correlation ID, and timestamp from the dialog's *More details* link, because that is what lets IT find the policy in the sign-in logs instead of guessing.
+
+**`pac` on PATH does not mean the CLI is installed.**
+Enterprise deployments (Intune/MSI) can place a `pac.cmd` **shim** on PATH while the actual CLI package is absent. `Get-Command pac` succeeds; the first real command fails with *"No Microsoft.PowerApps.CLI has been installed. Please run 'pac install latest'"*.
+→ Check pac is *functional*, not merely present. The fix is `pac install latest` — a user-scoped NuGet install needing **no admin rights**, so it's self-service even on a locked-down device. (Bonus: it often lands a newer version than the one IT deployed.)
+
 **GitHub Copilot CLI rejects skill descriptions over 1024 characters; Claude Code does not.**
 A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI with *"Skill description must be at most 1024 characters"* — the skill silently doesn't load in that runtime. Because it only fails on one side, it survives any Claude-Code-only test.
 → Keep every skill description ≤ 1024 characters, with margin. The repo lint (`scripts/lint/lint-skills.js`) enforces this now — but the lesson is general: a constraint present in one runtime and absent in the other must be encoded mechanically, because half your test surface won't see it.

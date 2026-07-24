@@ -28,9 +28,11 @@ rather than shelling out. Otherwise run the `pac` commands directly.
 Each step: check → if there's a gap, explain it and offer the fix → do it (on
 consent) → confirm. Resolve a gap before moving on.
 
-**1. Is the build toolchain here?**
+**1. Is the build toolchain here — and actually working?**
 PCF needs **Node.js LTS** (`node --version`), **npm**, the **pac CLI**
-(`pac help`), and a **.NET SDK** for solution packaging (`dotnet --version`).
+(`pac help` — verify it *functions*; a `pac.cmd` shim can sit on PATH without
+the CLI package, fixed self-service with `pac install latest`, no admin), and a
+**.NET SDK** for solution packaging (`dotnet --version`).
 For anything missing, offer the install (`winget install …` / the vendor link
 in `${PLUGIN_ROOT}/shared/microsoft-refs.md`) and, on a yes, run it. Node and the .NET SDK are
 easy to forget — check them up front, because their absence surfaces as a
@@ -44,12 +46,16 @@ present a **connection card**: user, tenant, environment, profile name, and
 (`pac auth select`); offer `pac auth name` to label profiles per customer —
 cached-auth confusion is a known time sink.
 
-If not connected, authenticate with the **device-code flow**:
-`pac auth create --environment <env> --deviceCode` — fully observable in agent
-sessions. Present the code and URL from the command output: *"Go to <url> and
-enter code **XXXX-XXXX** — tell me when you're done."* **Never claim "a browser
-has opened"** — you cannot observe it. Re-run `pac auth who` afterwards and
-show the card to confirm. PCF is online-only, so also confirm the target isn't
+If not connected, work down the **auth ladder**: (1) `pac auth create
+--environment <env> --deviceCode` — fully observable, relay the code and URL
+from output; (2) if Conditional Access blocks it (*"sign-in was successful but
+does not meet the criteria"*), fall back to interactive `pac auth create
+--environment <env>` — enterprises commonly block device-code flow, and only
+the interactive rung carries device-compliance state; (3) if both fail, it's a
+policy exemption request: have the user capture the error code, correlation ID
+and timestamp from *More details* for their IT, and record it as an open
+question. **Never claim "a browser has opened"** — you cannot observe it.
+Re-run `pac auth who` afterwards and show the card to confirm. PCF is online-only, so also confirm the target isn't
 on-premises.
 
 **After any auth change, verify with evidence** — re-list and compare against
