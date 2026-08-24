@@ -3,6 +3,26 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.7.0] — 2026-07-25
+
+### Added
+
+- **New plugin: `conventions` (0.1.0)** — the judgement layer as a checklist,
+  and the long-promised conventions plugin:
+  - **`dataverse-conventions`** — living schema/ALM conventions with
+    reasoning: `statecode`/`statuscode` over custom status columns; build
+    inside the target solution with the org's established publisher;
+    subcomponents + required dependencies with system tables as shell
+    references; modal dialogs for focused tasks. Seeded from a
+    privately-maintained checklist, client details redacted; grows via the
+    apply-and-record loop.
+  - **`writing-skills`** — the house authoring standard as a skill
+    (closes #2): lint-enforced dual-runtime constraints, trigger-description
+    craft, the redaction door policy, the new-skill process, and the review
+    checklist.
+- **CONTRIBUTING.md** — the gotcha fast path, redaction rules, and the lint
+  gate for contributions.
+
 ## [0.6.0] — 2026-07-24
 
 ### Added

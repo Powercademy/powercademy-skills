@@ -106,6 +106,19 @@ data — made *before* anything is generated:
 - Checkpoints run at **production volumes**, because a 50-row test proves
   nothing about delegation.
 
+### conventions (0.1.0)
+
+The judgement layer as a checklist — applied before anything gets built:
+
+- **`dataverse-conventions`** — living Dataverse schema and ALM conventions,
+  each with its reasoning: `statecode`/`statuscode` over custom status
+  columns, build-in-the-right-solution-with-the-right-publisher discipline,
+  subcomponent and dependency packaging that survives import, modal dialogs
+  for focused tasks. Grows every time a mistake is corrected.
+- **`writing-skills`** — the house standard for authoring marketplace skills:
+  dual-runtime constraints, trigger-description craft, redaction rules, and
+  the review checklist. The contribution workflow, as a skill.
+
 ### doctor (0.1.0)
 
 The answer to "why is setting this up such a pain?":

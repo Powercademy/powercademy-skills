@@ -23,6 +23,10 @@
         {
             "name": "canvas-planner",
             "source": "./plugins/canvas-planner"
+        },
+        {
+            "name": "conventions",
+            "source": "./plugins/conventions"
         }
     ]
 }
