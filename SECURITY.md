@@ -9,7 +9,7 @@ safeguards, and tells you how to report a problem.
 ## Reporting a vulnerability
 
 Email the maintainer (see the repo owner's profile) with `SECURITY` in the
-subject, or open a [private security advisory](https://github.com/HowdangPowercademy/powercademy-skills/security/advisories/new).
+subject, or open a [private security advisory](https://github.com/Powercademy/powercademy-skills/security/advisories/new).
 Please do not open a public issue for anything exploitable.
 
 ## What a skill is, and why it needs a threat model

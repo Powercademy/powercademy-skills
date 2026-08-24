@@ -48,20 +48,20 @@ Two options.
 Claude Code if you have both:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/HowdangPowercademy/powercademy-skills/main/scripts/install.js | node
+curl -fsSL https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js | node
 ```
 
 Windows PowerShell:
 
 ```powershell
-iwr https://raw.githubusercontent.com/HowdangPowercademy/powercademy-skills/main/scripts/install.js -OutFile install.js; node install.js; del install.js
+iwr https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js -OutFile install.js; node install.js; del install.js
 ```
 
 **Option B — manual, inside a `copilot` session.** Add the marketplace and
 install the plugin:
 
 ```
-/plugin marketplace add HowdangPowercademy/powercademy-skills
+/plugin marketplace add Powercademy/powercademy-skills
 ```
 
 ```
@@ -152,5 +152,5 @@ Restart the session afterwards — a running session keeps the old copy.
 Everything above is a **personal** install. If you want every developer in an
 org to get these skills automatically on sign-in, that's the enterprise-managed
 plugin path (a `settings.json` in your `.github-private` repo) — see
-[issue #3](https://github.com/HowdangPowercademy/powercademy-skills/issues/3).
+[issue #3](https://github.com/Powercademy/powercademy-skills/issues/3).
 It's preview-era and worth doing once you've validated the skills yourself.

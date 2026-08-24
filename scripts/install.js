@@ -8,7 +8,7 @@
  *
  * Usage:
  *   node scripts/install.js                       (from a local clone)
- *   curl -fsSL https://raw.githubusercontent.com/HowdangPowercademy/powercademy-skills/main/scripts/install.js | node
+ *   curl -fsSL https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js | node
  */
 
 const { execSync } = require("child_process");
@@ -26,7 +26,7 @@ const MARKETPLACES = [
     plugins: ["power-automate"],
   },
   {
-    repo: "HowdangPowercademy/powercademy-skills",
+    repo: "Powercademy/powercademy-skills",
     name: "powercademy-skills",
     plugins: ["flow-builder"],
   },

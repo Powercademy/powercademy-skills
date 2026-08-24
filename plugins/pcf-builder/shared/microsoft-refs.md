@@ -83,7 +83,7 @@ can use it for environment/solution operations rather than shelling out.
 Inside a Claude Code or GitHub Copilot CLI session:
 
 ```
-/plugin marketplace add HowdangPowercademy/powercademy-skills
+/plugin marketplace add Powercademy/powercademy-skills
 /plugin install pcf-builder@powercademy-skills
 ```
 

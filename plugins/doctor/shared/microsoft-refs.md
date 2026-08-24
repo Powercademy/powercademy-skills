@@ -76,7 +76,7 @@ Registration (same commands inside either CLI session):
 
 ```
 /plugin marketplace add microsoft/power-platform-skills
-/plugin marketplace add HowdangPowercademy/powercademy-skills
+/plugin marketplace add Powercademy/powercademy-skills
 /plugin install power-automate@power-platform-skills
 /plugin install flow-builder@powercademy-skills
 /plugin install pcf-builder@powercademy-skills

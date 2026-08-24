@@ -33,13 +33,13 @@ for you is only what can't be automated: sign-ins, licences, permissions.
 One command, from any terminal with Node.js:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/HowdangPowercademy/powercademy-skills/main/scripts/install.js | node
+curl -fsSL https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js | node
 ```
 
 Windows PowerShell:
 
 ```powershell
-iwr https://raw.githubusercontent.com/HowdangPowercademy/powercademy-skills/main/scripts/install.js -OutFile install.js; node install.js; del install.js
+iwr https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js -OutFile install.js; node install.js; del install.js
 ```
 
 The installer detects Claude Code and/or GitHub Copilot CLI, installs the
@@ -49,7 +49,7 @@ one), and installs the plugins.
 Manual install, inside a Claude Code or Copilot CLI session:
 
 ```
-/plugin marketplace add HowdangPowercademy/powercademy-skills
+/plugin marketplace add Powercademy/powercademy-skills
 /plugin install flow-builder@powercademy-skills
 ```
 
@@ -132,7 +132,7 @@ The answer to "why is setting this up such a pain?":
 
 ## Roadmap
 
-All tracked in [issues](https://github.com/HowdangPowercademy/powercademy-skills/issues) with the `roadmap` label. Headlines:
+All tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues) with the `roadmap` label. Headlines:
 
 - **audit-solution** — inherited-solution auditor (grounding as a product)
 - **advise-licensing** — doc-verified licensing verdicts, never from memory
@@ -154,7 +154,7 @@ All tracked in [issues](https://github.com/HowdangPowercademy/powercademy-skills
 - **0.3 — installer config interview + eval harness.** A guided setup, and
   automated checks that each skill triggers and behaves in both runtimes.
 
-Tracked in [issues](https://github.com/HowdangPowercademy/powercademy-skills/issues).
+Tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues).
 
 ## Security
 
