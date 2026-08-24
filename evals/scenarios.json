@@ -1,0 +1,53 @@
+{
+  "comment": "Trigger evals: does each skill fire on a natural phrasing, in each runtime? The runner kills each session as soon as a skill invocation (or clean no-invocation turn end) is observed, so runs stay short and cheap. Alternates cover secondary trigger paths (run with --alternates).",
+  "scenarios": [
+    {
+      "skill": "build-flow-spec",
+      "plugin": "flow-builder",
+      "prompt": "spec a flow that posts a Teams message when a Dataverse case is escalated",
+      "alternates": [
+        "I need to edit an existing flow to add an approval step before the email goes out"
+      ]
+    },
+    {
+      "skill": "build-pcf-control",
+      "plugin": "pcf-builder",
+      "prompt": "build a PCF dataset control that shows appointments as a calendar on a model-driven view",
+      "alternates": [
+        "my PCF control works in the test harness but not on the form - why?"
+      ]
+    },
+    {
+      "skill": "check-setup",
+      "plugin": "doctor",
+      "prompt": "am I set up for Power Platform development on this machine?",
+      "alternates": [
+        "my pac auth is a mess, which account am I signed in as?"
+      ]
+    },
+    {
+      "skill": "plan-canvas-app",
+      "plugin": "canvas-planner",
+      "prompt": "plan a canvas app for field engineers to log site visits against Dataverse",
+      "alternates": [
+        "why is my gallery only showing 500 records?"
+      ]
+    },
+    {
+      "skill": "dataverse-conventions",
+      "plugin": "conventions",
+      "prompt": "I'm about to add a custom status choice column to my case table - anything I should know first?",
+      "alternates": [
+        "my solution import failed with missing dependency errors"
+      ]
+    },
+    {
+      "skill": "writing-skills",
+      "plugin": "conventions",
+      "prompt": "review the trigger description of a SKILL.md I'm writing for my skills marketplace",
+      "alternates": [
+        "why isn't my skill triggering when I ask for it naturally?"
+      ]
+    }
+  ]
+}

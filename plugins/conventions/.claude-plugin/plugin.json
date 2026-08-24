@@ -1,6 +1,6 @@
 {
   "name": "conventions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Powercademy's living conventions for Power Platform delivery — Dataverse schema judgement (statecode over custom status, solution and publisher discipline, dependency packaging) applied before anything is built, plus the writing-skills house standard for authoring marketplace skills that survive every runtime. Each rule carries its reasoning; the lists grow with every corrected mistake.",
   "author": {
     "name": "Howdang Rashid"
