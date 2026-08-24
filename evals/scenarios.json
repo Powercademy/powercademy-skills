@@ -44,9 +44,9 @@
     {
       "skill": "writing-skills",
       "plugin": "conventions",
-      "prompt": "review the trigger description of a SKILL.md I'm writing for my skills marketplace",
+      "prompt": "I want to contribute a new skill to the powercademy-skills marketplace - walk me through writing the SKILL.md properly",
       "alternates": [
-        "why isn't my skill triggering when I ask for it naturally?"
+        "review my draft SKILL.md against the powercademy house standard before I open the PR"
       ]
     }
   ]

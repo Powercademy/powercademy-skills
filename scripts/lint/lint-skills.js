@@ -210,6 +210,21 @@ function main() {
     }
   }
 
+  // 5. artifact-style.md sync: the canonical rendered-artifact spec is
+  // duplicated per plugin (installed plugins are self-contained); copies must
+  // stay byte-identical or the design language forks silently.
+  const styleFiles = plugins
+    .map((p) => path.join(p, 'shared', 'artifact-style.md'))
+    .filter((f) => fs.existsSync(f));
+  if (styleFiles.length > 1) {
+    const first = fs.readFileSync(styleFiles[0], 'utf8');
+    for (const f of styleFiles.slice(1)) {
+      if (fs.readFileSync(f, 'utf8') !== first) {
+        v(f, 'artifact-style.md differs from ' + path.relative(ROOT, styleFiles[0]) + ' — copies must be byte-identical (edit all together)');
+      }
+    }
+  }
+
   if (violations.length === 0) {
     console.log(`✓ lint clean — ${plugins.length} plugin(s), ${skillCount} skill(s)`);
     process.exit(0);

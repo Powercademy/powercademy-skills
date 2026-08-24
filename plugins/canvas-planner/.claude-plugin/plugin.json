@@ -1,6 +1,6 @@
 {
   "name": "canvas-planner",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Make the canvas app decisions that generation can't — is canvas even the right shape, delegation and data strategy, screen and navigation architecture, conventions — then hand a decided build plan to Microsoft's canvas authoring tooling. Checkpoints at real data volumes, because a 50-row test proves nothing. Methodology, not mechanics.",
   "author": {
     "name": "Howdang Rashid"

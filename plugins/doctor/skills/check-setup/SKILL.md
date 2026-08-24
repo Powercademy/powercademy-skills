@@ -136,6 +136,10 @@ Always finish with this, in this shape:
 
 Every ⚠️/❌ line carries its one-line fix. Nothing is left as a mystery.
 
+Offer the card as a **rendered HTML page** too (`machine-readiness.html` in
+the working directory) per `${PLUGIN_ROOT}/shared/artifact-style.md` — useful
+when the check-up is evidence for an IT request or an engagement record.
+
 ---
 
 ## Calibration

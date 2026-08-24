@@ -166,6 +166,11 @@ Structure:
 ## Change log
 ```
 
+Render the plan as a **build-along HTML page** alongside the markdown (same
+basename, `.html`) per `${PLUGIN_ROOT}/shared/artifact-style.md` — the
+delegation table and checkpoints tickable, verdict-first status strip.
+Markdown stays the source of truth; regenerate on change.
+
 Then **hand execution to Microsoft's canvas authoring tooling** with these
 decisions as its input — it plans and generates screens far faster than doing
 it by hand. See `${PLUGIN_ROOT}/shared/microsoft-refs.md`. The division is

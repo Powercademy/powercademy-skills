@@ -133,6 +133,11 @@ The manifest is the contract; write it before the code. The plan covers:
 - `destroy` — clean up listeners/timers; the platform destroys and reloads controls for performance while preserving state.
 - **Virtual controls**: return the React element from `updateView`; do not `ReactDOM.render` yourself.
 
+Render the plan as a **build-along HTML page** alongside the markdown (same
+basename, `.html`) per `${PLUGIN_ROOT}/shared/artifact-style.md` — tickable
+checkpoints, copyable commands, verdict-first status strip. Markdown stays the
+source of truth; regenerate on change.
+
 Give real, buildable specifics — property names, types, the actual bundle
 entry — not "the usual manifest". Someone should be able to build it without
 asking a question.

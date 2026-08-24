@@ -155,6 +155,12 @@ location if it's unclear, and always tell them the full path. Never write the
 spec into the agent's internal or session-state folders: a spec the user can't
 find after the session is a spec that doesn't exist.
 
+Alongside the markdown, render a **build-along HTML page** — same folder,
+same basename, `.html` — per `${PLUGIN_ROOT}/shared/artifact-style.md`:
+tickable checkpoints, copy buttons on every expression, verdict-first status
+strip. Regenerate it whenever the spec changes; the markdown stays the source
+of truth.
+
 Structure:
 
 ```markdown

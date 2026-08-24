@@ -1,14 +1,14 @@
 {
-  "at": "2026-08-24T12:31:03.486Z",
+  "at": "2026-08-24T12:32:39.532Z",
   "results": [
     {
       "runtime": "copilot",
       "skill": "writing-skills",
       "alt": 0,
-      "verdict": "NONE",
-      "detail": "turn completed without a skill invocation",
-      "seconds": 15,
-      "prompt": "review the trigger description of a SKILL.md I'm writing for my skills marketplace"
+      "verdict": "PASS",
+      "detail": "invoked writing-skills",
+      "seconds": 10,
+      "prompt": "I want to contribute a new skill to the powercademy-skills marketplace - walk me through writing the SKILL.md properly"
     }
   ]
 }

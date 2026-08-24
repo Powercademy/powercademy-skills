@@ -3,6 +3,33 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.8.0] — 2026-08-24
+
+The two pre-release hardening features.
+
+### Added
+
+- **Trigger eval harness** (`evals/run-evals.js` + `scenarios.json`, closes
+  #5): headless trigger evals in both runtimes with kill-on-verdict (~10s per
+  scenario), verdicts PASS / COMPETITOR / NONE / TIMEOUT / ERROR, results in
+  `last-run.json`. First full sweep: **6/6 PASS** in Copilot CLI — after the
+  harness caught a real trigger miss on `writing-skills` (fixed via an
+  information-assertion description) and a miscalibrated scenario. Deliberately
+  not in CI: a human-run pre-release gate (see `evals/README.md`).
+- **Rendered artifact layer** (closes #15): every major deliverable — build
+  spec, edit spec, canvas/PCF plan, readiness card — now gets a self-contained
+  **build-along HTML page** alongside the markdown: verdict-first status
+  strip, tickable checkpoints persisted in localStorage, copy buttons on every
+  expression, offline-safe (no CDN, opens from `file://` on locked-down
+  machines). Canonical spec in each plugin's `shared/artifact-style.md`; a new
+  lint rule keeps the copies byte-identical. Markdown remains the source of
+  truth.
+
+### Changed
+
+- flow-builder 0.3.0, pcf-builder 0.2.0, canvas-planner 0.2.0, doctor 0.3.0
+  (artifact rendering); conventions 0.1.1 (writing-skills trigger fix).
+
 ## [0.7.0] — 2026-07-25
 
 ### Added
