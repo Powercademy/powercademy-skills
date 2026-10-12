@@ -144,7 +144,7 @@ The judgement layer as a checklist — applied before anything gets built:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.
 
-### doctor (0.4.0)
+### doctor (0.4.1)
 
 The answer to "why is setting this up such a pain?" — the first thing you run,
 and the place you come back to when something breaks:
@@ -164,8 +164,9 @@ and the place you come back to when something breaks:
 Both read one versioned
 [toolchain manifest](plugins/doctor/shared/toolchain-manifest.json), and a
 weekly [upstream watch](.github/workflows/upstream-watch.yml) opens an issue
-whenever Microsoft's plugins change what they need — so the setup doesn't
-quietly rot.
+whenever Microsoft's plugins change what they need, a package in the manifest
+is renamed or pulled, or a community skill lands in our lanes — so the setup
+doesn't quietly rot.
 
 ## Roadmap
 

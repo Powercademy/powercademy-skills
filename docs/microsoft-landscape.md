@@ -11,14 +11,16 @@ from the automated upstream watch. The watch now runs weekly — see the bottom.
 
 ---
 
-## The four Microsoft properties (don't conflate them)
+## The Microsoft properties (don't conflate them)
 
 | Property | What it is | Runtime | Posture |
 |---|---|---|---|
 | [microsoft/power-platform-skills](https://github.com/microsoft/power-platform-skills) | The official **build-focused** marketplace (10 plugins, now including `dataverse`) | Claude Code + Copilot CLI | Foundation layer — route to it |
 | [claude-plugins-official/dataverse](https://github.com/microsoft/Dataverse-skills) (`dv-*`, v1.6.0) | First-party Dataverse skills, agent-agnostic (Claude, Copilot, Cursor, Codex manifest present) | Multi-runtime | Foundation layer — route to it |
 | [microsoft/power-cat-skills](https://github.com/microsoft/power-cat-skills) | Power CAT's **advisory/review** marketplace (11 plugins) that *explicitly layers on* power-platform-skills foundation plugins | Copilot CLI primarily (+ .claude-plugin) | The near-neighbour — watch closely |
-| [microsoft/cat-agent-skills](https://github.com/microsoft/cat-agent-skills) | PR-based community gallery, not a curated product suite | Mixed | Discovery surface, not a competitor |
+| [microsoft/skills-for-copilot-studio](https://github.com/microsoft/skills-for-copilot-studio) (`copilot-studio`) | Copilot Studio YAML authoring for **standard** agents | Claude Code + Copilot CLI + VS Code | Foundation layer — what setup-workstation installs for the Copilot Studio workload |
+| [microsoft/copilot-studio-plugin](https://github.com/microsoft/copilot-studio-plugin) (`mcs-assistant`) | Copilot Studio authoring for **GitHub Copilot harness** agents, plus classic→harness migration. Self-described successor to skills-for-copilot-studio; needs pac ≥ 2.9.3 | Claude Code + Copilot CLI | Watched; not yet in the toolchain manifest |
+| [microsoft/cat-agent-skills](https://github.com/microsoft/cat-agent-skills) | PR-based community gallery (~106 submissions for Cowork, Copilot Studio and Scout agents), not a curated product suite or plugin marketplace | Mixed | Discovery surface, not a competitor — watched for submissions entering our lanes (9 at baseline, e.g. power-automate-documentation, wcag-power-platform) |
 
 **Strategic headline:** power-cat-skills declares foundation-plugin dependencies
 on power-platform-skills ("install the companion foundation plugin first").
@@ -95,10 +97,19 @@ new runtimes twice in two months. Neither repo keeps a changelog file — commit
 history and the Power Platform dev blog are the tracking mechanisms.
 
 **The watch is automated (weekly).** `.github/workflows/upstream-watch.yml`
-runs `scripts/watch/upstream-watch.js` every Monday: it shallow-clones the four
-Microsoft repos, fingerprints their plugin lists, per-plugin versions, MCP
-launchers and the runtime versions they require, diffs against
-`watch/upstream-snapshot.json`, and opens (or comments on) an
+runs `scripts/watch/upstream-watch.js` every Monday. It covers three things:
+
+- **Five plugin repos** — power-platform-skills, Dataverse-skills,
+  skills-for-copilot-studio, copilot-studio-plugin, power-cat-skills: plugin
+  lists, versions, MCP launchers, and the runtime versions they require
+  (Node, .NET, Python, JDK, pac). If a plugin we install states a higher floor
+  than the manifest's `check.min`, that's flagged too.
+- **One gallery** — cat-agent-skills: new submissions that touch our lanes.
+- **Every package ID and link in the toolchain manifest** — winget, Homebrew,
+  npm, NuGet, PyPI, VS Code Marketplace and URLs, parsed from the install
+  commands themselves, so a renamed or pulled package is caught within a week.
+
+It diffs against `watch/upstream-snapshot.json` and opens (or comments on) an
 `upstream-change` issue when something actionable moves. After acting on an
 issue, update the toolchain manifest and run the script with
 `--update-snapshot` to accept the new baseline.

@@ -26,7 +26,7 @@ At a glance:
 
 | Tier | Items |
 |---|---|
-| **Bootstrap** | Node.js 22 LTS · git · GitHub Copilot CLI ≥1.0.71 or Claude Code |
+| **Bootstrap** | Node.js 24 LTS · git · GitHub Copilot CLI ≥1.0.71 or Claude Code |
 | **Required** | .NET 10 SDK · Power Platform CLI (pac) · Azure CLI · Python 3.12 + Dataverse Python SDK · Microsoft's Power Platform marketplace + Dataverse skills · Powercademy core plugins |
 | **Per workload** | Flows · canvas · model-driven · Power Pages · code apps · Copilot Studio (+ VS Code and its extension) · PCF · mobile (JDK 17, Android Studio, Xcode on Mac) · process mining · ALM |
 | **Recommended** | Microsoft Learn MCP · Playwright MCP · pac CLI MCP server · Power Platform Tools for VS Code · Power CAT marketplace · PowerShell 7 |
@@ -35,7 +35,9 @@ At a glance:
 
 A weekly workflow (`.github/workflows/upstream-watch.yml`) fingerprints the
 Microsoft repos these skills depend on — their plugin lists, the MCP servers
-they launch, and the runtime versions they require — and opens an
-`upstream-change` issue when something moves. The manifest also flags itself
+they launch, and the runtime versions they require — watches Microsoft's
+community skills gallery, and checks that every package ID and link in the
+manifest still resolves. It opens an `upstream-change` issue when something
+moves. The manifest also flags itself
 stale after 90 days without re-verification. See
 [`scripts/watch/upstream-watch.js`](scripts/watch/upstream-watch.js).

@@ -1,8 +1,9 @@
 name: upstream-watch
 
-# Ear to the wall: weekly check of the Microsoft repos this marketplace depends
-# on. Opens (or comments on) an `upstream-change` issue when something our
-# toolchain manifest or skills rely on has moved.
+# Ear to the wall: weekly check of the Microsoft repos and community gallery
+# this marketplace depends on, plus every package ID and URL in the toolchain
+# manifest. Opens (or comments on) an `upstream-change` issue when something
+# our manifest or skills rely on has moved.
 
 on:
   schedule:
@@ -25,6 +26,8 @@ jobs:
 
       - name: Fingerprint upstream and diff against baseline
         id: watch
+        env:
+          GITHUB_TOKEN: ${{ github.token }} # winget-pkgs lookups via the GitHub API
         run: node scripts/watch/upstream-watch.js --report-file report.md
 
       - name: Open or update the upstream-change issue

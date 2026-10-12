@@ -12,8 +12,8 @@ projects. Should take about five minutes.
 
 ## 1. Prerequisites
 
-- **Node.js 22+** — check with `node --version`. Several of Microsoft's Power
-  Platform plugins now require 22.
+- **Node.js 24 LTS** — check with `node --version`. Microsoft's Power Platform
+  plugins require 22+, and the mobile plugin requires 24.
 - **A GitHub Copilot subscription** (Individual, Business, or Enterprise). The
   CLI signs in with your GitHub account.
 - **git** — plugin marketplaces are cloned with it.

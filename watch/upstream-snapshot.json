@@ -123,7 +123,8 @@
             ".net 8",
             "azure cli",
             "dataverse python sdk",
-            "node 18+"
+            "node 18+",
+            "pac 2.11.1+"
           ]
         }
       }
@@ -218,6 +219,785 @@
           ]
         }
       }
+    },
+    "microsoft/copilot-studio-plugin": {
+      "head": "4014ae6~2026-10-02",
+      "marketplacePlugins": [
+        "mcs-assistant"
+      ],
+      "plugins": {
+        "mcs-assistant": {
+          "version": "1.0.2",
+          "mcp": {},
+          "prereqs": [
+            "copilot studio vscode extension",
+            "pac 2.9.3+"
+          ]
+        }
+      }
+    }
+  },
+  "galleries": {
+    "microsoft/cat-agent-skills": {
+      "head": "3158d47~2026-10-11",
+      "submissions": {
+        "accessibility-pass": {
+          "name": "Accessibility Pass",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "acroform-writer": {
+          "name": "AcroForm Writer",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "action-items-todo": {
+          "name": "Action Items to To Do",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "agent-evaluation-designer": {
+          "name": "Agent Evaluation Designer",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "agent-harness-explorer": {
+          "name": "Agent Harness Explorer",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "agent-performance-triage": {
+          "name": "Agent Performance Triage",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "agent-red-team": {
+          "name": "Agent Red Team",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "ai-demo-assistant": {
+          "name": "AI Demo Assistant",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "ai-first-process-redesign": {
+          "name": "AI-First Process Redesign",
+          "version": "2.1.1",
+          "lanes": false
+        },
+        "ai-usecase-assessment": {
+          "name": "AI Use Case Assessment",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "anonymised-case-study-writer": {
+          "name": "Anonymised Case Study Writer",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "awaiting-reply": {
+          "name": "Awaiting Reply",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "b2b-outreach-suite": {
+          "name": "B2B Outreach Suite",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "blog-content-auditor": {
+          "name": "Blog Content Auditor",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "blog-post-structure-pass": {
+          "name": "Blog Post Structure Pass",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "booth-loop-video": {
+          "name": "Booth Loop Video",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "brand-template-enforcer": {
+          "name": "Brand Template Enforcer",
+          "version": "1.2.0",
+          "lanes": false
+        },
+        "brand-voice-pass": {
+          "name": "Brand Voice Pass",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "breathing-room": {
+          "name": "Breathing Room",
+          "version": "1.1.1",
+          "lanes": false
+        },
+        "browser-uat-analyst": {
+          "name": "Browser UAT Analyst",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "business-os": {
+          "name": "Business OS",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "call-for-speakers-digest": {
+          "name": "Call for Speakers Digest",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "campaign-deck-builder": {
+          "name": "Campaign Deck Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "chart-builder": {
+          "name": "Chart Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "classic-text-adventure": {
+          "name": "Classic Text Adventure",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "clipchamp-video": {
+          "name": "Clipchamp Narrated Demo Video",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "clt-hr-assistant": {
+          "name": "Assistente CLT para RH",
+          "version": null,
+          "lanes": false
+        },
+        "commenting-content": {
+          "name": "Commenting Content",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "competitive-battlecard-builder": {
+          "name": "Competitive Battlecard Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "conditional-chat-reminder": {
+          "name": "Conditional Chat Reminder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "conference-session-abstract-pack": {
+          "name": "Conference Session Abstract Pack",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "content-quality-auditor": {
+          "name": "Content Quality Auditor",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "copilot-agent-advisor": {
+          "name": "Copilot Agent Advisor",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "copilot-agents-news-scout": {
+          "name": "Copilot & Agents News Scout",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "copilot-studio-adaptive-card-builder": {
+          "name": "Copilot Studio Adaptive Card Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "copilot-studio-agent-test": {
+          "name": "Copilot Studio Agent Test",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "copilot-studio-harness-picker": {
+          "name": "Copilot Studio Harness Picker",
+          "version": "1.1.0",
+          "lanes": true
+        },
+        "copilot-studio-knowledge-readiness": {
+          "name": "Copilot Studio Knowledge Readiness",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "copilot-studio-mcp-readiness": {
+          "name": "Copilot Studio MCP Readiness",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "copilot-studio-test-planner": {
+          "name": "Copilot Studio Test Planner",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "copilot-studio-topic-blueprint": {
+          "name": "Copilot Studio Topic Blueprint",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "cowork-plugin-engineer": {
+          "name": "Copilot Cowork Plugin Engineer",
+          "version": "1.1.0",
+          "lanes": false
+        },
+        "cowork-use-case-one-pager": {
+          "name": "Cowork Use Case One-Pager",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "create-copilot-adoption-dashboard": {
+          "name": "Copilot Adoption Dashboard",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "doc-format-converter": {
+          "name": "Universal Document Converter",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "enterprise-agent-design-authority": {
+          "name": "Enterprise Agent Design Authority (EADA)",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "eu-greenwashing-analysis": {
+          "name": "EU Greenwashing Analysis",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "exam-prep-learning-plan-builder": {
+          "name": "Exam Prep Learning Plan Builder",
+          "version": "2.0.1",
+          "lanes": false
+        },
+        "explainer-video": {
+          "name": "Explainer Video",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "gantt-chart-generator": {
+          "name": "Gantt Chart Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "generating-podcast-script": {
+          "name": "Podcast Script Generator",
+          "version": "1.1.0",
+          "lanes": false
+        },
+        "global-greenwashing-claim-auditor": {
+          "name": "Global Greenwashing Claim Auditor",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "grab-my-files": {
+          "name": "Grab My Files",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "holiday-recap": {
+          "name": "Holiday Recap",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "idea-refiner": {
+          "name": "Idea Refiner",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "institutional-knowledge": {
+          "name": "Institutional Knowledge Archivist",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "iterative-file-editing": {
+          "name": "Iterative File Editing",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "knowledge-corpus-curator": {
+          "name": "Knowledge Corpus Curator",
+          "version": "0.8.0",
+          "lanes": false
+        },
+        "knowledge-source-router": {
+          "name": "Knowledge Source Router",
+          "version": "2.0.0",
+          "lanes": false
+        },
+        "lab-column-mapper": {
+          "name": "Lab Column Mapper",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "linkedin-content-system": {
+          "name": "LinkedIn Content System",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "linkedin-content-writer": {
+          "name": "LinkedIn Content Writer",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "lookup-dataverse-table": {
+          "name": "Dataverse Table Lookup",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "mct-excellence-iq": {
+          "name": "MCT Excellence IQ",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "meeting-analyzer": {
+          "name": "Meeting Analyzer",
+          "version": null,
+          "lanes": false
+        },
+        "microsoft-ai-platform-advisor": {
+          "name": "Microsoft AI Platform Advisor",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "monte-carlo-analysis": {
+          "name": "Monte Carlo Analysis",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "own-voice-builder": {
+          "name": "Own Voice Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "pattern-radar": {
+          "name": "Pattern Radar",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "pattern-radar-automation": {
+          "name": "Pattern Radar (Scheduled)",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "pdf-table-data-conversion": {
+          "name": "PDF Table Data Conversion",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "persona-reaction-panel": {
+          "name": "Persona Reaction Panel",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "phi-deidentifier": {
+          "name": "PHI De-identifier",
+          "version": "1.1.0",
+          "lanes": false
+        },
+        "pov-line-generator": {
+          "name": "POV Line Generator",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "power-automate-desktop-assessment": {
+          "name": "Power Automate Desktop Assessment",
+          "version": "1.1.0",
+          "lanes": true
+        },
+        "power-automate-documentation": {
+          "name": "Power Automate Documentation",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "power-bi-model-review": {
+          "name": "Power BI Model Review",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "powerpoint-deck-designer": {
+          "name": "PowerPoint Deck Designer",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "presentation-talk-track-builder": {
+          "name": "Presentation Talk Track Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "process-sop-architect": {
+          "name": "Process & SOP Architect",
+          "version": "1.1.0",
+          "lanes": false
+        },
+        "qr-code-builder": {
+          "name": "QR Code Builder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "redlining-content": {
+          "name": "Redlining Content",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "regulation-monitor": {
+          "name": "Regulation Monitor",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "rich-html-presentation": {
+          "name": "Rich HTML Presentation",
+          "version": "1.2.0",
+          "lanes": false
+        },
+        "root-cause-analysis": {
+          "name": "Root Cause Analysis",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "route-map-visualizer": {
+          "name": "Route Map Visualizer",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "scrollytelling-data": {
+          "name": "Scrollytelling Data",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "semantic-pdf-image-extractor": {
+          "name": "Semantic PDF Image Extractor",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "sharepoint-file-creation": {
+          "name": "SharePoint File Creation",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "sharepoint-list-formatter": {
+          "name": "SharePoint List Formatter",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "sharepoint-list-insight-report-generator": {
+          "name": "SharePoint List Insight Report Generator",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "skill-authoring-coach": {
+          "name": "Skill Authoring Coach",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "spend-more-time-with-friends-and-family": {
+          "name": "Spend More Time With Friends & Family",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "stoic-negotiator": {
+          "name": "Stoic Negotiator",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "study-flashcards": {
+          "name": "Study Flashcards",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "style-analyzer": {
+          "name": "Communication Style Analyzer",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "tool-tracer": {
+          "name": "Tool Tracer",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "travel-cost-estimator": {
+          "name": "Travel Cost Estimator",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "vacation-urgent-forwarder": {
+          "name": "Vacation Urgent Forwarder",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "vendor-contract-risk-review": {
+          "name": "Vendor Contract Risk Review",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "wcag-power-platform": {
+          "name": "WCAG 2.1 for Web Apps & Power Platform",
+          "version": "1.0.0",
+          "lanes": true
+        },
+        "what-to-use-when": {
+          "name": "What to Use When",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "whiteboard-to-infographic": {
+          "name": "Whiteboard to Infographic",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "wikipedia-human-style-writing": {
+          "name": "Wikipedia Human Style Writing",
+          "version": "0.1.0",
+          "lanes": false
+        },
+        "work-brief": {
+          "name": "Work Brief",
+          "version": "0.4.0",
+          "lanes": false
+        },
+        "work-iq-signalboard": {
+          "name": "Work IQ Signalboard",
+          "version": "2.0.0",
+          "lanes": false
+        }
+      }
+    }
+  },
+  "packages": {
+    "winget:OpenJS.NodeJS.LTS": {
+      "items": [
+        "node"
+      ],
+      "state": "ok",
+      "latest": "24.20.0"
+    },
+    "brew:node@24": {
+      "items": [
+        "node"
+      ],
+      "state": "ok",
+      "latest": "24.21.0"
+    },
+    "url:https://github.com/nvm-sh/nvm": {
+      "items": [
+        "node"
+      ],
+      "state": "ok"
+    },
+    "winget:Git.Git": {
+      "items": [
+        "git"
+      ],
+      "state": "ok",
+      "latest": "2.55.0.5"
+    },
+    "brew:git": {
+      "items": [
+        "git"
+      ],
+      "state": "ok",
+      "latest": "2.56.0"
+    },
+    "npm:@github/copilot": {
+      "items": [
+        "copilot-cli"
+      ],
+      "state": "ok",
+      "latest": "1.0.95"
+    },
+    "url:https://docs.anthropic.com/en/docs/claude-code": {
+      "items": [
+        "claude-code"
+      ],
+      "state": "ok"
+    },
+    "winget:Microsoft.DotNet.SDK.10": {
+      "items": [
+        "dotnet-sdk"
+      ],
+      "state": "ok",
+      "latest": "10.0.401"
+    },
+    "cask:dotnet-sdk": {
+      "items": [
+        "dotnet-sdk"
+      ],
+      "state": "ok",
+      "latest": "10.0.401"
+    },
+    "url:https://learn.microsoft.com/dotnet/core/install/linux": {
+      "items": [
+        "dotnet-sdk"
+      ],
+      "state": "ok"
+    },
+    "nuget:Microsoft.PowerApps.CLI.Tool": {
+      "items": [
+        "pac",
+        "mcp-pac"
+      ],
+      "state": "ok",
+      "latest": "2.13.1"
+    },
+    "winget:Microsoft.AzureCLI": {
+      "items": [
+        "azure-cli"
+      ],
+      "state": "ok",
+      "latest": "2.91.0"
+    },
+    "cask:azure-cli": {
+      "items": [
+        "azure-cli"
+      ],
+      "state": "ok",
+      "latest": "2.91.0"
+    },
+    "url:https://aka.ms/InstallAzureCLIDeb": {
+      "items": [
+        "azure-cli"
+      ],
+      "state": "ok"
+    },
+    "winget:Python.Python.3.12": {
+      "items": [
+        "python"
+      ],
+      "state": "ok",
+      "latest": "3.12.10"
+    },
+    "brew:python@3.12": {
+      "items": [
+        "python"
+      ],
+      "state": "ok",
+      "latest": "3.12.15"
+    },
+    "pypi:PowerPlatform-Dataverse-Client": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "1.1.0"
+    },
+    "pypi:azure-identity": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "1.26.0"
+    },
+    "winget:Microsoft.VisualStudioCode": {
+      "items": [
+        "vscode"
+      ],
+      "state": "ok",
+      "latest": "1.141.0"
+    },
+    "cask:visual-studio-code": {
+      "items": [
+        "vscode"
+      ],
+      "state": "ok",
+      "latest": "1.141.0"
+    },
+    "url:https://code.visualstudio.com/docs/setup/linux": {
+      "items": [
+        "vscode"
+      ],
+      "state": "ok"
+    },
+    "vscode:ms-CopilotStudio.vscode-copilotstudio": {
+      "items": [
+        "vscode-copilot-studio"
+      ],
+      "state": "ok",
+      "latest": "1.9.14"
+    },
+    "winget:EclipseAdoptium.Temurin.17.JDK": {
+      "items": [
+        "jdk17"
+      ],
+      "state": "ok",
+      "latest": "17.0.20.101"
+    },
+    "cask:temurin@17": {
+      "items": [
+        "jdk17"
+      ],
+      "state": "ok",
+      "latest": "17.0.20.1,1"
+    },
+    "winget:Google.AndroidStudio": {
+      "items": [
+        "android-studio"
+      ],
+      "state": "ok",
+      "latest": "2026.2.1.8"
+    },
+    "cask:android-studio": {
+      "items": [
+        "android-studio"
+      ],
+      "state": "ok",
+      "latest": "2026.2.1.8,rabbit1"
+    },
+    "url:https://developer.android.com/studio": {
+      "items": [
+        "android-studio"
+      ],
+      "state": "ok"
+    },
+    "endpoint:https://learn.microsoft.com/api/mcp": {
+      "items": [
+        "mcp-learn"
+      ],
+      "state": "ok"
+    },
+    "npm:@playwright/mcp": {
+      "items": [
+        "mcp-playwright"
+      ],
+      "state": "ok",
+      "latest": "0.0.83"
+    },
+    "npm:playwright": {
+      "items": [
+        "mcp-playwright"
+      ],
+      "state": "ok",
+      "latest": "1.64.0"
+    },
+    "url:https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp": {
+      "items": [
+        "mcp-pac"
+      ],
+      "state": "ok"
+    },
+    "vscode:microsoft-IsvExpTools.powerplatform-vscode": {
+      "items": [
+        "vscode-pp-tools"
+      ],
+      "state": "ok",
+      "latest": "2.0.157"
+    },
+    "winget:Microsoft.PowerShell": {
+      "items": [
+        "pwsh7"
+      ],
+      "state": "ok",
+      "latest": "7.6.6.0"
     }
   }
 }

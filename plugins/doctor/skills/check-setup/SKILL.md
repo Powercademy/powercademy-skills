@@ -53,7 +53,9 @@ claims to have.
 
 **Outdated is a finding in its own right.** Node below the manifest's minimum,
 Copilot CLI below the plugin-command floor, .NET below what the canvas tooling
-needs — each causes errors that look unrelated. Upgrade in place.
+needs, pac below what the Dataverse skills need — each causes errors that look
+unrelated. Upgrade in place with the item's `update` command where it has one,
+otherwise its install command.
 
 **On managed devices, elevation is the wall.** Machine-wide repairs fail at UAC
 with exit code **1602** for a standard user. Never leave them thinking that was
@@ -110,7 +112,7 @@ Always finish with this:
 >
 > | Layer | Status |
 > |---|---|
-> | Tools | ✅ git · node 22 · .NET 10 · Python 3.12 · ⬆ pac 2.7 → upgrade |
+> | Tools | ✅ git · node 24 · .NET 10 · Python 3.12 · ⬆ pac 2.10 → upgrade |
 > | Identity | ✅ user@contoso.com · Contoso Dev (profile "ContosoDev", 1 of 3) |
 > | Agent runtimes | ✅ Copilot CLI 1.0.80 · ⚠️ Claude Code not installed |
 > | Plugins | ✅ dataverse · flow-builder (both runtimes) · ⚠️ drift: pcf-builder 0.1.4 vs 0.2.0 |

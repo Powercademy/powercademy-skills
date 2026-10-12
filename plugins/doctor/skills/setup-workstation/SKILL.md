@@ -72,7 +72,7 @@ recommended items, plus everything they `dependsOn`. Then run each item's
 | State | Meaning |
 |---|---|
 | ✅ ready | Check passes and meets `min` |
-| ⬆ outdated | Present but below `min` — upgrade, don't reinstall |
+| ⬆ outdated | Present but below `min` — upgrade with the item's `update` command (else its install command), don't uninstall first |
 | 🧩 shim | Resolves on PATH but doesn't function (pac's `failIfOutputMatches`) — use the item's `repair` |
 | ⬜ missing | Not present |
 | 🔁 bundled | Recommended MCP already provided by an installed plugin (`bundledIn`) — skip, don't double-register |
@@ -84,7 +84,7 @@ recommended items, plus everything they `dependsOn`. Then run each item's
 > ## Workstation plan
 > | Item | Now | Action | Needs admin |
 > |---|---|---|---|
-> | Node.js LTS | ⬆ 20.11 | upgrade to 22 | yes |
+> | Node.js LTS | ⬆ 22.14 | upgrade to 24 | yes |
 > | .NET 10 SDK | ⬜ | install | yes |
 > | pac CLI | 🧩 shim | `pac install latest` | no |
 > | Python 3.12 | ⬜ | install | no |
@@ -151,7 +151,7 @@ directory as `workstation-setup.md` with a rendered page per
 > ## Workstation ready
 > | Layer | Status |
 > |---|---|
-> | Core | ✅ node 22 · git · .NET 10 · pac 2.9 · az 2.81 · Python 3.12 |
+> | Core | ✅ node 24 · git · .NET 10 · pac 2.13 · az 2.81 · Python 3.12 |
 > | Identity | ✅ user@contoso.com · Contoso Dev |
 > | Runtimes | ✅ Copilot CLI 1.0.80 · ✅ Claude Code |
 > | Plugins | ✅ dataverse · power-automate · flow-builder · conventions · doctor |

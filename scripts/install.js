@@ -26,7 +26,7 @@ const REPO = "Powercademy/powercademy-skills";
 const MARKETPLACE = "powercademy-skills";
 const BOOTSTRAP_PLUGINS = ["doctor"];
 const MANIFEST_REL = "plugins/doctor/shared/toolchain-manifest.json";
-const FALLBACK_MIN = { node: "22.0.0", "copilot-cli": "1.0.71" };
+const FALLBACK_MIN = { node: "24.0.0", "copilot-cli": "1.0.71" };
 
 // ── output ────────────────────────────────────────────────────
 const tty = process.stdout.isTTY;

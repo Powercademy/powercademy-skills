@@ -7,19 +7,19 @@
     "copilot-studio": "1.0.11",
     "note": "Every winget id and VS Code extension id below was resolved live on the verification date."
   },
-  "comment": "Single source of truth for what a Power Platform agent workstation needs. Read by setup-workstation (installs), check-setup (diagnoses), scripts/install.js (bootstrap minimums) and scripts/watch/upstream-watch.js (staleness). This file is the machine-readable companion to shared/microsoft-refs.md — vendor mechanics live here and there, nowhere else.",
+  "comment": "Single source of truth for what a Power Platform agent workstation needs. Read by setup-workstation (installs), check-setup (diagnoses), scripts/install.js (bootstrap minimums) and scripts/watch/upstream-watch.js (staleness, version floors, and a weekly existence check of every package ID and URL parsed from the install commands below). This file is the machine-readable companion to shared/microsoft-refs.md — vendor mechanics live here and there, nowhere else.",
 
   "items": [
     {
       "id": "node",
       "name": "Node.js LTS",
       "tier": "bootstrap",
-      "why": "Runs the agent CLIs and most Microsoft plugin MCP servers. Several Microsoft plugins require 22+.",
-      "check": { "cmd": "node --version", "min": "22.0.0" },
+      "why": "Runs the agent CLIs and most Microsoft plugin MCP servers. Several Microsoft plugins require 22+; mobile-apps requires 24 LTS.",
+      "check": { "cmd": "node --version", "min": "24.0.0" },
       "install": {
         "win": "winget install -e --id OpenJS.NodeJS.LTS",
-        "mac": "brew install node@22",
-        "linux": "Install via nvm: https://github.com/nvm-sh/nvm then `nvm install 22`"
+        "mac": "brew install node@24",
+        "linux": "Install via nvm: https://github.com/nvm-sh/nvm then `nvm install 24`"
       },
       "scope": { "win": "admin" },
       "after": "Open a new terminal so PATH refreshes."
@@ -79,8 +79,9 @@
       "name": "Power Platform CLI (pac)",
       "tier": "required",
       "why": "The backbone of every Power Platform agent workflow — auth, environments, solutions, PCF.",
-      "check": { "cmd": "pac help", "failIfOutputMatches": "No Microsoft.PowerApps.CLI has been installed" },
+      "check": { "cmd": "pac help", "min": "2.11.1", "failIfOutputMatches": "No Microsoft.PowerApps.CLI has been installed" },
       "install": { "all": "dotnet tool install --global Microsoft.PowerApps.CLI.Tool" },
+      "update": "dotnet tool update --global Microsoft.PowerApps.CLI.Tool",
       "repair": { "shim": "pac install latest   (user-scoped, no admin — fixes an Intune/MSI shim on PATH with no CLI behind it)" },
       "scope": { "win": "user" },
       "after": "Open a new terminal so PATH refreshes."
@@ -93,7 +94,7 @@
       "check": { "cmd": "az version" },
       "install": {
         "win": "winget install -e --id Microsoft.AzureCLI",
-        "mac": "brew install azure-cli",
+        "mac": "brew install --cask azure-cli",
         "linux": "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
       },
       "scope": { "win": "admin" },

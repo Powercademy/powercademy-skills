@@ -3,6 +3,39 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.10.1] — 2026-10-12
+
+### Added
+
+- **Upstream watch, wider net:**
+  - `microsoft/copilot-studio-plugin` (`mcs-assistant`, the plugin for
+    GitHub Copilot harness agents) joins the watched repos alongside
+    skills-for-copilot-studio (standard agents).
+  - `microsoft/cat-agent-skills` watched as a **gallery**: new submissions
+    that touch our lanes are actionable, the rest informational.
+  - **Package existence check** — every winget, Homebrew, npm, NuGet, PyPI and
+    VS Code Marketplace ID plus every URL in the toolchain manifest, parsed
+    from the install commands themselves, checked weekly (33 at baseline, all
+    resolving). Latest versions are recorded and reported as informational.
+  - **Version floor check** — if an upstream plugin we install states a
+    higher Node/.NET/Python/JDK/pac floor than the manifest's `check.min`,
+    it's flagged. New `pac x.y.z or higher` prerequisite signal.
+
+### Fixed
+
+The first run of the wider watch caught three real drifts:
+
+- **Azure CLI on macOS** moved from a Homebrew formula to a cask —
+  `brew install azure-cli` now fails; manifest uses `--cask`.
+- **Node.js floor 22 → 24** — Microsoft's mobile-apps plugin now requires
+  Node 24 LTS. The Windows LTS install already delivers 24; macOS/Linux
+  commands, the installer fallback and docs updated.
+- **pac floor 2.11.1** (previously none) — the Dataverse plugin's X++ skill
+  requires it. pac also gains an `update` command
+  (`dotnet tool update --global …`) so outdated installs upgrade in place;
+  both doctor skills now prefer an item's `update` command.
+- doctor 0.4.1.
+
 ## [0.10.0] — 2026-10-12
 
 ### Added
