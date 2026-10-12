@@ -69,7 +69,7 @@ evaluation; overlaps the audit space at the *GUI* level, not agent-skill level.
 | `map-tenant` (#13) | **Confirmed white space** | Appears in no Microsoft plugin inventory |
 | `alm` plugin (#14) | **White space with a carve-out** | Cross-workload ALM *process design* is uncovered. **Power Pages promotion is fully covered** (plan-alm→setup-solution→setup-pipeline→deploy-pipeline→ensure-pipelines-host, native Pipelines) and dv-solution owns Dataverse solution mechanics. Our plugin designs the process and routes execution to theirs; it never re-implements a pipeline |
 | HTML artifacts (#15) | **Validated direction, contested aesthetics** | procode-eval already ships self-contained HTML dashboards — the pattern is proven; our bar is to be distinctively better (verdict-first design language) |
-| Watch-mode (#16) | **Solid** | FlowAgent bundling confirmed locally (power-automate `.mcp.json` + `server/mcp.mjs`) |
+| Watch-mode (#16) | **Dropped (0.12.0)** | Closed with flow-builder's retirement — power-automate's own skills now build and edit flows directly |
 
 ## Orchestrator routing table (draft — for the orchestrator skill)
 
