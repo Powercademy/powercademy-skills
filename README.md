@@ -21,6 +21,17 @@ methodology the capability-scoped Microsoft skills can't hold.
 > **New here and using Copilot?** Jump to the
 > [GitHub Copilot setup guide](docs/copilot-setup.md).
 
+## Start here — two steps
+
+1. **Bootstrap** (one command, below) — installs the `doctor` plugin into
+   GitHub Copilot CLI and/or Claude Code.
+2. **Say "set up my workstation"** — the `setup-workstation` skill asks what
+   you'll build, then installs everything else: SDKs, CLIs, Microsoft's
+   plugins, the workloads you pick. One plan, one approval, verified at the
+   end. Proven on clean Windows, macOS and Linux machines.
+
+Later, if anything breaks: **"check my setup"**.
+
 ## Prerequisites
 
 Almost none by hand — the installer and the skills do the heavy lifting
@@ -60,6 +71,32 @@ Manual bootstrap, inside a Claude Code or Copilot CLI session:
 ```
 
 ## What's included
+
+### doctor (0.5.1) — start here
+
+The answer to "why is setting this up such a pain?" — the first thing you run,
+and the place you come back to when something breaks:
+
+- **`setup-workstation`** — takes a machine from nothing to fully equipped for
+  end-to-end Power Platform work. Asks which workloads you'll build (flows,
+  canvas, model-driven, Pages, code apps, Copilot Studio — standard or GitHub
+  Copilot harness agents — PCF, mobile, process mining, ALM), inventories
+  what's there, shows **one plan** for one approval, then installs — user-scoped first, with anything needing admin rights written
+  up as a paste-ready IT request. Signs you in, verifies every tool actually
+  runs, and ends with a readiness card. Re-run it to add a workload.
+- **`check-setup`** — diagnose and repair an existing toolchain: outdated or
+  shimmed CLIs, **auth profiles** (who am I signed in as, where — the pain
+  centre), the wrong tenant, plugins that won't load or drift between
+  runtimes, MCP wiring. Say "check my setup" or "my auth is a mess".
+
+Both read one versioned
+[toolchain manifest](plugins/doctor/shared/toolchain-manifest.json), and a
+weekly [upstream watch](.github/workflows/upstream-watch.yml) opens an issue
+whenever Microsoft's plugins change what they need, a package in the manifest
+is renamed or pulled, or a community skill lands in our lanes — so the setup
+doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
+workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
+the whole manifest, installing into both Claude Code and Copilot CLI.
 
 ### pcf-builder (0.2.0)
 
@@ -129,32 +166,6 @@ The judgement layer as a checklist — applied before anything gets built:
 - **`writing-skills`** — the house standard for authoring marketplace skills:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.
-
-### doctor (0.5.0)
-
-The answer to "why is setting this up such a pain?" — the first thing you run,
-and the place you come back to when something breaks:
-
-- **`setup-workstation`** — takes a machine from nothing to fully equipped for
-  end-to-end Power Platform work. Asks which workloads you'll build (flows,
-  canvas, model-driven, Pages, code apps, Copilot Studio — standard or GitHub
-  Copilot harness agents — PCF, mobile, process mining, ALM), inventories what's there, shows **one plan** for one approval,
-  then installs — user-scoped first, with anything needing admin rights written
-  up as a paste-ready IT request. Signs you in, verifies every tool actually
-  runs, and ends with a readiness card. Re-run it to add a workload.
-- **`check-setup`** — diagnose and repair an existing toolchain: outdated or
-  shimmed CLIs, **auth profiles** (who am I signed in as, where — the pain
-  centre), the wrong tenant, plugins that won't load or drift between
-  runtimes, MCP wiring. Say "check my setup" or "my auth is a mess".
-
-Both read one versioned
-[toolchain manifest](plugins/doctor/shared/toolchain-manifest.json), and a
-weekly [upstream watch](.github/workflows/upstream-watch.yml) opens an issue
-whenever Microsoft's plugins change what they need, a package in the manifest
-is renamed or pulled, or a community skill lands in our lanes — so the setup
-doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
-workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
-the whole manifest, installing into both Claude Code and Copilot CLI.
 
 ## Roadmap
 
