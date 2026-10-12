@@ -163,8 +163,6 @@ All tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues
 - **audit-solution** — inherited-solution auditor (grounding as a product)
 - **advise-licensing** — doc-verified licensing verdicts, never from memory
 - **map-tenant** — first-day cartography of an unfamiliar customer tenant
-- **Watch-mode building** — spec-driven execution with checkpoint gates when
-  Microsoft's tooling is present
 - **session-debrief** — end-of-session retrospective that drafts gotcha
   contributions
 - **Next — the orchestrator.** A top-level "front door" skill that knows the
