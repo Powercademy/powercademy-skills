@@ -118,7 +118,10 @@ Work the approved plan:
    `${PLUGIN_ROOT}/shared/microsoft-refs.md`), re-run the check, and only if that
    still fails tell the user to open a new terminal.
 4. **Marketplaces and plugins** — register each marketplace, then install each
-   plugin, into **every runtime present**. Exact commands per runtime are in
+   plugin, into **every runtime present**. Honour the manifest's runtime fields:
+   an item with `runtimes` applies only to those runtimes, and
+   `marketplaceByRuntime` names a different marketplace for a given runtime
+   (its `runtimeNote` says why). Exact commands per runtime are in
    `${PLUGIN_ROOT}/shared/microsoft-refs.md`. New plugins and MCP servers load
    only after the agent restarts — say so, and say it once, at the end.
 

@@ -44,14 +44,25 @@ function sh(cmd, { timeout = 120000 } = {}) {
   return { ok: r.status === 0 && !r.error, code: r.error ? r.error.code : r.status, out };
 }
 
+// Merge newly registered PATH entries into this process — append what's
+// missing, never replace (replacing drops session-only entries such as the
+// npm global bin an agent runtime was launched from) and never duplicate
+// (Windows refuses environment blocks past 32,767 characters).
 function refreshPath() {
+  const sep = OS === "win" ? ";" : ":";
+  let add;
   if (OS === "win") {
     const r = sh(`powershell -NoProfile -Command "[Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')"`);
-    if (r.ok) process.env.PATH = `${r.out};${process.env.PATH}`;
+    if (!r.ok) return;
+    add = r.out.split(";");
   } else {
-    const extra = [`${process.env.HOME}/.dotnet/tools`, "/opt/homebrew/bin", "/usr/local/bin", `${process.env.HOME}/.local/bin`];
-    process.env.PATH = `${extra.join(":")}:${process.env.PATH}`;
+    add = [`${process.env.HOME}/.dotnet/tools`, "/opt/homebrew/bin", "/usr/local/bin", `${process.env.HOME}/.local/bin`];
   }
+  const have = process.env.PATH.split(sep);
+  const norm = (p) => p.replace(/[\\/]+$/, "").toLowerCase();
+  const seen = new Set(have.map(norm));
+  for (const p of add) if (p && !seen.has(norm(p))) { have.push(p); seen.add(norm(p)); }
+  process.env.PATH = have.join(sep);
 }
 
 // ── manifest helpers ──────────────────────────────────────────
@@ -115,21 +126,21 @@ function doTool(item) {
   refreshPath();
   c = checkTool(item);
   if (c.state === "ready") return { status: "installed", note: `${before} → ${c.version || "ok"} via \`${cmd}\`` };
-  return { status: "fail", note: `${before}; ran \`${cmd}\` (exit ${r.code}); still ${c.state}${c.version ? " " + c.version : ""}. ${r.out.split("\n").slice(-3).join(" ").slice(0, 300)}` };
+  return { status: "fail", note: `${before}; ran \`${cmd}\` (exit ${r.code}); still ${c.state}${c.version ? " " + c.version : ""}. Install said: ${r.out.split("\n").slice(-3).join(" ").slice(0, 300)} — check said: ${(c.out || "").split("\n").slice(0, 3).join(" ").slice(0, 300)}` };
 }
 
 // ── marketplaces, plugins, MCP per runtime ────────────────────
 const runtimes = ["claude", "copilot"].filter((cli) => sh(`${cli} --version`).ok);
 const pluginLists = {};
 const listPlugins = (cli) => (pluginLists[cli] = sh(`${cli} plugin list`).out);
-const repoOf = (marketplace) => manifest.items.find((i) => i.type === "marketplace" && i.marketplace === marketplace)?.repo;
+const forRuntimes = (item) => runtimes.filter((cli) => !item.runtimes || item.runtimes.includes(cli));
 
 function doMarketplace(item) {
   const res = [];
-  for (const cli of runtimes) {
+  for (const cli of forRuntimes(item)) {
     if (!INSTALL) { res.push(sh(`${cli} plugin marketplace list`).out.includes(item.marketplace) ? `${cli} ✓` : `${cli} ✗ not registered`); continue; }
     const r = sh(`${cli} plugin marketplace add ${item.repo}`, { timeout: 300000 });
-    res.push(r.ok || /already/i.test(r.out) ? `${cli} ✓` : `${cli} ✗ ${r.out.slice(0, 160)}`);
+    res.push(r.ok || /already/i.test(r.out) ? `${cli} ✓` : `${cli} ✗ ${r.out.replace(/s+/g, " ").slice(0, 600)}`);
   }
   return { status: res.some((x) => x.includes("✗")) ? "fail" : runtimes.length ? "ready" : "skip", note: res.join(" · ") || "no runtime" };
 }
@@ -137,12 +148,12 @@ function doMarketplace(item) {
 function doPlugin(item) {
   const names = item.plugins || [item.plugin];
   const res = [];
-  for (const cli of runtimes) {
+  for (const cli of forRuntimes(item)) {
     for (const n of names) {
-      const spec = `${n}@${item.marketplace}`;
+      const spec = `${n}@${item.marketplaceByRuntime?.[cli] || item.marketplace}`;
       if (INSTALL && !new RegExp(`\\b${n}\\b`).test(pluginLists[cli] ?? listPlugins(cli))) {
         const r = sh(cli === "claude" ? `claude plugin install ${spec} --scope user` : `copilot plugin install ${spec}`, { timeout: 300000 });
-        if (!r.ok && !/already/i.test(r.out)) { res.push(`${cli} ✗ ${n}: ${r.out.slice(0, 160)}`); continue; }
+        if (!r.ok && !/already/i.test(r.out)) { res.push(`${cli} ✗ ${n}: ${r.out.replace(/s+/g, " ").slice(0, 600)}`); continue; }
         listPlugins(cli);
       }
       res.push(new RegExp(`\\b${n}\\b`).test(pluginLists[cli] ?? listPlugins(cli)) ? `${cli} ✓ ${n}` : `${cli} ✗ ${n} not listed after install`);
@@ -174,8 +185,10 @@ const rows = [];
 for (const item of [...plan.items].sort((a, b) => order(a) - order(b))) {
   const t0 = Date.now();
   let r;
+  const blockers = (item.dependsOn || []).filter((d) => ["manual", "fail", "blocked"].includes(rows.find((x) => x.id === d)?.status));
   try {
-    r = item.type === "marketplace" ? doMarketplace(item)
+    r = blockers.length ? { status: "blocked", note: `needs ${blockers.join(", ")} first` }
+      : item.type === "marketplace" ? doMarketplace(item)
       : item.type === "plugin" ? doPlugin(item)
       : item.type === "mcp" ? doMcp(item, planPlugins)
       : doTool(item);
@@ -185,14 +198,14 @@ for (const item of [...plan.items].sort((a, b) => order(a) - order(b))) {
   console.error(`${r.status.padEnd(9)} ${item.id} (${secs}s) ${r.note || ""}`);
 }
 
-const icon = { ready: "✅", installed: "🆕", skip: "➖", manual: "✋", fail: "❌" };
+const icon = { ready: "✅", installed: "🆕", skip: "➖", manual: "✋", blocked: "⏸", fail: "❌" };
 const count = (s) => rows.filter((r) => r.status === s).length;
 const report = [
   `## Workstation smoke — ${OS}`,
   "",
   `Runtimes: ${runtimes.join(", ") || "none"} · workloads: ${plan.chosen.join(", ")} · ${rows.length} items`,
   "",
-  `✅ ready ${count("ready")} · 🆕 installed ${count("installed")} · ✋ manual ${count("manual")} · ➖ skipped ${count("skip")} · ❌ failed ${count("fail")}`,
+  `✅ ready ${count("ready")} · 🆕 installed ${count("installed")} · ✋ manual ${count("manual")} · ⏸ blocked ${count("blocked")} · ➖ skipped ${count("skip")} · ❌ failed ${count("fail")}`,
   "",
   "| | Item | Tier | Detail | s |",
   "|---|---|---|---|---|",

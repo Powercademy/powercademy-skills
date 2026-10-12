@@ -41,6 +41,12 @@ Marketplaces used by the manifest:
 | `powercademy-skills` | `Powercademy/powercademy-skills` | Our methodology plugins |
 | `skills-for-copilot-studio` | `microsoft/skills-for-copilot-studio` | Copilot Studio skills for **standard** agents (`copilot-studio`) |
 | `copilot-studio-plugin` | `microsoft/copilot-studio-plugin` | Copilot Studio authoring for **GitHub Copilot harness** agents (`mcs-assistant`) |
+| `claude-plugins-official` | `anthropics/claude-plugins-official` | Claude Code only. Source of `dataverse` for Claude Code — the same Microsoft plugin, listed with a full HTTPS URL. Microsoft's own entry uses a shorthand `git-subdir` source that Claude Code fails to clone without a GitHub SSH key |
+
+**winget, non-interactively:** the first winget call on a machine asks the user
+to accept source agreements and fails without a terminal to answer it. Every
+winget command in the manifest therefore carries
+`--accept-source-agreements --accept-package-agreements` — keep them.
 | `power-cat-skills` | `microsoft/power-cat-skills` | Power CAT advisory plugins |
 
 List and compare: `claude plugin list` / `copilot plugin list` — flag version
@@ -68,8 +74,13 @@ A fresh install isn't on the current session's PATH. On Windows, refresh
 in-session before concluding an install failed:
 
 ```powershell
-$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+$env:Path = (($env:Path -split ';') + ([Environment]::GetEnvironmentVariable('Path','Machine') -split ';') + ([Environment]::GetEnvironmentVariable('Path','User') -split ';') | Where-Object { $_ } | Select-Object -Unique) -join ';'
 ```
+
+This *merges* rather than replaces: replacing drops session-only entries (such
+as the folder the agent runtime itself was launched from), and blindly
+appending can push PATH past Windows' 32,767-character limit, after which
+nothing on PATH resolves.
 
 Then re-run the item's check. Only if it still fails, ask the user to open a new
 terminal.
