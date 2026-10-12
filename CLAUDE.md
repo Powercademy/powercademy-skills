@@ -12,9 +12,20 @@ layer opinions on top.
 
 ## Hard constraints (never violate)
 
-1. **Dual-runtime portability.** Every skill MUST work in both GitHub Copilot
-   CLI and Claude Code. Copilot CLI is the first-class citizen (target users are
-   in Copilot-approved enterprises).
+1. **Dual-runtime, always.** Powercademy Skills is for GitHub Copilot CLI
+   *and* Claude Code — never one of them. Every skill, plugin, installer step,
+   manifest item, doc and test must work in both. Copilot CLI is the
+   first-class citizen (target users are in Copilot-approved enterprises);
+   Claude Code is never an afterthought either.
+   - Anything that installs or registers something does it **into every runtime
+     present** on the machine.
+   - Runtime-specific divergence is allowed only when a runtime genuinely
+     can't do the same thing, and only as explicit data with a reason — e.g.
+     the manifest's `runtimes`, `marketplaceByRuntime` + `runtimeNote`. Never a
+     silent "Claude-only" or "Copilot-only" path.
+   - Proof, not intent: the fresh-machine workflow installs into both runtimes
+     on Windows, macOS and Linux, and trigger evals run per runtime. A change
+     that hasn't been shown working in both isn't done (see Testing below).
    - Skills only. No `commands/` directory, no `styles/`, no Claude-only
      features in core functionality.
    - Hooks are OPTIONAL enhancements only — nothing may depend on them.
@@ -79,6 +90,11 @@ A change is done only when verified in BOTH runtimes:
 1. `claude --plugin-dir ./plugins/<plugin>` — skill triggers and behaves
 2. Copilot CLI local install of the same plugin — skill triggers and behaves
 3. Fresh-clone install flow works via `scripts/install.js`
+4. Anything touching the doctor plugin, the toolchain manifest or the
+   installer: the `fresh-machine` workflow is green on Windows, macOS and
+   Linux (throwaway GitHub-hosted VMs; installs into both runtimes). Never run
+   `scripts/test/workstation-smoke.js` without `--no-install` on a real
+   machine — it really installs things.
 
 ## Reference material
 

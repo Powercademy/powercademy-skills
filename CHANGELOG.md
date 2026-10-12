@@ -3,6 +3,61 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.11.0] — 2026-10-12
+
+Setup proven on clean machines: Windows, macOS and Linux, both runtimes.
+
+### Added
+
+- **Copilot Studio harness agents** — the Copilot Studio workload now asks
+  *standard, GitHub Copilot harness, or both* (default both). Harness installs
+  `mcs-assistant` from `microsoft/copilot-studio-plugin`; standard keeps
+  `copilot-studio` from `skills-for-copilot-studio`. Workloads can carry
+  `variants` for follow-up questions like this.
+- **`fresh-machine` workflow** — throwaway GitHub-hosted VMs (Windows, macOS,
+  Ubuntu) run the published bootstrap, then
+  `scripts/test/workstation-smoke.js` executes the whole manifest the way
+  setup-workstation does: check, install / upgrade / repair with the
+  manifest's own commands, refresh PATH, re-check against the floor, and
+  install every marketplace and plugin into **both** Claude Code and Copilot
+  CLI. Runs on doctor/manifest/installer changes and weekly. An optional job
+  runs the real skill end to end when an `ANTHROPIC_API_KEY` secret exists.
+- Manifest checks can carry `diagnose` entries (known failure signature →
+  named repair, with `setEnv` applied in-session), per-OS
+  `expectOutputMatches`, and items can declare `runtimes` /
+  `marketplaceByRuntime` with a `runtimeNote`.
+
+### Fixed — found by the clean-machine runs
+
+- **winget prompted for source agreements** on first use and failed without a
+  terminal; every winget command now accepts them.
+- **PATH refresh could break the session** — replacing PATH dropped
+  session-only entries, and blind appending overflowed Windows' 32,767-character
+  limit, after which nothing resolved (not even `claude`/`copilot`). Refresh
+  now merges and de-duplicates (refs one-liner + smoke).
+- **Dataverse Python SDK on macOS** — Homebrew Python refuses `pip install`
+  (PEP 668). Install is now user-scoped and uses Microsoft's full dv-connect
+  package list (adds requests, pandas, msal, msal-extensions).
+- **Dataverse plugin on Claude Code** — Microsoft's marketplace entry uses a
+  shorthand git-subdir source that Claude Code can't clone without a GitHub
+  SSH key; Claude Code now installs the same plugin from
+  `claude-plugins-official`.
+- **pac on macOS/Linux** — "You must install .NET to run this application"
+  when .NET lives outside its default folder; diagnosed and repaired by
+  setting `DOTNET_ROOT`.
+- **Android Studio check** — `where studio64` could never pass on Windows (not
+  on PATH); now checks the install location per OS.
+- VS Code and Android Studio install via snap on Linux (were manual).
+
+### Changed
+
+- **CLAUDE.md constitution: "Dual-runtime, always."** Everything — skills,
+  plugins, installer, manifest, docs, tests — serves GitHub Copilot CLI *and*
+  Claude Code; divergence only as explicit data with a reason; proof required
+  (fresh-machine green in both runtimes). writing-skills opens with the same
+  founding rule.
+- doctor 0.5.0, conventions 0.1.3.
+
 ## [0.10.1] — 2026-10-12
 
 ### Added

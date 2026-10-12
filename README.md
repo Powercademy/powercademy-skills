@@ -1,7 +1,7 @@
 # Powercademy Skills
 
-An opinionated plugin marketplace for **Power Platform delivery**, for Claude
-Code and GitHub Copilot CLI.
+An opinionated plugin marketplace for **Power Platform delivery**, for GitHub
+Copilot CLI **and** Claude Code — every skill works in both.
 
 Microsoft's official plugins
 ([power-platform-skills](https://github.com/microsoft/power-platform-skills),
@@ -144,15 +144,15 @@ The judgement layer as a checklist — applied before anything gets built:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.
 
-### doctor (0.4.1)
+### doctor (0.5.0)
 
 The answer to "why is setting this up such a pain?" — the first thing you run,
 and the place you come back to when something breaks:
 
 - **`setup-workstation`** — takes a machine from nothing to fully equipped for
   end-to-end Power Platform work. Asks which workloads you'll build (flows,
-  canvas, model-driven, Pages, code apps, Copilot Studio, PCF, mobile, process
-  mining, ALM), inventories what's there, shows **one plan** for one approval,
+  canvas, model-driven, Pages, code apps, Copilot Studio — standard or GitHub
+  Copilot harness agents — PCF, mobile, process mining, ALM), inventories what's there, shows **one plan** for one approval,
   then installs — user-scoped first, with anything needing admin rights written
   up as a paste-ready IT request. Signs you in, verifies every tool actually
   runs, and ends with a readiness card. Re-run it to add a workload.
@@ -166,7 +166,9 @@ Both read one versioned
 weekly [upstream watch](.github/workflows/upstream-watch.yml) opens an issue
 whenever Microsoft's plugins change what they need, a package in the manifest
 is renamed or pulled, or a community skill lands in our lanes — so the setup
-doesn't quietly rot.
+doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
+workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
+the whole manifest, installing into both Claude Code and Copilot CLI.
 
 ## Roadmap
 

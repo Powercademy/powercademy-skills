@@ -13,6 +13,15 @@ in every runtime it ships to. Apply it when writing; enforce it when reviewing.
 
 ---
 
+## The founding rule: both runtimes, always
+
+Every Powercademy skill is for GitHub Copilot CLI **and** Claude Code. A skill
+that only works — or was only tested — in one runtime isn't finished. Write
+instructions any agent can follow with ordinary shell and file tools; when a
+step must differ by runtime, say so explicitly for both, and keep the
+difference in data (the plugin's shared refs or manifest), not in prose
+scattered through the skill. The constraints below exist to protect this rule.
+
 ## The hard constraints (lint-enforced — violating them fails CI)
 
 1. **Frontmatter is `name` + `description` only.** Anything else
