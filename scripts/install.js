@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 /**
- * Powercademy Skills — Installer
+ * Powercademy Skills — bootstrap installer
  *
- * Registers BOTH marketplaces (microsoft/power-platform-skills and this repo)
- * and installs their plugins for whichever CLIs are present: Claude Code
- * and/or GitHub Copilot CLI. Installs the pac CLI if missing.
+ * The one step that has to happen before any skill can run: checks the
+ * bootstrap tier (Node, git, an agent runtime), registers the Powercademy
+ * marketplace, and installs the `doctor` plugin. Everything else — SDKs, CLIs,
+ * Microsoft's plugins, workloads, MCP servers — is done conversationally by the
+ * setup-workstation skill, which this installer hands over to.
+ *
+ * Version floors come from the toolchain manifest (single source of truth):
+ * local copy when run from a clone, fetched from GitHub when piped via curl,
+ * built-in fallbacks if neither is reachable.
  *
  * Usage:
  *   node scripts/install.js                       (from a local clone)
@@ -12,65 +18,30 @@
  */
 
 const { execSync } = require("child_process");
-const path = require("path");
-const os = require("os");
-const https = require("https");
 const fs = require("fs");
+const path = require("path");
+const https = require("https");
 
-// ── Config ────────────────────────────────────────────────────
-// Microsoft's marketplace first: this repo layers on top of it.
-const MARKETPLACES = [
-  {
-    repo: "microsoft/power-platform-skills",
-    name: "power-platform-skills",
-    plugins: ["power-automate"],
-  },
-  {
-    repo: "Powercademy/powercademy-skills",
-    name: "powercademy-skills",
-    plugins: ["flow-builder"],
-  },
-];
+const REPO = "Powercademy/powercademy-skills";
+const MARKETPLACE = "powercademy-skills";
+const BOOTSTRAP_PLUGINS = ["doctor"];
+const MANIFEST_REL = "plugins/doctor/shared/toolchain-manifest.json";
+const FALLBACK_MIN = { node: "22.0.0", "copilot-cli": "1.0.71" };
 
-// ── Colours (disabled when output is piped) ───────────────────
+// ── output ────────────────────────────────────────────────────
 const tty = process.stdout.isTTY;
-const bold = (s) => (tty ? `\x1b[1m${s}\x1b[0m` : s);
-const green = (s) => (tty ? `\x1b[32m${s}\x1b[0m` : s);
-const yellow = (s) => (tty ? `\x1b[33m${s}\x1b[0m` : s);
-const red = (s) => (tty ? `\x1b[31m${s}\x1b[0m` : s);
+const c = (code) => (s) => (tty ? `\x1b[${code}m${s}\x1b[0m` : s);
+const bold = c(1), green = c(32), yellow = c(33), red = c(31);
+const ok = (m) => console.log(`  ${green("✓")} ${m}`);
+const warn = (m) => console.log(`  ${yellow("!")} ${m}`);
+const fail = (m) => console.log(`  ${red("✗")} ${m}`);
+const header = (m) => console.log(`\n${bold(m)}`);
+const info = (m) => console.log(`  ${m}`);
 
-const ok = (msg) => console.log(`  ${green("✓")} ${msg}`);
-const warn = (msg) => console.log(`  ${yellow("!")} ${msg}`);
-const fail = (msg) => console.log(`  ${red("✗")} ${msg}`);
-const header = (msg) => console.log(`\n${bold(msg)}`);
-const info = (msg) => console.log(`  ${msg}`);
-
-// Copilot CLI's plugin/marketplace subcommands only stabilised at v1.0.71
-// (July 2026). Below this, the install commands below will fail confusingly.
-const COPILOT_MIN_VERSION = "1.0.71";
-
-// Compare dotted numeric versions. Returns -1 / 0 / 1.
-function compareVersions(a, b) {
-  const pa = a.split(".").map(Number);
-  const pb = b.split(".").map(Number);
-  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
-    const d = (pa[i] || 0) - (pb[i] || 0);
-    if (d !== 0) return d < 0 ? -1 : 1;
-  }
-  return 0;
-}
-
-// Pull a dotted version out of arbitrary CLI --version output.
-function extractVersion(s) {
-  const m = s && s.match(/(\d+\.\d+\.\d+)/);
-  return m ? m[1] : null;
-}
-
-// ── Helpers ───────────────────────────────────────────────────
+// ── helpers ───────────────────────────────────────────────────
 function hasCommand(cmd) {
   try {
-    const which = process.platform === "win32" ? "where" : "which";
-    execSync(`${which} ${cmd}`, { stdio: "pipe" });
+    execSync(`${process.platform === "win32" ? "where" : "which"} ${cmd}`, { stdio: "pipe" });
     return true;
   } catch {
     return false;
@@ -79,128 +50,144 @@ function hasCommand(cmd) {
 
 function run(cmd) {
   try {
-    const output = execSync(cmd, { stdio: "pipe", timeout: 120_000, shell: true });
-    return { ok: true, output: output.toString().trim() };
+    return { ok: true, output: execSync(cmd, { stdio: "pipe", timeout: 120_000, shell: true }).toString().trim() };
   } catch (err) {
-    const stderr = err.stderr ? err.stderr.toString().trim() : err.message;
-    return { ok: false, output: stderr };
+    return { ok: false, output: err.stderr ? err.stderr.toString().trim() : err.message };
   }
 }
 
-// ── Marketplace + plugin install for one CLI ──────────────────
+function compareVersions(a, b) {
+  const pa = a.split(".").map(Number), pb = b.split(".").map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const d = (pa[i] || 0) - (pb[i] || 0);
+    if (d !== 0) return d < 0 ? -1 : 1;
+  }
+  return 0;
+}
+
+const extractVersion = (s) => (s && s.match(/(\d+\.\d+\.\d+)/) || [])[1] || null;
+
+function fetchText(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { "User-Agent": "powercademy-installer" } }, (res) => {
+      if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode}`));
+      let d = "";
+      res.on("data", (x) => (d += x));
+      res.on("end", () => resolve(d));
+    }).on("error", reject);
+  });
+}
+
+async function loadMinimums() {
+  const local = path.resolve(__dirname, "..", MANIFEST_REL);
+  let manifest = null;
+  try {
+    manifest = JSON.parse(fs.readFileSync(local, "utf8"));
+  } catch {
+    try {
+      manifest = JSON.parse(await fetchText(`https://raw.githubusercontent.com/${REPO}/main/${MANIFEST_REL}`));
+    } catch {}
+  }
+  if (!manifest) return { ...FALLBACK_MIN, source: "built-in defaults" };
+  const min = (id) => (manifest.items.find((i) => i.id === id) || {}).check?.min;
+  return {
+    node: min("node") || FALLBACK_MIN.node,
+    "copilot-cli": min("copilot-cli") || FALLBACK_MIN["copilot-cli"],
+    source: `toolchain manifest (verified ${manifest.lastVerified})`,
+  };
+}
+
 function installFor(cli, results) {
   header(cli === "claude" ? "Claude Code" : "GitHub Copilot CLI");
+  info(`Registering marketplace ${MARKETPLACE}...`);
+  const add = run(`${cli} plugin marketplace add "${REPO}"`);
+  if (add.ok || add.output.includes("already")) {
+    ok(`${MARKETPLACE} registered`);
+  } else if (/differs from the one declared/i.test(add.output)) {
+    // Claude Code: a declaration in ~/.claude/settings.json (extraKnownMarketplaces)
+    // still points at an older source — e.g. the pre-transfer HowdangPowercademy slug.
+    warn(`${MARKETPLACE} is declared in your Claude Code settings with an older source.`);
+    info(`Fix: in ~/.claude/settings.json set extraKnownMarketplaces.${MARKETPLACE}.source.repo to "${REPO}",`);
+    info(`then run: claude plugin marketplace add ${REPO}   (or ask the doctor: "check my setup")`);
+    return;
+  } else {
+    return fail(`Could not register ${MARKETPLACE}: ${add.output}`);
+  }
 
-  for (const mp of MARKETPLACES) {
-    info(`Registering marketplace ${mp.name}...`);
-    const add = run(`${cli} plugin marketplace add "${mp.repo}"`);
-    if (add.ok || add.output.includes("already")) {
-      ok(`${mp.name} registered`);
+  for (const plugin of BOOTSTRAP_PLUGINS) {
+    const cmd = cli === "claude"
+      ? `claude plugin install "${plugin}@${MARKETPLACE}" --scope user`
+      : `copilot plugin install "${plugin}@${MARKETPLACE}"`;
+    const r = run(cmd);
+    if (r.ok || r.output.includes("already installed")) {
+      ok(`${plugin} installed`);
+      results.push(`${plugin} → ${cli}`);
     } else {
-      fail(`Could not register ${mp.name}: ${add.output}`);
-      continue;
-    }
-
-    for (const plugin of mp.plugins) {
-      info(`Installing ${plugin}...`);
-      const installCmd =
-        cli === "claude"
-          ? `claude plugin install "${plugin}@${mp.name}" --scope user`
-          : `copilot plugin install "${plugin}@${mp.name}"`;
-      const install = run(installCmd);
-      if (install.ok || install.output.includes("already installed")) {
-        ok(`${plugin} installed`);
-        results.push(`${plugin}@${mp.name} → ${cli}`);
-      } else {
-        fail(`Could not install ${plugin}: ${install.output}`);
-      }
+      fail(`Could not install ${plugin}: ${r.output}`);
     }
   }
 }
 
-// ── Main ──────────────────────────────────────────────────────
-async function main() {
+// ── main ──────────────────────────────────────────────────────
+(async () => {
   console.log("");
-  console.log(bold("Powercademy Skills — Installer"));
+  console.log(bold("Powercademy Skills — Bootstrap"));
   console.log("──────────────────────────────");
 
-  // ── Detect CLIs ────────────────────────────────────────────
-  header("Checking prerequisites");
-  ok(`Node.js ${process.version}`);
+  const min = await loadMinimums();
+  header("Checking the bootstrap tier");
+  info(`Minimums from ${min.source}`);
+
+  const nodeV = process.version.replace(/^v/, "");
+  if (compareVersions(nodeV, min.node) < 0) {
+    warn(`Node.js ${nodeV} is below ${min.node} — several Power Platform plugins need it. setup-workstation will offer the upgrade.`);
+  } else {
+    ok(`Node.js ${nodeV}`);
+  }
+
+  if (!hasCommand("git")) {
+    fail("git not found — plugin marketplaces are cloned with git, so nothing else can install without it.");
+    info("Windows: winget install -e --id Git.Git    macOS: xcode-select --install    Linux: your package manager");
+    info("Then open a new terminal and run this installer again.");
+    process.exit(1);
+  }
+  ok("git");
 
   const tools = [];
   if (hasCommand("claude")) {
-    const ver = run("claude --version");
+    const v = run("claude --version");
     tools.push("claude");
-    ok(`Claude Code ${ver.ok ? ver.output : "(version unknown)"}`);
+    ok(`Claude Code ${v.ok ? v.output : ""}`);
   }
   if (hasCommand("copilot")) {
-    const ver = run("copilot --version");
+    const v = run("copilot --version");
     tools.push("copilot");
-    ok(`GitHub Copilot CLI ${ver.ok ? ver.output : "(version unknown)"}`);
-    const cv = ver.ok ? extractVersion(ver.output) : null;
-    if (cv && compareVersions(cv, COPILOT_MIN_VERSION) < 0) {
-      warn(
-        `Copilot CLI ${cv} is below ${COPILOT_MIN_VERSION} — plugin/marketplace commands may fail. Run 'copilot update' first.`
-      );
+    ok(`GitHub Copilot CLI ${v.ok ? v.output : ""}`);
+    const cv = v.ok ? extractVersion(v.output) : null;
+    if (cv && compareVersions(cv, min["copilot-cli"]) < 0) {
+      warn(`Copilot CLI ${cv} is below ${min["copilot-cli"]} — plugin commands may fail. Run 'copilot update' first.`);
     }
   }
-
   if (tools.length === 0) {
-    fail("Neither Claude Code nor GitHub Copilot CLI found in PATH.");
-    console.log("");
-    console.log("  Install at least one and ensure it is on your PATH:");
-    console.log("    Claude Code     https://docs.anthropic.com/en/docs/claude-code");
-    console.log("    GitHub Copilot  https://docs.github.com/en/copilot");
+    fail("No agent runtime found. Install at least one, then re-run:");
+    info("GitHub Copilot CLI   npm install -g @github/copilot   (then run `copilot` once to sign in)");
+    info("Claude Code          https://docs.anthropic.com/en/docs/claude-code");
     process.exit(1);
   }
 
-  // ── pac CLI ────────────────────────────────────────────────
-  header("Power Platform CLI (pac)");
-
-  if (hasCommand("pac")) {
-    const ver = run("pac help");
-    const versionMatch = ver.ok && ver.output.match(/Version:\s*(.+)/i);
-    ok(`pac CLI ${versionMatch ? versionMatch[1].trim() : "(installed)"}`);
-  } else if (hasCommand("dotnet")) {
-    info("pac CLI not found — installing via dotnet tool...");
-    const install = run("dotnet tool install --global Microsoft.PowerApps.CLI.Tool");
-    if (install.ok) {
-      ok("pac CLI installed (restart your terminal if 'pac' is not found)");
-    } else if (install.output.includes("already installed")) {
-      ok("pac CLI already installed (not on PATH — restart your terminal)");
-    } else {
-      fail(`Could not install pac CLI: ${install.output}`);
-      info("Install manually: https://aka.ms/PowerPlatformCLI");
-    }
-  } else {
-    warn("pac CLI not found and dotnet SDK unavailable — cannot auto-install.");
-    info("Install manually: https://aka.ms/PowerPlatformCLI");
-  }
-
-  // ── Install marketplaces + plugins ─────────────────────────
   const results = [];
   for (const cli of tools) installFor(cli, results);
 
-  // ── Summary ────────────────────────────────────────────────
-  header("Done!");
+  header("Bootstrap complete");
   console.log("");
-  if (results.length > 0) {
-    console.log("  Installed:");
-    for (const r of results) console.log(`    - ${r}`);
-  } else {
-    warn("Nothing was installed — see errors above.");
-  }
+  if (results.length) for (const r of results) console.log(`    - ${r}`);
+  else warn("Nothing was installed — see errors above.");
   console.log("");
-  console.log("  Powercademy's flow-builder layers on top of Microsoft's plugins:");
-  console.log("  their tools do the mechanics, these skills carry the methodology.");
+  console.log(bold("  Next: start your agent and say  \"set up my workstation\""));
+  console.log("  It installs everything else you need — SDKs, CLIs, Microsoft's plugins,");
+  console.log("  the workloads you choose — signs you in, and checks it all works.");
   console.log("");
-  console.log("  Try it: start a session and describe a flow you need to build —");
-  console.log('  e.g. "spec a flow that syncs new Dataverse contacts to SharePoint".');
-  console.log("");
-}
-
-main().catch((err) => {
-  fail(`Installation failed: ${err.message}`);
+})().catch((err) => {
+  fail(`Bootstrap failed: ${err.message}`);
   process.exit(1);
 });

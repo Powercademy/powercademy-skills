@@ -18,11 +18,19 @@
       ]
     },
     {
+      "skill": "setup-workstation",
+      "plugin": "doctor",
+      "prompt": "set up my new laptop for Power Platform development - install everything I need",
+      "alternates": [
+        "add Copilot Studio development to my workstation setup"
+      ]
+    },
+    {
       "skill": "check-setup",
       "plugin": "doctor",
-      "prompt": "am I set up for Power Platform development on this machine?",
+      "prompt": "pac isn't working and my auth profiles are a mess - check my setup and fix what's wrong",
       "alternates": [
-        "my pac auth is a mess, which account am I signed in as?"
+        "which account and tenant am I actually signed in as right now?"
       ]
     },
     {

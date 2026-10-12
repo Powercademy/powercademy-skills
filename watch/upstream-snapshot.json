@@ -1,0 +1,223 @@
+{
+  "takenAt": "2026-10-12",
+  "repos": {
+    "microsoft/power-platform-skills": {
+      "head": "3dd0cfb~2026-10-12",
+      "marketplacePlugins": [
+        "canvas-apps",
+        "code-apps-preview",
+        "dataverse",
+        "mcp-apps",
+        "mobile-app",
+        "model-apps",
+        "power-apps-mobile-extension",
+        "power-automate",
+        "power-pages",
+        "process-intelligence"
+      ],
+      "plugins": {
+        "canvas-apps": {
+          "version": "3.1.0",
+          "mcp": {
+            "canvas-authoring": "dnx Microsoft.PowerApps.CanvasAuthoring.McpServer"
+          },
+          "prereqs": [
+            ".net 10"
+          ]
+        },
+        "code-apps-preview": {
+          "version": "1.1.0",
+          "mcp": {},
+          "prereqs": [
+            "azure cli",
+            "node 20",
+            "node 22+"
+          ]
+        },
+        "mcp-apps": {
+          "version": "1.2.0",
+          "mcp": {},
+          "prereqs": []
+        },
+        "mobile-app": {
+          "version": "0.5.3",
+          "mcp": {
+            "microsoft-learn": "http https://learn.microsoft.com/api/mcp"
+          },
+          "prereqs": [
+            "azure cli",
+            "jdk 17",
+            "node 22",
+            "node 22+",
+            "node 24+"
+          ]
+        },
+        "model-apps": {
+          "version": "2.13.0",
+          "mcp": {
+            "playwright": "node -e const path=require('node:path'); const root=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT; if(!root) throw new Error('PLUGIN_ROOT is not set'); const mod=require(path.resolve(root,'scripts','launch-playwright-mcp.js')); if(mod&&typeof mod.launch==='function') mod.launch();"
+          },
+          "prereqs": [
+            "azure cli",
+            "node 20",
+            "node 22+",
+            "playwright"
+          ]
+        },
+        "power-apps-mobile-extension": {
+          "version": "0.1.0",
+          "mcp": {},
+          "prereqs": [
+            ".net 10",
+            "jdk 17",
+            "node 20+"
+          ]
+        },
+        "power-automate": {
+          "version": "3.2.1",
+          "mcp": {
+            "flowagent": "node -e const p=require('node:path'),fs=require('node:fs');const r=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT||process.cwd();const src=process.env.PLUGIN_ROOT?'PLUGIN_ROOT':process.env.CLAUDE_PLUGIN_ROOT?'CLAUDE_PLUGIN_ROOT':'cwd';const mjs=p.resolve(r,'server','mcp.mjs');if(!fs.existsSync(mjs)){console.error('FlowAgent MCP not found at '+mjs+' (resolved via '+src+'='+r+'). Run /setup to fix.');process.exit(1);}(async()=>{try{await import(require('node:url').pathToFileURL(mjs).href)}catch(e){console.error(e);process.exit(1)}})();",
+            "microsoft-learn": "http https://learn.microsoft.com/api/mcp"
+          },
+          "prereqs": [
+            "azure cli",
+            "node 18+"
+          ]
+        },
+        "power-pages": {
+          "version": "2.9.0",
+          "mcp": {
+            "playwright": "node -e const fs=require('node:fs'); const path=require('node:path'); const fail=(message)=>{throw new Error('[Power Pages Playwright MCP] '+message);}; const declaredRoot=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT; if(!declaredRoot) fail('PLUGIN_ROOT or CLAUDE_PLUGIN_ROOT must be set; refusing to resolve the launcher from the current working directory.'); if(!path.isAbsolute(declaredRoot)) fail('Declared plugin root must be an absolute path: '+declaredRoot+'.'); let root; try{root=fs.realpathSync(declaredRoot);}catch(error){fail('Declared plugin root is invalid: '+declaredRoot+' ('+(error.code||error.message)+').');} let rootStat; try{rootStat=fs.statSync(root);}catch(error){fail('Could not inspect declared plugin root: '+root+' ('+(error.code||error.message)+').');} if(!rootStat.isDirectory()) fail('Declared plugin root is not a directory: '+declaredRoot+'.'); const candidate=path.resolve(root,'scripts','launch-playwright-mcp.js'); let entry; try{entry=fs.realpathSync(candidate);}catch(error){fail('Launcher was not found under the declared plugin root: '+candidate+'.');} const relative=path.relative(root,entry); if(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative)) fail('Resolved launcher escapes the declared plugin root: '+entry+'.'); let entryStat; try{entryStat=fs.statSync(entry);}catch(error){fail('Could not inspect resolved launcher: '+entry+' ('+(error.code||error.message)+').');} if(!entryStat.isFile()) fail('Resolved launcher is not a file: '+entry+'.'); const mod=require(entry); if(!mod||typeof mod.launch!=='function') fail('Launcher did not export launch(): '+entry+'.'); mod.launch();",
+            "microsoft-learn": "http https://learn.microsoft.com/api/mcp"
+          },
+          "prereqs": [
+            "azure cli",
+            "node 22",
+            "playwright"
+          ]
+        },
+        "process-intelligence": {
+          "version": "0.7.0",
+          "mcp": {
+            "process-intelligence": "node -e const p=require('node:path'),fs=require('node:fs'),u=require('node:url');const r=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT||process.cwd();const f=p.resolve(r,'server','mcp.mjs');if(!fs.existsSync(f)){console.error('Process Intelligence MCP not found at '+f+'. Set PLUGIN_ROOT to the installed plugin directory and run setup.');process.exit(1);}import(u.pathToFileURL(f).href).then(m=>m.launch(['serve'])).catch(()=>{console.error('Unable to load Process Intelligence MCP server. Run setup.');process.exitCode=1;});"
+          },
+          "prereqs": [
+            "azure cli",
+            "node 22"
+          ]
+        }
+      }
+    },
+    "microsoft/Dataverse-skills": {
+      "head": "3be592f~2026-10-05",
+      "marketplacePlugins": [
+        "dataverse"
+      ],
+      "plugins": {
+        "dataverse": {
+          "version": "1.16.0",
+          "mcp": {},
+          "prereqs": [
+            ".net 10",
+            ".net 6",
+            ".net 8",
+            "azure cli",
+            "dataverse python sdk",
+            "node 18+"
+          ]
+        }
+      }
+    },
+    "microsoft/skills-for-copilot-studio": {
+      "head": "fd9653d~2026-09-09",
+      "marketplacePlugins": [
+        "copilot-studio"
+      ],
+      "plugins": {
+        "copilot-studio": {
+          "version": "1.0.11",
+          "mcp": {},
+          "prereqs": [
+            "copilot studio vscode extension"
+          ]
+        }
+      }
+    },
+    "microsoft/power-cat-skills": {
+      "head": "044a6af~2026-10-06",
+      "marketplacePlugins": [
+        "powercat-admin-digest",
+        "powercat-adoption",
+        "powercat-architecture-advisor",
+        "powercat-canvas-apps",
+        "powercat-code-apps",
+        "powercat-dataverse",
+        "powercat-governance",
+        "powercat-migration-factory",
+        "powercat-overflow",
+        "powercat-overpage",
+        "powercat-procode-eval"
+      ],
+      "plugins": {
+        "powercat-admin-digest": {
+          "version": "1.0.0",
+          "mcp": {},
+          "prereqs": []
+        },
+        "powercat-canvas-apps": {
+          "version": "1.0.7",
+          "mcp": {},
+          "prereqs": [
+            ".net 10"
+          ]
+        },
+        "powercat-architecture-advisor": {
+          "version": "0.1.0",
+          "mcp": {},
+          "prereqs": []
+        },
+        "powercat-code-apps": {
+          "version": "1.0.0",
+          "mcp": {},
+          "prereqs": []
+        },
+        "powercat-dataverse": {
+          "version": "1.0.7",
+          "mcp": {},
+          "prereqs": [
+            "azure cli"
+          ]
+        },
+        "powercat-governance": {
+          "version": "1.0.0",
+          "mcp": {},
+          "prereqs": [
+            "azure cli"
+          ]
+        },
+        "powercat-overflow": {
+          "version": "0.2.2",
+          "mcp": {},
+          "prereqs": [
+            "playwright"
+          ]
+        },
+        "powercat-overpage": {
+          "version": "0.2.0",
+          "mcp": {},
+          "prereqs": [
+            "playwright"
+          ]
+        },
+        "powercat-migration-factory": {
+          "version": "1.0.2",
+          "mcp": {},
+          "prereqs": [
+            "node 18+",
+            "python 3.10"
+          ]
+        }
+      }
+    }
+  }
+}

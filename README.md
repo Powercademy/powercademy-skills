@@ -11,7 +11,7 @@ agent *capabilities* — MCP servers, CLIs, scaffolding. This marketplace layers
 architecture thinking from real Power Platform engagements, encoded as skills.
 
 Complementary, not competing. Nothing here duplicates what Microsoft ships —
-the installer sets up both marketplaces side by side.
+setup-workstation installs both marketplaces side by side.
 
 Microsoft ships the verbs; Powercademy ships the sentence. Their skills know
 *how* to create a table or a flow; these skills carry the judgement about
@@ -42,20 +42,26 @@ Windows PowerShell:
 iwr https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js -OutFile install.js; node install.js; del install.js
 ```
 
-The installer detects Claude Code and/or GitHub Copilot CLI, installs the
-`pac` CLI if missing, registers **both** marketplaces (Microsoft's and this
-one), and installs the plugins.
+The installer is a **bootstrap**: it checks Node.js and git, detects Claude
+Code and/or GitHub Copilot CLI, registers this marketplace and installs the
+`doctor` plugin. Then start your agent and say:
 
-Manual install, inside a Claude Code or Copilot CLI session:
+> set up my workstation
+
+The `setup-workstation` skill takes it from there — asks what you'll build,
+installs the SDKs, CLIs, Microsoft's plugins and the workloads you choose,
+signs you in, and proves each tool works.
+
+Manual bootstrap, inside a Claude Code or Copilot CLI session:
 
 ```
 /plugin marketplace add Powercademy/powercademy-skills
-/plugin install flow-builder@powercademy-skills
+/plugin install doctor@powercademy-skills
 ```
 
 ## What's included
 
-### flow-builder (0.1.2)
+### flow-builder (0.3.0)
 
 Build Power Automate cloud flows from a **designer-ready build spec**, not
 from vibes:
@@ -74,7 +80,7 @@ Works in both runtimes with no plugin-specific tooling required. When
 Microsoft's `power-automate` plugin (FlowAgent) is installed alongside, the
 spec drives it; when it isn't, the spec is built by hand in the designer.
 
-### pcf-builder (0.1.0)
+### pcf-builder (0.2.0)
 
 Build Power Apps Component Framework (PCF) code components **end to end** —
 without the afternoons PCF usually costs:
@@ -91,7 +97,7 @@ without the afternoons PCF usually costs:
 
 Fills genuine white space — Microsoft's own plugins don't cover PCF.
 
-### canvas-planner (0.1.0)
+### canvas-planner (0.2.0)
 
 The decisions that determine whether a canvas app survives contact with real
 data — made *before* anything is generated:
@@ -125,7 +131,7 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.1.0)
+### conventions (0.1.1)
 
 The judgement layer as a checklist — applied before anything gets built:
 
@@ -138,16 +144,28 @@ The judgement layer as a checklist — applied before anything gets built:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.
 
-### doctor (0.1.0)
+### doctor (0.4.0)
 
-The answer to "why is setting this up such a pain?":
+The answer to "why is setting this up such a pain?" — the first thing you run,
+and the place you come back to when something breaks:
 
-- **`check-setup`** — one conversational check-up for the whole toolchain:
-  CLIs (git, Node, .NET, pac, az), **auth profiles** (who am I signed in as,
-  where, with which cached profile — the pain centre), agent runtimes, plugins
-  across runtimes, and MCP wiring. Diagnoses everything first, fixes with your
-  consent, and ends with a **readiness card**: ready for X, not yet for Y,
-  fixed this session. Say "am I set up?", "new laptop", or "my auth is a mess".
+- **`setup-workstation`** — takes a machine from nothing to fully equipped for
+  end-to-end Power Platform work. Asks which workloads you'll build (flows,
+  canvas, model-driven, Pages, code apps, Copilot Studio, PCF, mobile, process
+  mining, ALM), inventories what's there, shows **one plan** for one approval,
+  then installs — user-scoped first, with anything needing admin rights written
+  up as a paste-ready IT request. Signs you in, verifies every tool actually
+  runs, and ends with a readiness card. Re-run it to add a workload.
+- **`check-setup`** — diagnose and repair an existing toolchain: outdated or
+  shimmed CLIs, **auth profiles** (who am I signed in as, where — the pain
+  centre), the wrong tenant, plugins that won't load or drift between
+  runtimes, MCP wiring. Say "check my setup" or "my auth is a mess".
+
+Both read one versioned
+[toolchain manifest](plugins/doctor/shared/toolchain-manifest.json), and a
+weekly [upstream watch](.github/workflows/upstream-watch.yml) opens an issue
+whenever Microsoft's plugins change what they need — so the setup doesn't
+quietly rot.
 
 ## Roadmap
 
@@ -156,9 +174,6 @@ All tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues
 - **audit-solution** — inherited-solution auditor (grounding as a product)
 - **advise-licensing** — doc-verified licensing verdicts, never from memory
 - **map-tenant** — first-day cartography of an unfamiliar customer tenant
-- **alm plugin** — ALM process design and checkpointed promotion discipline
-- **Interactive HTML artifacts** — specs, readiness cards, and reports as
-  styled, self-contained build-along pages
 - **Watch-mode building** — spec-driven execution with checkpoint gates when
   Microsoft's tooling is present
 - **session-debrief** — end-of-session retrospective that drafts gotcha
@@ -170,8 +185,6 @@ All tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues
   which capability to reach for, in what order, with what checks — which is
   where the consolidation value actually lives. Ships alongside the first
   conventions skills (solution naming, environment strategy, ALM).
-- **0.3 — installer config interview + eval harness.** A guided setup, and
-  automated checks that each skill triggers and behaves in both runtimes.
 
 Tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues).
 

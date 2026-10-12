@@ -3,6 +3,55 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.10.0] — 2026-10-12
+
+### Added
+
+- **`setup-workstation`** (doctor) — the first thing a new user runs. Takes a
+  machine from nothing to fully equipped for end-to-end Power Platform work:
+  detects OS, admin rights and managed-device signals; asks which workloads
+  you'll build (flows, canvas, model-driven, Pages, code apps, Copilot Studio,
+  PCF, mobile, process mining, ALM); inventories what's there; shows **one
+  plan for one approval**; installs user-scoped first, with admin-only items
+  collected into a paste-ready `it-request.md`; signs you in; and counts a
+  tool as installed only when its check passes. Ends with a readiness card
+  and a "try this first" prompt per workload. Re-run to add a workload.
+  Deliberately not named `setup` — power-automate already ships one.
+- **Toolchain manifest** (`plugins/doctor/shared/toolchain-manifest.json`) —
+  one versioned source of truth for every tool across four tiers (bootstrap,
+  required, per-workload, recommended): the check that proves it works, the
+  version floor, install commands per OS and runtime, admin scope, and which
+  workloads need it. Read by both doctor skills and the installer. Verified
+  2026-10-12: Node 22 LTS floor, .NET 10 SDK, Azure CLI, Python 3.12 with the
+  Dataverse Python SDK, and Microsoft's newer plugins (`dataverse` in their
+  marketplace, `process-intelligence`, `power-apps-mobile-extension`).
+- **Upstream watch** (`.github/workflows/upstream-watch.yml` +
+  `scripts/watch/upstream-watch.js`) — every Monday, fingerprints the four
+  Microsoft repos we depend on (plugin lists, versions, MCP launchers, the
+  runtime versions they require), diffs against `watch/upstream-snapshot.json`,
+  and opens or comments on an `upstream-change` issue when something
+  actionable moves. Also flags the manifest stale after 90 days without
+  re-verification.
+- Eval scenario for `setup-workstation` (9 total).
+
+### Changed
+
+- **doctor 0.4.0** — `check-setup` is now diagnose-and-repair only (outdated
+  or shimmed tools, auth profiles and tenant switching, plugin drift and
+  loading, MCP wiring). Anything *missing* is handed to setup-workstation
+  rather than installed in place. Its eval prompt is now repair-shaped.
+- **`scripts/install.js` is now a bootstrap** — checks Node and git, detects
+  the agent runtimes, registers this marketplace and installs `doctor`, then
+  hands over: "say *set up my workstation*". It no longer installs pac or
+  Microsoft's marketplace (setup-workstation does). Reads version floors from
+  the manifest, and explains the Claude Code "network source differs from the
+  one declared" error when a stale `extraKnownMarketplaces` entry is present.
+- **conventions 0.1.2** — writing-skills constraint 5 allows one
+  machine-readable JSON companion beside `microsoft-refs.md`.
+- README, PREREQUISITES, the Copilot setup guide and the Microsoft landscape
+  doc updated for the two-step flow (bootstrap → set up my workstation) and the
+  refreshed Microsoft inventory.
+
 ## [0.9.0] — 2026-09-09
 
 ### Added

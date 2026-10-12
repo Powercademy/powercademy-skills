@@ -1,0 +1,46 @@
+name: upstream-watch
+
+# Ear to the wall: weekly check of the Microsoft repos this marketplace depends
+# on. Opens (or comments on) an `upstream-change` issue when something our
+# toolchain manifest or skills rely on has moved.
+
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Fingerprint upstream and diff against baseline
+        id: watch
+        run: node scripts/watch/upstream-watch.js --report-file report.md
+
+      - name: Open or update the upstream-change issue
+        if: steps.watch.outputs.actionable == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ vars.UPSTREAM_WATCH_ASSIGNEE || 'HowdangPowercademy' }}
+        run: |
+          existing=$(gh issue list --label upstream-change --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file report.md
+            echo "Commented on #$existing"
+          else
+            gh issue create \
+              --title "Upstream change detected — $(date -u +%Y-%m-%d)" \
+              --label upstream-change \
+              --assignee "$OWNER" \
+              --body-file report.md
+          fi

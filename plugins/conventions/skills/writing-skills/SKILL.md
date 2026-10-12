@@ -31,7 +31,10 @@ in every runtime it ships to. Apply it when writing; enforce it when reviewing.
 5. **Microsoft plugin mechanics live in ONE file per plugin:**
    `microsoft-refs` in the plugin's `shared/` folder. Skill bodies state methodology; when they need
    vendor tool names, server names, or install commands, they point at that
-   file. If the vendor renames something, one file changes.
+   file. A plugin that needs machine-readable mechanics (install commands,
+   version floors) may add one JSON companion beside it — the doctor's
+   `toolchain-manifest.json` — and nothing else. If the vendor renames
+   something, one place changes.
 
 Run the repo lint (`node scripts/lint/lint-skills.js`) before every commit —
 it checks all five mechanically, plus manifest validity.

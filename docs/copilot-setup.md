@@ -8,15 +8,18 @@ projects. Should take about five minutes.
 > or copilot.microsoft.com. None of those can install plugin marketplaces. If
 > you want to use these skills, the CLI is the tool.
 
-*Verified 2026-07-23 against Copilot CLI 1.0.73, pac CLI 2.7.4.*
+*Verified 2026-10-12. Setup steps re-verified 2026-10-12.*
 
 ## 1. Prerequisites
 
-- **Node.js 18+** — check with `node --version`.
+- **Node.js 22+** — check with `node --version`. Several of Microsoft's Power
+  Platform plugins now require 22.
 - **A GitHub Copilot subscription** (Individual, Business, or Enterprise). The
   CLI signs in with your GitHub account.
-- **pac CLI** — the installer below adds it if it's missing (needs the .NET
-  SDK); or get it from https://aka.ms/PowerPlatformCLI.
+- **git** — plugin marketplaces are cloned with it.
+
+Everything else (the .NET SDK, pac CLI, Azure CLI, Python, Microsoft's plugins)
+is installed for you in step 4.
 
 ## 2. Install the Copilot CLI
 
@@ -39,12 +42,10 @@ copilot
 Follow the browser sign-in prompt. Once you're in, you can `/exit` and come back
 any time.
 
-## 3. Install the skills
+## 3. Bootstrap
 
-Two options.
-
-**Option A — one command (recommended).** Sets up both marketplaces
-(Microsoft's and Powercademy's) and installs the plugins, in Copilot *and*
+**Option A — one command (recommended).** Checks Node and git, registers the
+Powercademy marketplace and installs the `doctor` plugin — in Copilot *and*
 Claude Code if you have both:
 
 ```bash
@@ -57,45 +58,33 @@ Windows PowerShell:
 iwr https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/scripts/install.js -OutFile install.js; node install.js; del install.js
 ```
 
-**Option B — manual, inside a `copilot` session.** Add the marketplace and
-install the plugin:
+**Option B — manual, inside a `copilot` session:**
 
 ```
 /plugin marketplace add Powercademy/powercademy-skills
 ```
 
 ```
-/plugin install flow-builder@powercademy-skills
+/plugin install doctor@powercademy-skills
 ```
 
-You should see `Plugin "flow-builder" installed successfully. Installed 1 skill.`
+## 4. Set up your workstation
 
-While you're there, add Microsoft's Power Automate plugin too — the flow-builder
-spec can drive it, and the two are designed to work together:
+Restart Copilot so the new plugin loads, then just say:
 
-```
-/plugin marketplace add microsoft/power-platform-skills
-```
+> set up my workstation
 
-```
-/plugin install power-automate@power-platform-skills
-```
+The `setup-workstation` skill asks what you'll build (flows, canvas, Power
+Pages, Copilot Studio, PCF, mobile, ALM…), checks what's already on the
+machine, and shows **one plan** for your approval. It then installs the .NET 10
+SDK, pac, Azure CLI, Python with the Dataverse SDK, Microsoft's plugins and the
+workloads you chose — user-scoped installs first. Anything that needs admin
+rights you don't have becomes a paste-ready `it-request.md`. It finishes by
+signing you in (the browser sign-in is the one step that's yours), verifying
+every tool actually works, and writing a readiness card.
 
-## 4. Point pac at your environment
-
-The skill checks this itself, but doing it once up front is smoother. In a
-normal terminal (not inside Copilot):
-
-```bash
-pac auth create --environment https://yourorg.crm.dynamics.com
-```
-
-```bash
-pac auth list
-```
-
-Sign-in is a browser flow — it can't be automated, which is why you do it by
-hand. Point at a **dev** environment for anything you're going to build.
+Run it again any time to add a workload. If something breaks later, say
+**"check my setup"** instead.
 
 ## 5. Use it
 
