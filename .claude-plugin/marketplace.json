@@ -9,10 +9,6 @@
     },
     "plugins": [
         {
-            "name": "flow-builder",
-            "source": "./plugins/flow-builder"
-        },
-        {
             "name": "pcf-builder",
             "source": "./plugins/pcf-builder"
         },

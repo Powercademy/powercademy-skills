@@ -61,25 +61,6 @@ Manual bootstrap, inside a Claude Code or Copilot CLI session:
 
 ## What's included
 
-### flow-builder (0.3.0)
-
-Build Power Automate cloud flows from a **designer-ready build spec**, not
-from vibes:
-
-- **`build-flow-spec`** — the methodology skill. Grounds in the existing
-  solution before designing, verifies every API touchpoint against Microsoft
-  Learn (never from memory), and produces an action-by-action spec with
-  copy-pasteable expressions, nesting trees, and testing checkpoints marked
-  with risk tiers (🟢/🟡/🔴). The spec is a living document: when reality
-  contradicts it, it gets updated and rework is called out explicitly.
-- **`shared/gotchas.md`** — an accumulated failure log (designer quirks,
-  expression traps, Graph permission edges, child-flow contracts), read before
-  every spec so lessons that cost hours once never cost hours again.
-
-Works in both runtimes with no plugin-specific tooling required. When
-Microsoft's `power-automate` plugin (FlowAgent) is installed alongside, the
-spec drives it; when it isn't, the spec is built by hand in the designer.
-
 ### pcf-builder (0.2.0)
 
 Build Power Apps Component Framework (PCF) code components **end to end** —
@@ -131,7 +112,7 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.1.1)
+### conventions (0.2.0)
 
 The judgement layer as a checklist — applied before anything gets built:
 
@@ -140,6 +121,11 @@ The judgement layer as a checklist — applied before anything gets built:
   columns, build-in-the-right-solution-with-the-right-publisher discipline,
   subcomponent and dependency packaging that survives import, modal dialogs
   for focused tasks. Grows every time a mistake is corrected.
+- **`flow-conventions`** — the Power Automate lessons that cost hours once:
+  editing flows that already run (renames, child-flow contracts, regression
+  checks), designer quirks, expressions, Graph permissions, testing without
+  the real system (write gates, dry-run guards). Applied alongside whichever
+  tool builds the flow — usually Microsoft's power-automate plugin.
 - **`writing-skills`** — the house standard for authoring marketplace skills:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.

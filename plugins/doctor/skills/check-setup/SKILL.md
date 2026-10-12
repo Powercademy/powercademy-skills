@@ -103,6 +103,12 @@ between runtimes — the same plugin at two versions behaves confusingly
 differently. A plugin that installed but won't load usually means the agent
 needs a restart, or a skill file is failing in one runtime only.
 
+**Retired plugins.** Anything in the manifest's `retired` list that is still
+installed is a finding: say what replaced it (`replacedBy`) and offer its
+`action` — usually uninstall from every runtime — with consent, like any other
+repair. A retired plugin left behind competes for triggers with its
+replacement.
+
 ### Layer 5 — MCP wiring
 
 Are the MCP servers the user relies on connected? Don't probe the Learn
@@ -122,7 +128,7 @@ Always finish with this:
 > | Tools | ✅ git · node 24 · .NET 10 · Python 3.12 · ⬆ pac 2.10 → upgrade |
 > | Identity | ✅ user@contoso.com · Contoso Dev (profile "ContosoDev", 1 of 3) |
 > | Agent runtimes | ✅ Copilot CLI 1.0.80 · ⚠️ Claude Code not installed |
-> | Plugins | ✅ dataverse · flow-builder (both runtimes) · ⚠️ drift: pcf-builder 0.1.4 vs 0.2.0 |
+> | Plugins | ✅ dataverse · power-automate (both runtimes) · ⚠️ drift: pcf-builder 0.1.4 vs 0.2.0 |
 > | MCP wiring | ✅ Learn (bundled) · ⚠️ pac MCP not registered |
 >
 > **Repaired this session:** upgraded pac, named 2 auth profiles, removed 1 stale profile.

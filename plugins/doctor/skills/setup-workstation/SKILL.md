@@ -70,8 +70,10 @@ the user's choice for the rest.
 ## Step 3: Inventory before installing
 
 Resolve the plan — required items + every chosen workload's items + opted-in
-recommended items, plus everything they `dependsOn`. Then run each item's
-**check** from the manifest and classify it:
+recommended items, plus everything they `dependsOn`. If a plugin in the
+manifest's `retired` list is already installed, add its removal to the plan
+(with its `replacedBy` as the reason). Then run each item's **check** from the
+manifest and classify it:
 
 | State | Meaning |
 |---|---|
@@ -161,7 +163,7 @@ directory as `workstation-setup.md` with a rendered page per
 > | Core | ✅ node 24 · git · .NET 10 · pac 2.13 · az 2.81 · Python 3.12 |
 > | Identity | ✅ user@contoso.com · Contoso Dev |
 > | Runtimes | ✅ Copilot CLI 1.0.80 · ✅ Claude Code |
-> | Plugins | ✅ dataverse · power-automate · flow-builder · conventions · doctor |
+> | Plugins | ✅ dataverse · power-automate · conventions · doctor |
 > | Recommended | ✅ Learn MCP (bundled) · ✅ Playwright (bundled) |
 > | Waiting on IT | ⏳ Azure CLI — see `it-request.md` |
 >

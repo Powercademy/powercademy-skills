@@ -1,6 +1,9 @@
-# Power Automate Build — Gotchas Log
+# Power Automate — Flow Gotchas
 
-Accumulated failures, each of which cost real time once. Read before writing a spec. Append after any session that teaches something new.
+Accumulated failures from real flow builds, each of which cost real time once.
+Read before building, editing or debugging a cloud flow — whichever tool does
+the building (Microsoft's power-automate plugin, the designer by hand, or
+anything else). Append after any session that teaches something new.
 
 Format per entry: **Symptom** → **Cause** → **Fix**. Keep them short and mechanical.
 
@@ -8,58 +11,15 @@ Format per entry: **Symptom** → **Cause** → **Fix**. Keep them short and mec
 
 ## Contents
 
-1. [Designer behaviour](#designer-behaviour)
-2. [Expressions](#expressions)
-3. [Parse JSON](#parse-json)
-4. [HTTP actions and Microsoft Graph](#http-actions-and-microsoft-graph)
-5. [Child flow patterns](#child-flow-patterns)
-6. [Environment variables and ALM](#environment-variables-and-alm)
-7. [Testing when a dependency is unavailable](#testing-when-a-dependency-is-unavailable)
-8. [Anti-patterns seen in the wild](#anti-patterns-seen-in-the-wild)
-
----
-
-## Dual-runtime portability
-
-**A bare `shared/<file>.md` reference in a SKILL.md fails to load — it resolves relative to the skill folder, not the plugin root.**
-The shared files live at `<plugin>/shared/`, but a SKILL.md sits at `<plugin>/skills/<name>/SKILL.md`. A bare pointer to the shared gotchas file makes the agent look under `<plugin>/skills/<name>/shared/` — which doesn't exist ("Path does not exist"). The skill limps on from its inline text but never reads its own gotchas or preflight.
-→ Reference plugin-root files as `${PLUGIN_ROOT}/shared/<file>.md` — the convention Microsoft's own dual-runtime skills use, which both Claude Code and Copilot expand to the plugin directory. The repo lint enforces this now. Caught live on the first Copilot desktop-app run.
-
-**Never claim a side effect you can't observe.**
-An agent said *"a browser sign-in window has opened"* when it hadn't — it can't see the user's screen. One false claim like that and the user stops trusting every status message.
-→ Prefer flows whose progress lives in observable command output. For auth, that's the device-code flow: `pac auth create --deviceCode` prints a URL and code the agent can relay verbatim. Say "go to <url>, enter <code>, tell me when done" — never narrate what "should" have happened on screen.
-
-**Users don't know who they're connected as, and won't ask until something's wrong.**
-Cached auth profiles accumulate (multiple customers, multiple folders/CLIs) and the active one is invisible. On a real session the user had to interrogate the agent repeatedly to establish tenant/environment.
-→ Lead every session with an unprompted **connection card** from `pac auth who`: user, tenant, environment, profile. List profiles when several exist and make the user pick. `pac auth name` per customer is the durable hygiene fix.
-
-**Signing into a portal in the browser does not change local auth.**
-An agent advised "open make.powerautomate.com and sign in with the other account, then let me know" as the fix for being on the wrong tenant. Browser cookies and CLI tokens are unrelated; nothing changed locally.
-→ Tenant switches happen in the local auth stacks (`az login --tenant … --use-device-code`, `pac auth create --deviceCode`), never in a website. If you catch yourself telling the user to sign into a portal to fix CLI auth, stop.
-
-**Auth lives in three places, and all of them must agree.**
-On a real tenant switch: the Azure CLI token (`az account show`), the pac profile (`pac auth who`), and *the MCP tool-server process*, which captured a token when it started. Getting the first two right while the third holds the old tenant produces "I re-authenticated but the tools still show the wrong environments" — which looks like a mystery and is just a stale process.
-→ Check all three. The third one only refreshes on a **full host-app quit and relaunch** — see the next entry.
-
-**MCP tool servers cache their token at startup; `/restart` does not fix a tenant switch.**
-`/restart` resets the conversation, not the server process. Symptoms seen live: az + pac both on the new tenant, tools still listing the old tenant's environments; after force-killing the process, tool calls return "Transport closed" until relaunch.
-→ After any tenant switch, require a full application quit (all windows + tray) and reopen, then re-verify. Say this *upfront* when a switch starts — it saves two failed restarts and fifteen minutes.
-
-**A tenant switch isn't done until the environment list proves it.**
-An agent declared "you're now authenticated as <user>" and then listed the *same environments from the old tenant* — sign-in succeeded, against the wrong place, and the success message taught the user nothing was wrong.
-→ Never declare an auth change successful from a command exit code. Re-list environments (or `pac auth who`) and compare against the **target** tenant; only the comparison is proof. This is "inference is not verification" applied to auth.
-
-**Enterprise Conditional Access frequently blocks device-code sign-in — fall back to interactive.**
-Symptom: the user completes the device-code page and gets *"Your sign-in was successful but does not meet the criteria to access this resource"* (AADSTS53003-class). Credentials were fine; the **policy** refused the token. Device-code flow is commonly blocked deliberately (device-code phishing is a known attack vector), and it also can't satisfy device-compliance policies — the browser completing sign-in is decoupled from the app requesting the token, so a compliant device never proves itself.
-→ Ladder: try `pac auth create --deviceCode` first (agent-observable), and on that error fall back to plain `pac auth create` (interactive) — on a compliant, Entra-joined machine it carries the device state and usually succeeds. Confirmed live on a managed corporate Cloud PC: device code blocked, interactive worked immediately. If **both** fail it's a real policy exemption request — capture the error code, correlation ID, and timestamp from the dialog's *More details* link, because that is what lets IT find the policy in the sign-in logs instead of guessing.
-
-**`pac` on PATH does not mean the CLI is installed.**
-Enterprise deployments (Intune/MSI) can place a `pac.cmd` **shim** on PATH while the actual CLI package is absent. `Get-Command pac` succeeds; the first real command fails with *"No Microsoft.PowerApps.CLI has been installed. Please run 'pac install latest'"*.
-→ Check pac is *functional*, not merely present. The fix is `pac install latest` — a user-scoped NuGet install needing **no admin rights**, so it's self-service even on a locked-down device. (Bonus: it often lands a newer version than the one IT deployed.)
-
-**GitHub Copilot CLI rejects skill descriptions over 1024 characters; Claude Code does not.**
-A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI with *"Skill description must be at most 1024 characters"* — the skill silently doesn't load in that runtime. Because it only fails on one side, it survives any Claude-Code-only test.
-→ Keep every skill description ≤ 1024 characters, with margin. The repo lint (`scripts/lint/lint-skills.js`) enforces this now — but the lesson is general: a constraint present in one runtime and absent in the other must be encoded mechanically, because half your test surface won't see it.
+1. [Editing flows that already run](#editing-flows-that-already-run)
+2. [Designer behaviour](#designer-behaviour)
+3. [Expressions](#expressions)
+4. [Parse JSON](#parse-json)
+5. [HTTP actions and Microsoft Graph](#http-actions-and-microsoft-graph)
+6. [Child flow patterns](#child-flow-patterns)
+7. [Environment variables and ALM](#environment-variables-and-alm)
+8. [Testing when a dependency is unavailable](#testing-when-a-dependency-is-unavailable)
+9. [Anti-patterns seen in the wild](#anti-patterns-seen-in-the-wild)
 
 ---
 
@@ -67,7 +27,7 @@ A description of 1025+ chars loads fine in Claude Code and fails in Copilot CLI 
 
 **Renaming an action silently breaks everything that referenced it.**
 `runAfter` chains reference action names as strings, and so does every expression using `body('Old_Name')` / `outputs('Old_Name')`. The designer does not refactor them for you.
-→ Treat a rename as a breaking change: search the whole definition for the old name first, and flag it in the spec rather than slipping it in as tidy-up. If the name is genuinely wrong, rename deliberately with the reference list in hand.
+→ Treat a rename as a breaking change: search the whole definition for the old name first, and flag it in the change plan rather than slipping it in as tidy-up. If the name is genuinely wrong, rename deliberately with the reference list in hand.
 
 **Changing a child flow's response shape breaks its callers silently.**
 Callers read a specific payload (`body('Run_child')?['result']?['thing']`). Change the envelope and the caller's expression returns null — and because the house contract is usually "child flows never fail", the caller reports success while doing nothing.
@@ -75,7 +35,7 @@ Callers read a specific payload (`body('Run_child')?['result']?['thing']`). Chan
 
 **A flow is "production" until proven otherwise.**
 Environment names lie — "test" groups turn out to hold real users, and a flow in a non-dev environment is usually load-bearing for someone.
-→ Establish who/what triggers it today and what it writes, *before* editing. Put the answer in the spec's blast-radius section.
+→ Establish who/what triggers it today and what it writes, *before* editing. Write the answer down as the change's blast radius.
 
 **The edit checkpoint that matters is the regression one.**
 People test the change and stop. The likelier failure is a path they didn't touch that stopped working.
@@ -87,7 +47,7 @@ People test the change and stop. The likelier failure is a path they didn't touc
 
 **Action descriptions truncate at 255 characters, silently.**
 No warning, no error. The description is simply cut mid-word.
-→ Write every description under 255 characters. Verify by counting, not by eye. In a spec, put all descriptions in one appendix table so they can be checked in a single pass.
+→ Write every description under 255 characters. Verify by counting, not by eye. Put all descriptions in one table so they can be checked in a single pass.
 
 **Condition has no advanced mode. Filter array does.**
 Writing a Condition as a single `@equals(...)` or `@and(...)` expression will not work — Condition is always left value / operator / right value.
@@ -113,14 +73,14 @@ An array of objects where you expected an array of strings breaks downstream `un
 → All `Initialize variable` actions must sit at the top level, before the scope.
 
 **Action names must be unique within a flow.**
-Easy to miss when specs describe a repeated action ("increment the skip counter") in several branches. The designer rejects the duplicate.
+Easy to miss when a plan describes a repeated action ("increment the skip counter") in several branches. The designer rejects the duplicate.
 → Suffix by cause: `Increment_varSkipped_no_meeting`, `_already_set`, `_no_hubspot`. The names then double as run-history diagnostics — you can see *why* an item was skipped without opening the action.
 
-**A spec that says "append the join URL" is incomplete.**
+**A plan that says "append the join URL" is incomplete.**
 Whenever an action takes a value, give the value. For diagnostic arrays, append an object with enough context to be useful later (the identifier, the count that was wrong, a timestamp), not a bare string.
 
 **Markdown headings are flat; flows are not.**
-A spec listing `Compose_X`, `Condition_Y`, `Do_Z` as consecutive headings reads as three sibling actions. In the designer they may be nested three levels inside true-branches. The reader builds it flat, and nothing works.
+A plan listing `Compose_X`, `Condition_Y`, `Do_Z` as consecutive headings reads as three sibling actions. In the designer they may be nested three levels inside true-branches. The reader builds it flat, and nothing works.
 → Always include an ASCII nesting tree, and a `Placement:` line on every nested action naming its container and branch.
 
 **Condition names can read backwards from their property.**
@@ -281,7 +241,7 @@ A definition with no Default Value and no Current Value in the environment fails
 **Default Value travels with the solution; Current Value is per-environment and overrides it.** Set defaults once; set current values only where they differ. A current value set in dev does not follow the solution downstream, which is usually what you want for test scaffolding.
 
 **The `parameters()` string is `Display name (schema_name)`.**
-Exact. Don't type it from a spec — create the variable, then use the designer's dynamic content picker and let it write the string.
+Exact. Don't type it from notes — create the variable, then use the designer's dynamic content picker and let it write the string.
 
 **Solution flows are created disabled.** Keep them that way until the group/scope they resolve to has been verified.
 
@@ -297,7 +257,7 @@ Error: *"Exporting connection reference ... requires the custom connector to be 
 When an integration (CRM, external API) can't be reached in dev, replace the *consumer* of its output — usually a Compose — with a literal, and neutralise the success check that guards it. Never edit the child flow itself; other flows depend on it.
 
 **A mock tests everything downstream of the boundary, and nothing at it.**
-Say this explicitly in the spec. String mismatches — casing, whitespace, display name vs internal value — are invisible to a mock and will silently make the real flow do nothing. The real test is deferred, not cancelled. Mark it **do not skip**.
+Say this explicitly in the test plan. String mismatches — casing, whitespace, display name vs internal value — are invisible to a mock and will silently make the real flow do nothing. The real test is deferred, not cancelled. Mark it **do not skip**.
 
 **Every mock needs a revert checklist, and the last item must be a re-run.**
 Prefix the mocked actions' descriptions with `TODO: MOCK — revert before <checkpoint>`. End the checklist with a re-run of a negative case, because that is what actually proves the mock is gone. A hardcoded value left in a gate means every item matches.
@@ -323,7 +283,7 @@ Building past a 🔴 write before its gate is proven is sometimes the right call
 **A dry-run guard and a test mock are often the same action with opposite values — check the write is still reachable when you need to test it.**
 If the write only fires when an upstream gate opens, and that gate depends on the unavailable dependency, then reverting the mock makes the write untestable. The revert must come *after* the write is tested, not before. Sequence the checkpoints with an explicit **mock state** column, and say plainly which guard is active at each step. Run the negative case (gate must close) *before* the positive case (gate must open), so a broken gate is caught while it still can't do anything.
 
-Record this in the spec as a **deferred testing mode** notice at the top of the build order, with the guards listed and a pointer to the checklist that removes them. A skipped checkpoint that looks skipped is fine. One that looks passed is dangerous.
+Record this in the test plan as a **deferred testing mode** notice at the top of the build order, with the guards listed and a pointer to the checklist that removes them. A skipped checkpoint that looks skipped is fine. One that looks passed is dangerous.
 
 ---
 

@@ -2,14 +2,6 @@
   "comment": "Trigger evals: does each skill fire on a natural phrasing, in each runtime? The runner kills each session as soon as a skill invocation (or clean no-invocation turn end) is observed, so runs stay short and cheap. Alternates cover secondary trigger paths (run with --alternates).",
   "scenarios": [
     {
-      "skill": "build-flow-spec",
-      "plugin": "flow-builder",
-      "prompt": "spec a flow that posts a Teams message when a Dataverse case is escalated",
-      "alternates": [
-        "I need to edit an existing flow to add an approval step before the email goes out"
-      ]
-    },
-    {
       "skill": "build-pcf-control",
       "plugin": "pcf-builder",
       "prompt": "build a PCF dataset control that shows appointments as a calendar on a model-driven view",
@@ -71,6 +63,14 @@
       "prompt": "promote my CustomerOnboarding solution from dev to the test environment",
       "alternates": [
         "my solution import failed with a missing dependency error"
+      ]
+    },
+    {
+      "skill": "flow-conventions",
+      "plugin": "conventions",
+      "prompt": "I'm about to rename a couple of actions in a flow that's already live in production - anything I should watch out for?",
+      "alternates": [
+        "my child flow returns a different shape now and the parent flow says it succeeded but did nothing - why?"
       ]
     }
   ]

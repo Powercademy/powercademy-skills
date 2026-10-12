@@ -61,7 +61,7 @@ evaluation; overlaps the audit space at the *GUI* level, not agent-skill level.
 
 | Ours | Verdict | Evidence & boundary |
 |---|---|---|
-| `build-flow-spec` (shipped) | **Safe** | FlowAgent does mechanics; nobody ships spec-first methodology with checkpoints. Boundary: we decide/spec, FlowAgent executes |
+| `build-flow-spec` (**retired 0.12.0**) | **Covered — retired** | power-automate's build-flow / create-flow / edit_flow / debug-flow now cover building, validating, surgical edits and debugging, and competing for the same trigger phrasing hurt both. The unique part — the flow gotchas log — lives on as `flow-conventions` in conventions |
 | `build-pcf-control` (shipped) | **Confirmed white space** | Zero PCF hits (`pac pcf`/`ControlManifest`/`component framework`) across all 7 plugins; procode-eval scope checked — Code Apps + genpages only |
 | `doctor`: `setup-workstation` + `check-setup` (shipped) | **Overlap risk — boundary drawn** | power-automate ships a `setup` skill (plugin-scoped: Node, Azure CLI, az login, FlowAgent wiring). Ours is machine-wide, cross-runtime, multi-workload provisioning (setup-workstation) and repair/auth hygiene (check-setup). **Rule: doctor routes to their setup for FlowAgent-specific wiring, never re-implements it** — and the skill is deliberately *not* named `setup` to avoid a trigger collision |
 | `audit-solution` (#11) | **CONTESTED — reposition** | powercat-overflow owns flow-level review; overpage owns Pages audits; Power CAT Tools (GUI) does code review/risk. Our lane: **cross-workload** solution audit (the whole inherited estate), conventions/judgement altitude, agent form factor. Route flow-zip review *to* overflow rather than rebuild it |
@@ -75,7 +75,7 @@ evaluation; overlaps the audit space at the *GUI* level, not agent-skill level.
 
 | Scenario | Route to | Powercademy adds |
 |---|---|---|
-| Build/edit/run/debug a flow | power-automate plugin (FlowAgent) | build-flow-spec: grounding, spec, checkpoints |
+| Build/edit/run/debug a flow | power-automate plugin (FlowAgent) | flow-conventions: the gotchas, before and during |
 | Dataverse schema/data/query/solution/security | `dv-*` (enter via dv-overview) | conventions, before/after judgement |
 | Power Pages lifecycle incl. promotion + security | power-pages plugin (native chains) | nothing — fully covered; hands off entirely |
 | Canvas build / performance | canvas-apps (+ powercat-canvas-apps for perf) | conventions |

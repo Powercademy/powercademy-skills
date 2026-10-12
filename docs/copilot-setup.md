@@ -121,7 +121,7 @@ The Copilot CLI plugin surface moves fast. To update the skills:
 ```
 
 ```
-/plugin update flow-builder@powercademy-skills
+/plugin update doctor@powercademy-skills
 ```
 
 Restart the session afterwards — a running session keeps the old copy.

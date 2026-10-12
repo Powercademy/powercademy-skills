@@ -188,7 +188,6 @@
     },
 
     { "id": "plugin-power-automate", "name": "Power Automate (FlowAgent)", "tier": "workload", "type": "plugin", "plugin": "power-automate", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-flow-builder", "name": "flow-builder", "tier": "workload", "type": "plugin", "plugin": "flow-builder", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy"] },
     { "id": "plugin-canvas-apps", "name": "Canvas apps (canvas authoring MCP)", "tier": "workload", "type": "plugin", "plugin": "canvas-apps", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "dotnet-sdk"] },
     { "id": "plugin-canvas-planner", "name": "canvas-planner", "tier": "workload", "type": "plugin", "plugin": "canvas-planner", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy"] },
     { "id": "plugin-model-apps", "name": "Model-driven apps & generative pages", "tier": "workload", "type": "plugin", "plugin": "model-apps", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
@@ -282,7 +281,7 @@
       "tier": "recommended",
       "type": "mcp",
       "why": "Lets every skill verify against live Microsoft documentation instead of memory.",
-      "bundledIn": ["power-automate", "power-pages", "mobile-app", "flow-builder", "pcf-builder", "canvas-planner", "alm"],
+      "bundledIn": ["power-automate", "power-pages", "mobile-app", "pcf-builder", "canvas-planner", "alm"],
       "endpoint": "https://learn.microsoft.com/api/mcp",
       "install": {
         "claude": "claude mcp add --transport http microsoft-learn https://learn.microsoft.com/api/mcp",
@@ -346,8 +345,18 @@
     }
   ],
 
+  "retired": [
+    {
+      "plugin": "flow-builder",
+      "marketplace": "powercademy-skills",
+      "retiredIn": "0.12.0",
+      "replacedBy": "Microsoft's power-automate plugin builds, edits and debugs flows directly. The flow lessons moved to the conventions plugin (flow-conventions).",
+      "action": "Uninstall it from every runtime; make sure conventions is installed."
+    }
+  ],
+
   "workloads": [
-    { "id": "flows",          "label": "Power Automate flows",              "items": ["plugin-power-automate", "plugin-flow-builder"] },
+    { "id": "flows",          "label": "Power Automate flows",              "items": ["plugin-power-automate"] },
     { "id": "canvas",         "label": "Canvas apps",                       "items": ["plugin-canvas-apps", "plugin-canvas-planner"] },
     { "id": "model-driven",   "label": "Model-driven apps & generative pages", "items": ["plugin-model-apps"] },
     { "id": "pages",          "label": "Power Pages sites",                 "items": ["plugin-power-pages"] },

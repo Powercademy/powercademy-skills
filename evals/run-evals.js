@@ -17,7 +17,7 @@
  * Usage:
  *   node evals/run-evals.js                       # all scenarios, all available runtimes
  *   node evals/run-evals.js --runtime copilot     # one runtime (copilot | claude)
- *   node evals/run-evals.js --skill build-flow-spec
+ *   node evals/run-evals.js --skill flow-conventions
  *   node evals/run-evals.js --alternates          # also run alternate phrasings
  *   node evals/run-evals.js --timeout 180
  *

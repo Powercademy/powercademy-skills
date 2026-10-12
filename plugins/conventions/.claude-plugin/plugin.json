@@ -1,7 +1,7 @@
 {
   "name": "conventions",
-  "version": "0.1.3",
-  "description": "Powercademy's living conventions for Power Platform delivery — Dataverse schema judgement (statecode over custom status, solution and publisher discipline, dependency packaging) applied before anything is built, plus the writing-skills house standard for authoring marketplace skills that survive every runtime. Each rule carries its reasoning; the lists grow with every corrected mistake.",
+  "version": "0.2.0",
+  "description": "Powercademy's living conventions for Power Platform delivery — Dataverse schema judgement (statecode over custom status, solution and publisher discipline, dependency packaging), the Power Automate flow lessons that cost hours once (editing live flows, child-flow contracts, Graph permissions, testing without the real system), applied before and alongside any build, plus the writing-skills house standard for authoring skills that work in both runtimes. Each rule carries its reasoning; the lists grow with every corrected mistake.",
   "author": {
     "name": "Howdang Rashid"
   },

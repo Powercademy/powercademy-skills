@@ -3,6 +3,35 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.12.0] — 2026-10-12
+
+### Removed
+
+- **flow-builder retired** (`build-flow-spec`). Microsoft's power-automate
+  plugin now builds, validates, surgically edits and debugs flows directly
+  (build-flow, create-flow, edit_flow, debug-flow), and two skills competing for
+  "build me a flow" hurt both. Already installed? `check-setup` and
+  `setup-workstation` now spot it via the manifest's new `retired` list and
+  offer to uninstall it from every runtime.
+
+### Added
+
+- **`flow-conventions`** (conventions 0.2.0) — the flow-builder gotchas log
+  lives on as a consult-before-and-alongside skill, like
+  dataverse-conventions: editing flows that already run, designer quirks,
+  expressions, Parse JSON, Graph permissions, child-flow contracts, ALM,
+  testing without the real system, anti-patterns. Applies whichever tool
+  builds the flow. Its runtime/auth lessons were dropped — they already live
+  in doctor and writing-skills.
+- Toolchain manifest `retired` list (plugin, replacement, action).
+- Eval scenario for flow-conventions (replaces build-flow-spec's).
+
+### Changed
+
+- Flows workload installs Microsoft's power-automate plugin only.
+- doctor 0.5.1, conventions 0.2.0. README, landscape, CONTRIBUTING, SECURITY
+  and CLAUDE.md examples updated.
+
 ## [0.11.0] — 2026-10-12
 
 Setup proven on clean machines: Windows, macOS and Linux, both runtimes.

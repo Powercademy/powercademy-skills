@@ -54,7 +54,7 @@ layer opinions on top.
 powercademy-skills/
 ├── .claude-plugin/marketplace.json
 ├── plugins/
-│   └── flow-builder/
+│   └── <plugin>/            # alm, canvas-planner, conventions, doctor, pcf-builder
 │       ├── .claude-plugin/plugin.json
 │       ├── skills/<skill-name>/SKILL.md
 │       └── shared/               # refs incl. microsoft-refs.md
@@ -71,8 +71,8 @@ powercademy-skills/
 
 - Frontmatter descriptions are the trigger mechanism. Write them "pushy":
   state what the skill does AND list the phrases/contexts that should trigger
-  it ("Use whenever the user mentions building a flow, flow spec,
-  Power Automate automation, expressions, connector actions…").
+  it ("Use whenever the user mentions a PCF control, code component,
+  manifest, dataset control, pac pcf push…").
 - Keep SKILL.md under 500 lines. Longer material goes in `shared/` reference
   files with clear pointers on when to read them.
 - Skills may instruct the agent to run `pac` CLI commands directly — that is

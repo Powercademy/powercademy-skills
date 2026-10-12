@@ -10,7 +10,7 @@ this.
 ```bash
 node evals/run-evals.js                      # all scenarios, all available runtimes
 node evals/run-evals.js --runtime copilot    # one runtime (copilot | claude)
-node evals/run-evals.js --skill build-flow-spec
+node evals/run-evals.js --skill flow-conventions
 node evals/run-evals.js --alternates         # also test secondary trigger paths
 ```
 

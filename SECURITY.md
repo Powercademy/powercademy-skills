@@ -38,7 +38,7 @@ one vulnerability pattern, so this is not hypothetical.
 - **CI lint** (`scripts/lint/lint-skills.js`, run on every PR) enforces the
   frontmatter and mechanics-quarantine constraints mechanically.
 - **Risk tiers and checkpoints** are a required part of any skill that can
-  cause a write. `build-flow-spec` is the reference implementation.
+  cause a write. `promote-solution` (alm) is the reference implementation.
 - **"Reads don't imply writes"** is a stated methodology rule: a skill verifies
   the specific operation's permission before assuming an environment that can
   read something can write it.
