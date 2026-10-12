@@ -181,7 +181,25 @@
       "marketplace": "skills-for-copilot-studio",
       "repo": "microsoft/skills-for-copilot-studio"
     },
-    { "id": "plugin-copilot-studio", "name": "Copilot Studio skills", "tier": "workload", "type": "plugin", "plugin": "copilot-studio", "marketplace": "skills-for-copilot-studio", "dependsOn": ["mkt-copilot-studio", "vscode", "vscode-copilot-studio"] },
+    { "id": "plugin-copilot-studio", "name": "Copilot Studio skills (standard agents)", "tier": "workload", "type": "plugin", "plugin": "copilot-studio", "marketplace": "skills-for-copilot-studio", "dependsOn": ["mkt-copilot-studio", "vscode", "vscode-copilot-studio"] },
+    {
+      "id": "mkt-copilot-studio-harness",
+      "name": "Copilot Studio harness plugin marketplace",
+      "tier": "workload",
+      "type": "marketplace",
+      "marketplace": "copilot-studio-plugin",
+      "repo": "microsoft/copilot-studio-plugin"
+    },
+    {
+      "id": "plugin-copilot-studio-harness",
+      "name": "Copilot Studio authoring (GitHub Copilot harness agents)",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "mcs-assistant",
+      "marketplace": "copilot-studio-plugin",
+      "why": "Create, edit, validate and test harness agents, and migrate classic agents to the harness. Needs pac 2.9.3+ (the manifest's pac floor already covers it).",
+      "dependsOn": ["mkt-copilot-studio-harness", "pac"]
+    },
     {
       "id": "vscode",
       "name": "Visual Studio Code",
@@ -303,7 +321,19 @@
     { "id": "model-driven",   "label": "Model-driven apps & generative pages", "items": ["plugin-model-apps"] },
     { "id": "pages",          "label": "Power Pages sites",                 "items": ["plugin-power-pages"] },
     { "id": "code-apps",      "label": "Code apps",                         "items": ["plugin-code-apps"] },
-    { "id": "copilot-studio", "label": "Copilot Studio agents",             "items": ["mkt-copilot-studio", "vscode", "vscode-copilot-studio", "plugin-copilot-studio"] },
+    {
+      "id": "copilot-studio",
+      "label": "Copilot Studio agents",
+      "items": [],
+      "variants": {
+        "question": "Which kind of Copilot Studio agents — standard, GitHub Copilot harness, or both?",
+        "default": ["standard", "harness"],
+        "options": {
+          "standard": { "label": "Standard agents (classic orchestration)", "items": ["mkt-copilot-studio", "vscode", "vscode-copilot-studio", "plugin-copilot-studio"] },
+          "harness":  { "label": "GitHub Copilot harness agents (and migrating classic agents to them)", "items": ["mkt-copilot-studio-harness", "plugin-copilot-studio-harness"] }
+        }
+      }
+    },
     { "id": "pcf",            "label": "PCF code components",               "items": ["plugin-pcf-builder"] },
     { "id": "mobile",         "label": "Mobile apps",                       "items": ["jdk17", "android-studio", "xcode", "plugin-mobile-app", "plugin-pam-extension"] },
     { "id": "process-mining", "label": "Process mining",                    "items": ["plugin-process-intelligence"] },

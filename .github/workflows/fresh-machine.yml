@@ -1,0 +1,94 @@
+name: fresh-machine
+
+# Throwaway-VM test of the whole setup path: the published bootstrap, then every
+# manifest item (all workloads + recommended) checked, installed or upgraded
+# with the manifest's own commands, and re-verified — on Windows, macOS and
+# Linux. No model in the loop; see scripts/test/workstation-smoke.js.
+#
+# The optional `agent` job runs the real setup-workstation skill end to end on
+# a fresh Windows VM. It only runs when the repo has an ANTHROPIC_API_KEY secret.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * 1" # Mondays, after upstream-watch
+  push:
+    branches: [main]
+    paths:
+      - "plugins/doctor/**"
+      - "scripts/install.js"
+      - "scripts/test/**"
+      - ".github/workflows/fresh-machine.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fresh-machine
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Agent runtimes (the one prerequisite a user brings)
+        run: npm install -g @anthropic-ai/claude-code @github/copilot
+
+      - name: Bootstrap — the published installer
+        run: node scripts/install.js
+
+      - name: Smoke — every workload + recommended tier
+        run: node scripts/test/workstation-smoke.js --recommended --report smoke.md
+
+      - name: Report
+        if: always()
+        run: cat smoke.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "no report" >> "$GITHUB_STEP_SUMMARY"
+
+  agent:
+    name: agent (setup-workstation, windows)
+    runs-on: windows-latest
+    timeout-minutes: 90
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Skip unless an API key is configured
+        if: env.ANTHROPIC_API_KEY == ''
+        run: echo "No ANTHROPIC_API_KEY secret — agent run skipped." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/checkout@v4
+        if: env.ANTHROPIC_API_KEY != ''
+
+      - name: Runtime + bootstrap
+        if: env.ANTHROPIC_API_KEY != ''
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          node scripts/install.js
+
+      - name: Run setup-workstation headless
+        if: env.ANTHROPIC_API_KEY != ''
+        run: |
+          claude -p "Set up my workstation for Power Platform development. Workloads: flows and Copilot Studio (both standard and harness agents). Recommended tier: Microsoft Learn MCP only. This is a throwaway CI machine with no Microsoft account: I approve your plan in advance, so don't wait for confirmation, and skip the sign-in step. Finish with the readiness card." \
+            --permission-mode bypassPermissions --max-turns 150 --output-format text | tee agent.md
+
+      - name: Verify independently
+        if: env.ANTHROPIC_API_KEY != ''
+        run: node scripts/test/workstation-smoke.js --no-install --workloads flows,copilot-studio --report verify.md
+
+      - name: Report
+        if: always() && env.ANTHROPIC_API_KEY != ''
+        run: |
+          { echo "## Agent transcript (tail)"; echo '```'; tail -60 agent.md; echo '```'; cat verify.md; } >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true

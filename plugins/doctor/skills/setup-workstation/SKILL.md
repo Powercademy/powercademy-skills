@@ -57,6 +57,10 @@ model-driven apps, Power Pages, code apps, Copilot Studio, PCF, mobile, process
 mining, ALM. "Not sure yet" is a valid answer: install the required tier only and
 say they can re-run this any time to add a workload.
 
+A workload with `variants` gets one follow-up question (its `question`, offering
+its `options`); use its `default` if they don't mind. Its items are the union of
+the chosen options' items.
+
 Then offer the **recommended** tier as an opt-in, one line each with its *why*.
 Default answer: yes to Microsoft Learn MCP (it underpins "verify, never recall"),
 the user's choice for the rest.

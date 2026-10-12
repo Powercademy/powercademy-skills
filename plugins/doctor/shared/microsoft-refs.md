@@ -39,7 +39,8 @@ Marketplaces used by the manifest:
 |---|---|---|
 | `power-platform-skills` | `microsoft/power-platform-skills` | Microsoft's build plugins — **including `dataverse`**, which it sources from `microsoft/Dataverse-skills` |
 | `powercademy-skills` | `Powercademy/powercademy-skills` | Our methodology plugins |
-| `skills-for-copilot-studio` | `microsoft/skills-for-copilot-studio` | Copilot Studio skills |
+| `skills-for-copilot-studio` | `microsoft/skills-for-copilot-studio` | Copilot Studio skills for **standard** agents (`copilot-studio`) |
+| `copilot-studio-plugin` | `microsoft/copilot-studio-plugin` | Copilot Studio authoring for **GitHub Copilot harness** agents (`mcs-assistant`) |
 | `power-cat-skills` | `microsoft/power-cat-skills` | Power CAT advisory plugins |
 
 List and compare: `claude plugin list` / `copilot plugin list` — flag version
