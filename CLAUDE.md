@@ -25,6 +25,14 @@ layer opinions on top.
    Microsoft's mechanics. Any unavoidable reference to Microsoft plugin
    commands, MCP servers, or file layouts goes in ONE shared reference file per
    plugin (`shared/microsoft-refs.md`), never scattered through skills.
+   - Exception: a plugin that needs those mechanics in machine-readable form
+     (install commands, version floors, package IDs) may add ONE JSON companion
+     beside it — currently only `plugins/doctor/shared/toolchain-manifest.json`.
+     The rule is unchanged in spirit: one place per plugin for prose, one for
+     data, nothing vendor-specific in SKILL.md bodies.
+   - The toolchain manifest is the single source of truth for what gets
+     installed and checked. Skills, `scripts/install.js` and the upstream watch
+     read it; never duplicate its contents elsewhere.
 
 3. **Trademark distance.** Never name anything in a way that implies Microsoft
    sponsorship. No "Copilot" in product or plugin names.
@@ -39,7 +47,10 @@ powercademy-skills/
 │       ├── .claude-plugin/plugin.json
 │       ├── skills/<skill-name>/SKILL.md
 │       └── shared/               # refs incl. microsoft-refs.md
+│                                 # (doctor also: toolchain-manifest.json)
 ├── scripts/install.js            # bootstrapper
+├── scripts/watch/                # upstream watch (weekly CI)
+├── watch/upstream-snapshot.json  # accepted upstream baseline
 ├── evals/                        # test cases (post-v1)
 ├── CHANGELOG.md
 └── README.md
