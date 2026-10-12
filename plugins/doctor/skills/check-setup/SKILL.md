@@ -51,6 +51,13 @@ latest` — is **user-scoped and needs no admin**, so it's self-service even on 
 locked-down device. Apply the same scepticism to anything a managed device
 claims to have.
 
+**Known failure signatures live in the manifest.** If a check's output matches
+`failIfOutputMatches` (the shim) or an entry in the check's `diagnose` list,
+run the `repair` it names — e.g. pac's *"You must install .NET to run this
+application"* on macOS/Linux means .NET sits outside its default folder and
+`DOTNET_ROOT` must be set. A repair's `setEnv` applies to the current session
+too, so the re-check can pass before a new terminal is opened.
+
 **Outdated is a finding in its own right.** Node below the manifest's minimum,
 Copilot CLI below the plugin-command floor, .NET below what the canvas tooling
 needs, pac below what the Dataverse skills need — each causes errors that look

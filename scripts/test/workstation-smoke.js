@@ -102,13 +102,26 @@ function checkTool(item) {
   const c = osPick(item.check?.cmd);
   if (!c) return { state: "nocheck" };
   const r = sh(c);
-  if (item.check.failIfOutputMatches && r.out.includes(item.check.failIfOutputMatches)) return { state: "shim", out: r.out };
+  for (const d of item.check.diagnose || []) if (r.out.includes(d.match)) return { state: "repair", repair: d.repair, out: r.out };
+  if (item.check.failIfOutputMatches && r.out.includes(item.check.failIfOutputMatches)) return { state: "repair", repair: "shim", out: r.out };
   if (!r.ok) return { state: "missing", out: r.out };
-  if (item.check.expectOutputMatches && !regexOf(item.check.expectOutputMatches).test(r.out)) return { state: "missing", out: r.out };
+  const expect = osPick(item.check.expectOutputMatches);
+  if (expect && !regexOf(expect).test(r.out)) return { state: "missing", out: r.out };
   const v = versionOf(r.out);
   if (item.check.min && v && cmpVer(v, item.check.min) < 0) return { state: "outdated", version: v };
   if (item.check.min && !v) return { state: "noversion", out: r.out };
   return { state: "ready", version: v };
+}
+
+// The action setup-workstation would take for a check state: install, upgrade,
+// or the named repair (whose optional setEnv is applied to this session too).
+function actionFor(item, c) {
+  if (c.state === "repair") {
+    const rep = item.repair?.[c.repair];
+    return { text: typeof rep === "string" ? rep : osPick(rep), setEnv: rep?.setEnv, label: `repair:${c.repair}` };
+  }
+  if (c.state === "outdated") return { text: item.update || osPick(item.install), label: "upgrade" };
+  return { text: osPick(item.install), label: "install" };
 }
 
 function doTool(item) {
@@ -118,15 +131,22 @@ function doTool(item) {
   if (c.state === "ready") return { status: "ready", note: c.version || "" };
   if (c.state === "noversion") return { status: "fail", note: `check ran but no version in output: ${c.out.slice(0, 120)}` };
   if (!INSTALL) return { status: "fail", note: c.state };
-  const text = c.state === "shim" ? osPick(item.repair?.shim) : c.state === "outdated" ? (item.update || osPick(item.install)) : osPick(item.install);
-  const cmd = cmdOf(text);
-  if (!runnable(cmd)) return { status: "manual", note: `${c.state}; install is manual on ${OS}: ${text || "(none)"}` };
   const before = c.state + (c.version ? ` ${c.version}` : "");
-  const r = sh(cmd, { timeout: CMD_TIMEOUT });
-  refreshPath();
-  c = checkTool(item);
-  if (c.state === "ready") return { status: "installed", note: `${before} → ${c.version || "ok"} via \`${cmd}\`` };
-  return { status: "fail", note: `${before}; ran \`${cmd}\` (exit ${r.code}); still ${c.state}${c.version ? " " + c.version : ""}. Install said: ${r.out.split("\n").slice(-3).join(" ").slice(0, 300)} — check said: ${(c.out || "").split("\n").slice(0, 3).join(" ").slice(0, 300)}` };
+  const steps = [];
+  let last = { code: 0, out: "" };
+  for (let i = 0; i < 3 && c.state !== "ready"; i++) {
+    const a = actionFor(item, c);
+    const cmd = cmdOf(a.text);
+    if (steps.includes(a.label)) break; // same action again won't help
+    if (!runnable(cmd)) return { status: "manual", note: `${c.state}; ${a.label} is manual on ${OS}: ${a.text || "(none)"}` };
+    last = sh(cmd, { timeout: CMD_TIMEOUT });
+    for (const [k, expr] of Object.entries(a.setEnv || {})) { const v = sh(expr); if (v.ok && v.out) process.env[k] = v.out.split("\n")[0]; }
+    refreshPath();
+    steps.push(a.label);
+    c = checkTool(item);
+  }
+  if (c.state === "ready") return { status: "installed", note: `${before} → ${c.version || "ok"} via ${steps.join(" → ")}` };
+  return { status: "fail", note: `${before}; tried ${steps.join(" → ")} (last exit ${last.code}); still ${c.state}${c.version ? " " + c.version : ""}. Last command said: ${last.out.split("\n").slice(-3).join(" ").slice(0, 300)} — check said: ${(c.out || "").split("\n").slice(0, 3).join(" ").slice(0, 300)}` };
 }
 
 // ── marketplaces, plugins, MCP per runtime ────────────────────

@@ -79,10 +79,23 @@
       "name": "Power Platform CLI (pac)",
       "tier": "required",
       "why": "The backbone of every Power Platform agent workflow — auth, environments, solutions, PCF.",
-      "check": { "cmd": "pac help", "min": "2.11.1", "failIfOutputMatches": "No Microsoft.PowerApps.CLI has been installed" },
+      "check": {
+        "cmd": "pac help",
+        "min": "2.11.1",
+        "failIfOutputMatches": "No Microsoft.PowerApps.CLI has been installed",
+        "diagnose": [
+          { "match": "You must install .NET to run this application", "repair": "dotnetRoot", "meaning": ".NET is installed outside its default folder (Homebrew formula, dotnet-install script), so the pac launcher can't find it." }
+        ]
+      },
       "install": { "all": "dotnet tool install --global Microsoft.PowerApps.CLI.Tool" },
       "update": "dotnet tool update --global Microsoft.PowerApps.CLI.Tool",
-      "repair": { "shim": "pac install latest   (user-scoped, no admin — fixes an Intune/MSI shim on PATH with no CLI behind it)" },
+      "repair": {
+        "shim": "pac install latest   (user-scoped, no admin — fixes an Intune/MSI shim on PATH with no CLI behind it)",
+        "dotnetRoot": {
+          "posix": "for f in ~/.zshrc ~/.bashrc; do grep -q DOTNET_ROOT \"$f\" 2>/dev/null || echo 'export DOTNET_ROOT=\"$(dirname \"$(readlink -f \"$(command -v dotnet)\")\")\"' >> \"$f\"; done   (persists DOTNET_ROOT for new terminals)",
+          "setEnv": { "DOTNET_ROOT": "dirname \"$(readlink -f \"$(command -v dotnet)\")\"" }
+        }
+      },
       "scope": { "win": "user" },
       "after": "Open a new terminal so PATH refreshes."
     },
@@ -216,7 +229,7 @@
       "name": "Visual Studio Code",
       "tier": "workload",
       "check": { "cmd": "code --version" },
-      "install": { "win": "winget install -e --id Microsoft.VisualStudioCode --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask visual-studio-code", "linux": "https://code.visualstudio.com/docs/setup/linux" },
+      "install": { "win": "winget install -e --id Microsoft.VisualStudioCode --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask visual-studio-code", "linux": "sudo snap install code --classic" },
       "scope": { "win": "user" }
     },
     {
@@ -243,8 +256,15 @@
       "id": "android-studio",
       "name": "Android Studio",
       "tier": "workload",
-      "check": { "cmd": { "win": "where studio64", "posix": "ls /Applications/Android\\ Studio.app" } },
-      "install": { "win": "winget install -e --id Google.AndroidStudio --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask android-studio", "linux": "https://developer.android.com/studio" },
+      "check": {
+        "cmd": {
+          "win": "powershell -NoProfile -Command \"Test-Path (Join-Path $env:ProgramFiles 'Android\\Android Studio\\bin\\studio64.exe')\"",
+          "mac": "ls \"/Applications/Android Studio.app\"",
+          "linux": "command -v android-studio"
+        },
+        "expectOutputMatches": { "win": "True" }
+      },
+      "install": { "win": "winget install -e --id Google.AndroidStudio --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask android-studio", "linux": "sudo snap install android-studio --classic" },
       "scope": { "win": "admin" }
     },
     {

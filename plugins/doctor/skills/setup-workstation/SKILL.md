@@ -77,7 +77,7 @@ recommended items, plus everything they `dependsOn`. Then run each item's
 |---|---|
 | ✅ ready | Check passes and meets `min` |
 | ⬆ outdated | Present but below `min` — upgrade with the item's `update` command (else its install command), don't uninstall first |
-| 🧩 shim | Resolves on PATH but doesn't function (pac's `failIfOutputMatches`) — use the item's `repair` |
+| 🧩 needs repair | Resolves but doesn't function — output matches `failIfOutputMatches` (shim) or a `diagnose` entry; run the `repair` it names, applying any `setEnv` in-session |
 | ⬜ missing | Not present |
 | 🔁 bundled | Recommended MCP already provided by an installed plugin (`bundledIn`) — skip, don't double-register |
 
