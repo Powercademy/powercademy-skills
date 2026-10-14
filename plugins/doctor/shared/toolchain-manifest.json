@@ -194,7 +194,7 @@
     { "id": "plugin-power-pages", "name": "Power Pages", "tier": "workload", "type": "plugin", "plugin": "power-pages", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
     { "id": "plugin-code-apps", "name": "Code apps (preview)", "tier": "workload", "type": "plugin", "plugin": "code-apps-preview", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
     { "id": "plugin-process-intelligence", "name": "Process mining", "tier": "workload", "type": "plugin", "plugin": "process-intelligence", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-pcf-builder", "name": "pcf-builder", "tier": "workload", "type": "plugin", "plugin": "pcf-builder", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy", "pac", "dotnet-sdk"] },
+    { "id": "plugin-pcf", "name": "PCF code components (Microsoft, preview)", "tier": "workload", "type": "plugin", "plugin": "pcf", "marketplace": "power-platform-skills", "why": "Builds, tests, diagnoses, upgrades, deploys and verifies PCF controls from Microsoft-maintained templates. Needs Node 20+; pac and .NET to deploy; Azure CLI to verify.", "dependsOn": ["mkt-microsoft", "node", "pac", "dotnet-sdk", "azure-cli"] },
     { "id": "plugin-alm", "name": "alm", "tier": "workload", "type": "plugin", "plugin": "alm", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy", "plugin-dataverse"] },
     {
       "id": "mkt-copilot-studio",
@@ -281,7 +281,7 @@
       "tier": "recommended",
       "type": "mcp",
       "why": "Lets every skill verify against live Microsoft documentation instead of memory.",
-      "bundledIn": ["power-automate", "power-pages", "mobile-app", "pcf-builder", "canvas-planner", "alm"],
+      "bundledIn": ["power-automate", "power-pages", "mobile-app", "canvas-planner", "alm"],
       "endpoint": "https://learn.microsoft.com/api/mcp",
       "install": {
         "claude": "claude mcp add --transport http microsoft-learn https://learn.microsoft.com/api/mcp",
@@ -352,6 +352,13 @@
       "retiredIn": "0.12.0",
       "replacedBy": "Microsoft's power-automate plugin builds, edits and debugs flows directly. The flow lessons moved to the conventions plugin (flow-conventions).",
       "action": "Uninstall it from every runtime; make sure conventions is installed."
+    },
+    {
+      "plugin": "pcf-builder",
+      "marketplace": "powercademy-skills",
+      "retiredIn": "0.13.0",
+      "replacedBy": "Microsoft's pcf plugin builds, tests, deploys and verifies PCF controls. The PCF judgement (is PCF the right tool, licensing, gotchas) moved to the conventions plugin (pcf-conventions).",
+      "action": "Uninstall it from every runtime; make sure conventions and Microsoft's pcf plugin are installed."
     }
   ],
 
@@ -374,7 +381,7 @@
         }
       }
     },
-    { "id": "pcf",            "label": "PCF code components",               "items": ["plugin-pcf-builder"] },
+    { "id": "pcf",            "label": "PCF code components",               "items": ["plugin-pcf"] },
     { "id": "mobile",         "label": "Mobile apps",                       "items": ["jdk17", "android-studio", "xcode", "plugin-mobile-app", "plugin-pam-extension"] },
     { "id": "process-mining", "label": "Process mining",                    "items": ["plugin-process-intelligence"] },
     { "id": "alm",            "label": "ALM & deployments",                 "items": ["plugin-alm"] }

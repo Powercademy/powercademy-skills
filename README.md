@@ -72,7 +72,7 @@ Manual bootstrap, inside a Claude Code or Copilot CLI session:
 
 ## What's included
 
-### doctor (0.5.1) — start here
+### doctor (0.5.2) — start here
 
 The answer to "why is setting this up such a pain?" — the first thing you run,
 and the place you come back to when something breaks:
@@ -97,23 +97,6 @@ is renamed or pulled, or a community skill lands in our lanes — so the setup
 doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
 workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
 the whole manifest, installing into both Claude Code and Copilot CLI.
-
-### pcf-builder (0.2.0)
-
-Build Power Apps Component Framework (PCF) code components **end to end** —
-without the afternoons PCF usually costs:
-
-- **`build-pcf-control`** — decides first whether PCF is even the right tool
-  (often it isn't), then produces a manifest-first build plan and working
-  control, verified against Microsoft Learn (APIs, manifest schema, and the
-  premium-licensing trap). Checkpoints sit exactly where PCF breaks: the
-  version-bump-or-cached-bundle gotcha, the harness-is-not-the-real-host gap,
-  and `pac pcf push` vs a proper managed-solution ALM deploy.
-- **`shared/gotchas.md`** — the accumulated PCF failure log (versioning,
-  manifest, lifecycle, harness-vs-host, licensing, bundling), read before every
-  build.
-
-Fills genuine white space — Microsoft's own plugins don't cover PCF.
 
 ### canvas-planner (0.2.0)
 
@@ -149,7 +132,7 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.2.0)
+### conventions (0.3.0)
 
 The judgement layer as a checklist — applied before anything gets built:
 
@@ -163,6 +146,11 @@ The judgement layer as a checklist — applied before anything gets built:
   checks), designer quirks, expressions, Graph permissions, testing without
   the real system (write gates, dry-run guards). Applied alongside whichever
   tool builds the flow — usually Microsoft's power-automate plugin.
+- **`pcf-conventions`** — whether PCF is even the right tool (often it isn't),
+  which control type, and the PCF traps: the version bump or the cached
+  bundle keeps rendering, dev push isn't deployment, the harness isn't the
+  real host, and the premium-licensing trap. Applied alongside Microsoft's
+  pcf plugin.
 - **`writing-skills`** — the house standard for authoring marketplace skills:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.

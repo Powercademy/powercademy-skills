@@ -2,11 +2,11 @@
   "comment": "Trigger evals: does each skill fire on a natural phrasing, in each runtime? The runner kills each session as soon as a skill invocation (or clean no-invocation turn end) is observed, so runs stay short and cheap. Alternates cover secondary trigger paths (run with --alternates).",
   "scenarios": [
     {
-      "skill": "build-pcf-control",
-      "plugin": "pcf-builder",
-      "prompt": "build a PCF dataset control that shows appointments as a calendar on a model-driven view",
+      "skill": "pcf-conventions",
+      "plugin": "conventions",
+      "prompt": "I'm thinking of building a PCF control to show a star rating on a form - is that the right approach, and what should I watch out for?",
       "alternates": [
-        "my PCF control works in the test harness but not on the form - why?"
+        "I redeployed my PCF control but the form still shows the old version - why?"
       ]
     },
     {

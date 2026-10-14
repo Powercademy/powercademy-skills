@@ -1,7 +1,9 @@
-# PCF Build — Gotchas Log
+# PCF — Code Component Gotchas
 
-Accumulated failures, each of which cost real time once. Read before building.
-Append after any session that teaches something new.
+Accumulated failures from real PCF builds, each of which cost real time once.
+Read before building, deploying or debugging a code component — whichever tool
+does the building (Microsoft's pcf plugin, the pac CLI by hand, or anything
+else). Append after any session that teaches something new.
 
 Format per entry: **Symptom** → **Cause** → **Fix**. Short and mechanical.
 

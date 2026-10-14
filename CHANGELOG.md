@@ -3,6 +3,34 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.13.0] — 2026-10-14
+
+### Removed
+
+- **pcf-builder retired** (`build-pcf-control`). Microsoft added a `pcf` plugin
+  to power-platform-skills (preview, 2026-10-14) that builds, tests,
+  diagnoses, upgrades, deploys and verifies PCF controls from
+  Microsoft-maintained templates and recipes. The upstream watch flagged it
+  the same day. Already installed? doctor offers to uninstall it via the
+  manifest's `retired` list.
+
+### Added
+
+- **`pcf-conventions`** (conventions 0.3.0) — pcf-builder's judgement lives on
+  as a consult-alongside skill: the decision gate (out-of-the-box, canvas
+  component or generative page before PCF), the control-type choice, and the
+  PCF gotchas log (version bump or the cached bundle keeps rendering, dev push
+  isn't ALM, manifest binding, lifecycle traps, harness vs real host, the
+  premium-licensing trap, bundle weight).
+
+### Changed
+
+- **PCF workload** now installs Microsoft's `pcf` plugin (needs Node 20+, pac,
+  .NET and Azure CLI — all already covered by the manifest's floors).
+- Upstream baseline accepted (pcf added; model-apps 2.14.0, dataverse 1.16.1).
+- doctor 0.5.2, conventions 0.3.0. Four plugins: alm, canvas-planner,
+  conventions, doctor.
+
 ## [0.12.0] — 2026-10-12
 
 ### Removed

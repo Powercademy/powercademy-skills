@@ -1,8 +1,8 @@
 {
-  "takenAt": "2026-10-12",
+  "takenAt": "2026-10-14",
   "repos": {
     "microsoft/power-platform-skills": {
-      "head": "3dd0cfb~2026-10-12",
+      "head": "c6babc7~2026-10-14",
       "marketplacePlugins": [
         "canvas-apps",
         "code-apps-preview",
@@ -10,6 +10,7 @@
         "mcp-apps",
         "mobile-app",
         "model-apps",
+        "pcf",
         "power-apps-mobile-extension",
         "power-automate",
         "power-pages",
@@ -53,7 +54,7 @@
           ]
         },
         "model-apps": {
-          "version": "2.13.0",
+          "version": "2.14.0",
           "mcp": {
             "playwright": "node -e const path=require('node:path'); const root=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT; if(!root) throw new Error('PLUGIN_ROOT is not set'); const mod=require(path.resolve(root,'scripts','launch-playwright-mcp.js')); if(mod&&typeof mod.launch==='function') mod.launch();"
           },
@@ -61,6 +62,15 @@
             "azure cli",
             "node 20",
             "node 22+",
+            "playwright"
+          ]
+        },
+        "pcf": {
+          "version": "1.0.0",
+          "mcp": {},
+          "prereqs": [
+            "azure cli",
+            "node 20",
             "playwright"
           ]
         },
@@ -109,13 +119,13 @@
       }
     },
     "microsoft/Dataverse-skills": {
-      "head": "3be592f~2026-10-05",
+      "head": "1966192~2026-10-12",
       "marketplacePlugins": [
         "dataverse"
       ],
       "plugins": {
         "dataverse": {
-          "version": "1.16.0",
+          "version": "1.16.1",
           "mcp": {},
           "prereqs": [
             ".net 10",
@@ -145,7 +155,7 @@
       }
     },
     "microsoft/power-cat-skills": {
-      "head": "044a6af~2026-10-06",
+      "head": "becb8af~2026-10-13",
       "marketplacePlugins": [
         "powercat-admin-digest",
         "powercat-adoption",
@@ -814,7 +824,7 @@
         "copilot-cli"
       ],
       "state": "ok",
-      "latest": "1.0.95"
+      "latest": "1.0.97"
     },
     "url:https://docs.anthropic.com/en/docs/claude-code": {
       "items": [
@@ -827,14 +837,14 @@
         "dotnet-sdk"
       ],
       "state": "ok",
-      "latest": "10.0.401"
+      "latest": "10.0.402"
     },
     "cask:dotnet-sdk": {
       "items": [
         "dotnet-sdk"
       ],
       "state": "ok",
-      "latest": "10.0.401"
+      "latest": "10.0.402"
     },
     "url:https://learn.microsoft.com/dotnet/core/install/linux": {
       "items": [
@@ -884,13 +894,6 @@
       "state": "ok",
       "latest": "3.12.15"
     },
-    "pypi:PowerPlatform-Dataverse-Client": {
-      "items": [
-        "dataverse-python-sdk"
-      ],
-      "state": "ok",
-      "latest": "1.1.0"
-    },
     "pypi:azure-identity": {
       "items": [
         "dataverse-python-sdk"
@@ -898,32 +901,61 @@
       "state": "ok",
       "latest": "1.26.0"
     },
+    "pypi:requests": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "2.34.2"
+    },
+    "pypi:PowerPlatform-Dataverse-Client": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "1.1.0"
+    },
+    "pypi:pandas": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "3.0.6"
+    },
+    "pypi:msal": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "1.39.0"
+    },
+    "pypi:msal-extensions": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok",
+      "latest": "1.3.1"
+    },
     "winget:Microsoft.VisualStudioCode": {
       "items": [
         "vscode"
       ],
       "state": "ok",
-      "latest": "1.141.0"
+      "latest": "1.141.1"
     },
     "cask:visual-studio-code": {
       "items": [
         "vscode"
       ],
       "state": "ok",
-      "latest": "1.141.0"
-    },
-    "url:https://code.visualstudio.com/docs/setup/linux": {
-      "items": [
-        "vscode"
-      ],
-      "state": "ok"
+      "latest": "1.141.2"
     },
     "vscode:ms-CopilotStudio.vscode-copilotstudio": {
       "items": [
         "vscode-copilot-studio"
       ],
       "state": "ok",
-      "latest": "1.9.14"
+      "latest": "1.9.16"
     },
     "winget:EclipseAdoptium.Temurin.17.JDK": {
       "items": [
@@ -953,12 +985,6 @@
       "state": "ok",
       "latest": "2026.2.1.8,rabbit1"
     },
-    "url:https://developer.android.com/studio": {
-      "items": [
-        "android-studio"
-      ],
-      "state": "ok"
-    },
     "endpoint:https://learn.microsoft.com/api/mcp": {
       "items": [
         "mcp-learn"
@@ -977,7 +1003,7 @@
         "mcp-playwright"
       ],
       "state": "ok",
-      "latest": "1.64.0"
+      "latest": "1.64.1"
     },
     "url:https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp": {
       "items": [
@@ -997,7 +1023,7 @@
         "pwsh7"
       ],
       "state": "ok",
-      "latest": "7.6.6.0"
+      "latest": "7.6.7.0"
     }
   }
 }

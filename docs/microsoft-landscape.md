@@ -62,7 +62,7 @@ evaluation; overlaps the audit space at the *GUI* level, not agent-skill level.
 | Ours | Verdict | Evidence & boundary |
 |---|---|---|
 | `build-flow-spec` (**retired 0.12.0**) | **Covered — retired** | power-automate's build-flow / create-flow / edit_flow / debug-flow now cover building, validating, surgical edits and debugging, and competing for the same trigger phrasing hurt both. The unique part — the flow gotchas log — lives on as `flow-conventions` in conventions |
-| `build-pcf-control` (shipped) | **Confirmed white space** | Zero PCF hits (`pac pcf`/`ControlManifest`/`component framework`) across all 7 plugins; procode-eval scope checked — Code Apps + genpages only |
+| `build-pcf-control` (**retired 0.13.0**) | **Covered — retired** | Microsoft added a `pcf` plugin (preview, 2026-10-14) that builds, tests, diagnoses, upgrades, deploys and verifies controls from templates and recipes. The judgement — is PCF the right tool, licensing, gotchas — lives on as `pcf-conventions` in conventions |
 | `doctor`: `setup-workstation` + `check-setup` (shipped) | **Overlap risk — boundary drawn** | power-automate ships a `setup` skill (plugin-scoped: Node, Azure CLI, az login, FlowAgent wiring). Ours is machine-wide, cross-runtime, multi-workload provisioning (setup-workstation) and repair/auth hygiene (check-setup). **Rule: doctor routes to their setup for FlowAgent-specific wiring, never re-implements it** — and the skill is deliberately *not* named `setup` to avoid a trigger collision |
 | `audit-solution` (#11) | **CONTESTED — reposition** | powercat-overflow owns flow-level review; overpage owns Pages audits; Power CAT Tools (GUI) does code review/risk. Our lane: **cross-workload** solution audit (the whole inherited estate), conventions/judgement altitude, agent form factor. Route flow-zip review *to* overflow rather than rebuild it |
 | `advise-licensing` (#12) | **Confirmed white space** | Appears in no Microsoft plugin inventory |
@@ -82,7 +82,7 @@ evaluation; overlaps the audit space at the *GUI* level, not agent-skill level.
 | Flow-level review of a solution .zip | **powercat-overflow** | cross-workload synthesis on top |
 | Pages audit | **powercat-overpage** | cross-workload synthesis on top |
 | Code Apps / genpage evals | powercat-procode-eval | — |
-| PCF end to end | **pcf-builder (ours)** | whole lifecycle — white space |
+| PCF end to end | Microsoft's pcf plugin | pcf-conventions: the decision gate and gotchas |
 | New machine / add a workload | **setup-workstation (ours)**; FlowAgent wiring → their `setup` | whole toolchain, one plan, IT request for admin items |
 | Something's broken / wrong tenant | **check-setup (ours)** | cross-runtime + auth hygiene |
 | Docs/licensing verification | Learn MCP (`learn.microsoft.com/api/mcp`) | curated source maps, verdicts |

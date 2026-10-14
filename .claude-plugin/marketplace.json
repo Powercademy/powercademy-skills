@@ -9,10 +9,6 @@
     },
     "plugins": [
         {
-            "name": "pcf-builder",
-            "source": "./plugins/pcf-builder"
-        },
-        {
             "name": "doctor",
             "source": "./plugins/doctor"
         },

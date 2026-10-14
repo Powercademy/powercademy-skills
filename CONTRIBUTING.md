@@ -6,9 +6,8 @@ prevented one, a trigger phrasing that should have fired and didn't.
 
 ## The fast path: contribute a gotcha
 
-1. Find the right log: each plugin has a `shared/gotchas.md` (pcf-builder,
-   canvas-planner), flow lessons live in
-   `plugins/conventions/shared/flow-gotchas.md`, and Dataverse conventions in
+1. Find the right log: canvas-planner has a `shared/gotchas.md`; flow and PCF lessons live in
+   `plugins/conventions/shared/flow-gotchas.md` and `pcf-gotchas.md`, and Dataverse conventions in
    `plugins/conventions/skills/dataverse-conventions/SKILL.md`.
 2. Write the entry in the established form — **Symptom → Cause → Fix**, short
    and mechanical, with the reasoning included.
