@@ -1,6 +1,6 @@
 {
   "name": "doctor",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Takes a machine from nothing to fully equipped for end-to-end Power Platform development, then keeps it healthy. setup-workstation asks which workloads you'll build, installs the SDKs, CLIs, Microsoft's plugins and MCP servers with one approval, and writes an IT request for anything needing admin rights; check-setup diagnoses and repairs auth profiles, tenants, outdated tools and plugin drift. Both read one versioned toolchain manifest that a weekly upstream watch keeps current.",
   "author": {
     "name": "Howdang Rashid"

@@ -3,6 +3,14 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.13.1] — 2026-10-14
+
+### Fixed
+
+- PCF workload: Microsoft's pcf plugin no longer depends on the Node item.
+  On Linux the Node 24 upgrade is manual, so the dependency blocked pcf even
+  though it only needs Node 20+ (caught by the fresh-machine run). doctor 0.5.3.
+
 ## [0.13.0] — 2026-10-14
 
 ### Removed

@@ -72,7 +72,7 @@ Manual bootstrap, inside a Claude Code or Copilot CLI session:
 
 ## What's included
 
-### doctor (0.5.2) — start here
+### doctor (0.5.3) — start here
 
 The answer to "why is setting this up such a pain?" — the first thing you run,
 and the place you come back to when something breaks:

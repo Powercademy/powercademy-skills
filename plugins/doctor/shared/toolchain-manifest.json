@@ -194,7 +194,7 @@
     { "id": "plugin-power-pages", "name": "Power Pages", "tier": "workload", "type": "plugin", "plugin": "power-pages", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
     { "id": "plugin-code-apps", "name": "Code apps (preview)", "tier": "workload", "type": "plugin", "plugin": "code-apps-preview", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
     { "id": "plugin-process-intelligence", "name": "Process mining", "tier": "workload", "type": "plugin", "plugin": "process-intelligence", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-pcf", "name": "PCF code components (Microsoft, preview)", "tier": "workload", "type": "plugin", "plugin": "pcf", "marketplace": "power-platform-skills", "why": "Builds, tests, diagnoses, upgrades, deploys and verifies PCF controls from Microsoft-maintained templates. Needs Node 20+; pac and .NET to deploy; Azure CLI to verify.", "dependsOn": ["mkt-microsoft", "node", "pac", "dotnet-sdk", "azure-cli"] },
+    { "id": "plugin-pcf", "name": "PCF code components (Microsoft, preview)", "tier": "workload", "type": "plugin", "plugin": "pcf", "marketplace": "power-platform-skills", "why": "Builds, tests, diagnoses, upgrades, deploys and verifies PCF controls from Microsoft-maintained templates. Needs Node 20+; pac and .NET to deploy; Azure CLI to verify.", "dependsOn": ["mkt-microsoft", "pac", "dotnet-sdk", "azure-cli"] },
     { "id": "plugin-alm", "name": "alm", "tier": "workload", "type": "plugin", "plugin": "alm", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy", "plugin-dataverse"] },
     {
       "id": "mkt-copilot-studio",
