@@ -77,8 +77,10 @@ have to recreate the components to fix it. Reusing the org's publisher also
 keeps schema naming consistent with everything already there.
 
 **How:** SDK — pass `solution="<UniqueName>"` on every create call. Web API —
-set the `MSCRM.SolutionName` header on every metadata POST. Verify with the
-solution's `publisherid` (expand `customizationprefix`).
+set the `MSCRM.SolutionUniqueName` header on every metadata POST (Microsoft
+Learn's name for it; `MSCRM.SolutionName` is ignored, and the component lands
+outside the solution). Verify with the solution's `publisherid` (expand
+`customizationprefix`).
 
 ### 3. Include each table's subcomponents AND required dependencies; system tables as shell references only
 
