@@ -29,6 +29,11 @@ The mechanics belong to Microsoft's tooling (see
   unless you can see it.
 - **Say which environment you are about to change, every time**, before you
   change it.
+- **Promote with the CLI or native pipelines, not by clicking.** Export,
+  import, dependency checks and environment-variable values all have
+  scriptable routes — use them, so the promotion can be repeated and audited.
+  The browser is for what has no API (some admin-centre settings) and for
+  confirming the result looks right in the target environment.
 
 ---
 

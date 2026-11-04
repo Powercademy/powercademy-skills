@@ -4,7 +4,7 @@ The **only** place in this plugin that names Microsoft plugin commands, MCP
 servers, or file layouts. Skills state methodology; when they need Microsoft
 mechanics, they point here.
 
-**Verified 2026-07-25.**
+**Verified 2026-07-25; tool map added 2026-11-04.**
 
 ---
 
@@ -32,6 +32,30 @@ Useful anchors:
 
 - statecode/statuscode metadata actions: search Learn for `InsertStatusValue UpdateStateValue`
 - Solution components & root behaviour: search Learn for `AddSolutionComponent rootcomponentbehavior`
+
+## Tool map (tool-selection)
+
+Concrete tools behind each rung of the tool-selection ladder. Re-check against
+the installed plugins — Microsoft add and rename tools often.
+
+| Rung | Workload | Tool |
+|---|---|---|
+| 1 — purpose-built | Cloud flows | `power-automate` plugin (FlowAgent MCP server: build, edit, validate, run, debug) |
+| 1 | Dataverse | `dataverse` plugin (`dv-*` skills; Dataverse MCP, Python SDK and pac underneath) |
+| 1 | Canvas apps | `canvas-apps` plugin (canvas authoring MCP server) |
+| 1 | Model-driven apps, generative pages | `model-apps` plugin |
+| 1 | Power Pages | `power-pages` plugin |
+| 1 | Copilot Studio | `copilot-studio` (standard agents) / `mcs-assistant` (harness agents) |
+| 1 | PCF | `pcf` plugin |
+| 2 — SDK / API / CLI | Dataverse data and schema | Dataverse Python SDK (`PowerPlatform-Dataverse-Client`) or the Web API; for bulk work use batching — search Learn for `Dataverse Web API batch requests` and `CreateMultiple UpdateMultiple` |
+| 2 | Solutions, environments, auth, components | `pac` CLI (`pac solution`, `pac admin`, `pac auth`, `pac pcf`); native Power Platform pipelines for promotion |
+| 2 | Azure resources and sign-in | `az` CLI |
+| 3 — browser | UI-only settings, visual checks, user's-eye testing | Playwright MCP — bundled by `model-apps` and `power-pages`; standalone registration in doctor's toolchain manifest |
+| — | Platform facts | Microsoft Learn MCP server (see above) |
+
+Microsoft's own Power Pages guidance makes the cost point concretely: each
+Playwright MCP navigation returns a full page snapshot, so batch browser work
+into as few calls as possible when the browser *is* the right tool.
 
 ## Marketplace registration
 

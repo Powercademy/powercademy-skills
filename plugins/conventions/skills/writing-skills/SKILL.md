@@ -79,6 +79,13 @@ the user's message matches it. Write it "pushy":
   memory** — and label inference as inference.
 - **Checkpoints with risk tiers** (🟢/🟡/🔴) wherever the skill can cause a
   write. Every irreversible action sits behind an explicit checkpoint.
+- **Right tool for the job.** A skill that acts on a tenant names its tool
+  order: purpose-built plugin tools first, then SDK / Web API / CLI, browser
+  automation last — and only for what has no API or where the UI itself is
+  being checked. It must never make the browser its default for data, schema,
+  solution or flow work, and never tell the user something can't be done while
+  browser automation could do it. The conventions plugin's `tool-selection`
+  skill holds the full ladder.
 - **Deliverables land in the user's working directory** with the path stated —
   never in agent session-state folders, where they die with the session.
 - **A living `gotchas` file in `shared/`** in Symptom → Cause → Fix form, read before

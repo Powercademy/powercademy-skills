@@ -40,6 +40,11 @@ built. The gotchas file has the detail and the reasoning.
   test. Gate the write, use a sandbox, or ask.
 - **A mock tests everything downstream of the boundary and nothing at it.**
   Say so at sign-off; don't let *tested* be heard as *proven end to end*.
+- **Edit flows through the flow tooling, not by driving the designer.** The
+  purpose-built flow tools read and change the definition directly, validate
+  it, and can roll back. Automating the designer in a browser is slower and
+  breaks on UI changes — keep it for what the tools can't reach, and for
+  watching a run render. See the tool-selection skill.
 
 ## How to add an entry
 

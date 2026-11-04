@@ -118,6 +118,22 @@ it modal safely needs the host-specific overlay pattern — see
 `${PLUGIN_ROOT}/shared/microsoft-refs.md` for the mechanics on Microsoft's
 generative-page tooling.
 
+### 5. Change schema and data through the API, not the maker portal
+
+**Rule:** Create and change tables, columns, choices and relationships, and
+load or update records, through the Dataverse tools, SDK or Web API — batched
+for anything bulk. Use browser automation of the maker portal only for what
+has no API, or to check how the result looks.
+
+**Why:** An SDK call creates a column in seconds and can be re-run, reviewed
+and promoted; driving the portal through a browser takes a dozen page loads
+per column, breaks when the UI changes, and leaves no repeatable record.
+Clicking through hundreds of records is never the answer. The full ladder is
+in the tool-selection skill.
+
+**How:** Concrete tools in `${PLUGIN_ROOT}/shared/microsoft-refs.md`
+under "Tool map".
+
 ---
 
 ## Calibration

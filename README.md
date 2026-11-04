@@ -98,7 +98,7 @@ doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
 workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
 the whole manifest, installing into both Claude Code and Copilot CLI.
 
-### canvas-planner (0.2.0)
+### canvas-planner (0.2.1)
 
 The decisions that determine whether a canvas app survives contact with real
 data — made *before* anything is generated:
@@ -113,7 +113,7 @@ data — made *before* anything is generated:
 - Checkpoints run at **production volumes**, because a 50-row test proves
   nothing about delegation.
 
-### alm (0.1.0)
+### alm (0.1.1)
 
 How the work actually ships — and the deployment that doesn't ruin your evening:
 
@@ -132,7 +132,7 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.3.0)
+### conventions (0.4.0)
 
 The judgement layer as a checklist — applied before anything gets built:
 
@@ -151,6 +151,11 @@ The judgement layer as a checklist — applied before anything gets built:
   bundle keeps rendering, dev push isn't deployment, the harness isn't the
   real host, and the premium-licensing trap. Applied alongside Microsoft's
   pcf plugin.
+- **`tool-selection`** — the right tool for the job: Microsoft's purpose-built
+  tools first, then the SDK, Web API or pac CLI, and browser automation
+  (Playwright) only for what has no API or where the UI itself is being
+  checked. Stops agents clicking through the maker portal for work one SDK
+  call does — and stops them saying "can't be done" when the browser can.
 - **`writing-skills`** — the house standard for authoring marketplace skills:
   dual-runtime constraints, trigger-description craft, redaction rules, and
   the review checklist. The contribution workflow, as a skill.

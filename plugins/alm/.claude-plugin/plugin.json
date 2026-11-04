@@ -1,6 +1,6 @@
 {
   "name": "alm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Power Platform ALM the Powercademy way — design the delivery process (environments, solution segmentation, publisher, the config boundary, promotion path and approvals), then run promotions with checkpoints that stop before anything irreversible. Routes execution to Microsoft's Dataverse solution skills, native pipelines and pac CLI rather than rebuilding them. A production import is always a red checkpoint.",
   "author": {
     "name": "Howdang Rashid"

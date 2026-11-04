@@ -175,7 +175,10 @@ Then **hand execution to Microsoft's canvas authoring tooling** with these
 decisions as its input — it plans and generates screens far faster than doing
 it by hand. See `${PLUGIN_ROOT}/shared/microsoft-refs.md`. The division is
 strict: *this skill decides; their tooling builds.* Do not re-implement
-generation here.
+generation here, and don't drive Studio through browser automation to build
+what the authoring tooling can write directly — it's slower and breaks when
+the UI moves. The browser earns its place afterwards: opening the running app
+to check it behaves at real volumes.
 
 When their tooling produces something that contradicts the plan, the plan is
 the source of truth — update it and say whether rework is needed.

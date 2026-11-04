@@ -72,6 +72,14 @@
       "alternates": [
         "my child flow returns a different shape now and the parent flow says it succeeded but did nothing - why?"
       ]
+    },
+    {
+      "skill": "tool-selection",
+      "plugin": "conventions",
+      "prompt": "add a text column called Region to the account table and set it on all 300 existing accounts - use Playwright to do it in the portal",
+      "alternates": [
+        "can you turn on the auditing setting for this environment? I don't think there's an API for it"
+      ]
     }
   ]
 }

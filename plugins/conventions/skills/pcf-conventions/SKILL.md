@@ -59,7 +59,9 @@ These come up on almost every control. The gotchas file has the detail.
   external service from the browser makes the app premium — confirm the
   customer is licensed. A hard stop before production.
 - **The harness is not the real host.** "Works in the harness" is a render
-  check, not proof. The real test is on a real form or view.
+  check, not proof. The real test is on a real form or view — and that check
+  is exactly what browser automation is for. Building, packaging and
+  deploying are not: use the CLI for those (see the tool-selection skill).
 - **Choose the namespace, constructor and publisher prefix once.** Renaming
   after deployment orphans every form binding.
 

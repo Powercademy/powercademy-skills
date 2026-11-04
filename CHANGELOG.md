@@ -3,6 +3,37 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.14.0] — 2026-11-04
+
+The right tool for the job.
+
+### Added
+
+- **`tool-selection`** (conventions 0.4.0) — a three-rung ladder for any
+  Power Platform task: Microsoft's purpose-built plugin tools and MCP servers
+  first; then the Dataverse SDK / Web API, pac CLI or Azure CLI; browser
+  automation (Playwright) last — for what has no API, or where the UI itself
+  is what's being checked. Covers why the order matters (speed, reliability,
+  per-step page snapshots, repeatability, audit), a task → tool → fallback
+  table, anti-patterns, and a "say which tool and why" rule. Equally firm the
+  other way: never tell the user something can't be done while browser
+  automation could do it. Microsoft's skills carry local browser guidance but
+  nothing cross-cutting.
+- Tool map in conventions' `microsoft-refs.md` naming the concrete tool per
+  rung.
+- Eval scenario for tool-selection.
+
+### Changed
+
+- The rule is woven into the skills that act: **promote-solution** (promote
+  with the CLI or pipelines, not by clicking — alm 0.1.1), **plan-canvas-app**
+  (don't drive Studio to build what the authoring tooling writes —
+  canvas-planner 0.2.1), **dataverse-conventions** (new entry 5: schema and
+  data through the API, not the maker portal), **flow-conventions** and
+  **pcf-conventions**.
+- **writing-skills** and **CLAUDE.md**: "right tool for the job" is now a house
+  rule for every skill that acts on a tenant.
+
 ## [0.13.1] — 2026-10-14
 
 ### Fixed

@@ -77,6 +77,13 @@ powercademy-skills/
   files with clear pointers on when to read them.
 - Skills may instruct the agent to run `pac` CLI commands directly — that is
   the preferred way to add tooling without code.
+- **Right tool for the job.** Every skill that acts on a tenant follows the
+  tool ladder: purpose-built plugin tools / MCP servers → SDK, Web API or CLI →
+  browser automation (Playwright) only for what has no API or where the UI
+  itself is being checked. Never default to the browser for data, schema,
+  solution or flow work; never tell the user something is impossible while
+  browser automation could do it. The full ladder lives in
+  `conventions/tool-selection`.
 - British English throughout. Practical, direct tone. No fluff.
 
 ## Versioning & licence
