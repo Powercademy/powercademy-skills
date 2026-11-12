@@ -101,24 +101,7 @@ Subcomponents"), `AddRequiredComponents=true`. Verify via
 **"Include all subcomponents" (0)**, system dependencies **"Do not include
 subcomponents" (1)**.
 
-### 4. Focused-task dialogs are modal
-
-**Rule:** When a dialog is a focused task the user must complete or dismiss —
-a create/edit form, a record-detail view — make it **modal**: dimmed backdrop,
-focus trapped inside, background inert until closed. Reserve non-modal panels
-for side-panel patterns where the background is *meant* to stay interactive.
-
-**Why:** A non-modal dialog leaves the page behind it fully clickable, so
-users trigger colliding actions underneath the popup, lose track of which
-surface has focus, and land in inconsistent state. A blocking scrim + focus
-trap is the expected, accessible pattern.
-
-**How:** On generative/custom pages the default is often non-modal, and making
-it modal safely needs the host-specific overlay pattern — see
-`${PLUGIN_ROOT}/shared/microsoft-refs.md` for the mechanics on Microsoft's
-generative-page tooling.
-
-### 5. Change schema and data through the API, not the maker portal
+### 4. Change schema and data through the API, not the maker portal
 
 **Rule:** Create and change tables, columns, choices and relationships, and
 load or update records, through the Dataverse tools, SDK or Web API — batched
@@ -146,6 +129,8 @@ under "Tool map".
 
 **A new convention surfaces mid-build** → offer to record it, once, at a natural pause — phrased for any project, client names stripped.
 
+**Command buttons, dialogs, page look and feel** → not here: the model-driven-ux skill holds the UX conventions.
+
 ## Reference files
 
-- `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin names Microsoft plugin mechanics (generative-page dialog mechanics, Learn verification route).
+- `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin names Microsoft plugin mechanics (Learn verification route, tool map).

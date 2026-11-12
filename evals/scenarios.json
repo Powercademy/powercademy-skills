@@ -80,6 +80,14 @@
       "alternates": [
         "can you turn on the auditing setting for this environment? I don't think there's an API for it"
       ]
+    },
+    {
+      "skill": "model-driven-ux",
+      "plugin": "conventions",
+      "prompt": "I'm adding an Unfix Calculation button to the main form command bar in the command designer - which icon should it have?",
+      "alternates": [
+        "review the command bar on my model-driven app - does anything look off?"
+      ]
     }
   ]
 }

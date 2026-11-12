@@ -4,11 +4,42 @@ The **only** place in this plugin that names Microsoft plugin commands, MCP
 servers, or file layouts. Skills state methodology; when they need Microsoft
 mechanics, they point here.
 
-**Verified 2026-07-25; tool map added 2026-11-04.**
+**Verified 2026-07-25; tool map added 2026-11-04; command-bar icons verified 2026-11-12.**
 
 ---
 
-## Generative-page modal dialog mechanics (conventions entry 4)
+## Command-bar icons (model-driven-ux entry 1)
+
+Per Microsoft Learn, *Customize the command bar using command designer*: a
+command's **Icon** can be "any system icons or web resource SVG files".
+
+Every **modern** command is a row in the Dataverse `appaction` table
+(*App Action (appaction) table reference*). The columns that matter:
+
+| Column | Holds |
+|---|---|
+| `fonticon` | System icon chosen in the designer (string) |
+| `iconwebresourceid` | SVG web resource used instead (lookup to `webresource`) |
+| `buttonlabeltext` | Label |
+| `buttontooltiptitle`, `buttontooltipdescription` | Tooltip |
+| `buttonaccessibilitytext` | Screen-reader text |
+| `appmoduleid`, `contextentity`, `location` | Which app, table and command bar |
+
+**The audit:** query `appaction` for the app, filtered to rows where
+`fonticon` is null **and** `_iconwebresourceid_value` is null — those are the
+buttons with no icon. Group the rest by `fonticon` per command bar to find one
+icon reused for different actions. Classic (ribbon) commands are not in this
+table and can't be edited in the command designer.
+
+**Fixing:** in the designer, or by writing `fonticon` through the Web API. The
+value format isn't documented on the reference page, so read it from a button
+that already shows the right icon and copy that format rather than guessing.
+
+**SVG icons** (Learn, *Image web resources*): use SVG over PNG/JPG; leave out
+hard-coded fills and use `fill="currentColor"` so the app applies theme
+colours and contrast; set `width`, `height` and `viewBox` on the `svg` element.
+
+## Generative-page modal dialog mechanics (model-driven-ux entry 2)
 
 On pages built with Microsoft's generative-page tooling (the `model-apps`
 plugin's genpage), the Fluent `Dialog` default is `modalType="non-modal"`. To
