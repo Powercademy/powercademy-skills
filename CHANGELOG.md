@@ -3,6 +3,29 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.15.0] — 2026-11-12
+
+### Added
+
+- **`model-driven-ux`** (conventions 0.5.0) — UX conventions for model-driven
+  apps. Entry 1: every command button built in the command designer has an
+  icon that says what it does — meaning first, paired actions get paired icons
+  (Fix → closed padlock, Unfix → open padlock), one icon per meaning on a
+  command bar, system icon before SVG, and label, tooltip and accessibility
+  text set together. Entry 2: focused-task dialogs are modal (moved from
+  dataverse-conventions, where it was entry 4).
+- One-query command-bar audit: modern commands are rows in Dataverse's
+  `appaction` table, so buttons with no icon (`fonticon` and
+  `iconwebresourceid` both empty) are listed without clicking through each
+  bar. Verified against Microsoft Learn; mechanics in conventions'
+  `microsoft-refs.md`.
+- Eval scenario for model-driven-ux.
+
+### Changed
+
+- dataverse-conventions: the dialog entry moved out; "schema and data through
+  the API" is now entry 4.
+
 ## [0.14.0] — 2026-11-04
 
 The right tool for the job.

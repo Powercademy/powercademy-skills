@@ -132,15 +132,19 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.4.0)
+### conventions (0.5.0)
 
 The judgement layer as a checklist — applied before anything gets built:
 
 - **`dataverse-conventions`** — living Dataverse schema and ALM conventions,
   each with its reasoning: `statecode`/`statuscode` over custom status
   columns, build-in-the-right-solution-with-the-right-publisher discipline,
-  subcomponent and dependency packaging that survives import, modal dialogs
-  for focused tasks. Grows every time a mistake is corrected.
+  subcomponent and dependency packaging that survives import. Grows every
+  time a mistake is corrected.
+- **`model-driven-ux`** — the details that make an app feel finished: every
+  command button has an icon that says what it does (paired icons for paired
+  actions, no icon reused for different actions on one bar), and focused-task
+  dialogs are modal. Audits a whole app's command bars in one query.
 - **`flow-conventions`** — the Power Automate lessons that cost hours once:
   editing flows that already run (renames, child-flow contracts, regression
   checks), designer quirks, expressions, Graph permissions, testing without
