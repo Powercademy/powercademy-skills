@@ -1,6 +1,6 @@
 {
   "name": "conventions",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Powercademy's living conventions for Power Platform delivery — Dataverse schema judgement (statecode over custom status, solution and publisher discipline, dependency packaging), the Power Automate and PCF lessons that cost hours once (editing live flows, child-flow contracts, whether PCF is the right tool, the premium-licensing trap), applied before and alongside any build, model-driven app UX (every command button has an icon that says what it does, modal focused-task dialogs), the tool-selection ladder (purpose-built tools, then SDK / Web API / CLI, browser automation only where nothing else reaches), plus the writing-skills house standard for authoring skills that work in both runtimes. Each rule carries its reasoning; the lists grow with every corrected mistake.",
   "author": {
     "name": "Howdang Rashid"

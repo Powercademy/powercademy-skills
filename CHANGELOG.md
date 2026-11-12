@@ -3,6 +3,17 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.15.1] — 2026-11-12
+
+### Fixed
+
+- **dataverse-conventions entry 2: the Web API solution header is
+  `MSCRM.SolutionUniqueName`**, not `MSCRM.SolutionName` (#17). Dataverse
+  ignores the wrong name, so a component created through the Web API landed
+  outside the solution — the exact mistake the entry exists to prevent.
+  Verified against Microsoft Learn's table and column definition pages.
+  conventions 0.5.1.
+
 ## [0.15.0] — 2026-11-12
 
 ### Added

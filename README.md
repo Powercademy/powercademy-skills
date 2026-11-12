@@ -132,7 +132,7 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.5.0)
+### conventions (0.5.1)
 
 The judgement layer as a checklist — applied before anything gets built:
 
