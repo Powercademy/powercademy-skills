@@ -1,7 +1,7 @@
 ---
 name: model-driven-ux
 description: >
-  Apply Powercademy's UX conventions to model-driven apps, forms, command bars, dialogs and custom or generative pages, so apps feel finished and users can act without guessing. Holds the rules for command bar buttons built in the command designer - every button has an icon that says what it does, paired actions get paired icons, no icon reused for different actions on one bar, label, tooltip and accessibility text set - and for focused-task dialogs being modal. Trigger whenever the user is designing or reviewing a model-driven app's look and behaviour: "add a button", "command bar", "command designer", "ribbon", "button icon", "which icon", "Icon is required", "new command", "custom page", "generative page", "dialog", "popup", "modal", "form layout", "make the app look better", "review my app's UX". Also trigger when building commands or pages with Microsoft's tooling, and when a new UX lesson is learned, so it gets recorded. When in doubt, trigger.
+  Apply Powercademy's UX conventions to model-driven apps, forms, command bars, dialogs and custom or generative pages, so apps feel finished and users can act without guessing. Holds the rules for command bar buttons built in the command designer - every button has an icon that says what it does, paired actions get paired icons, no icon reused for different actions on one bar, label, tooltip and accessibility text set - and for focused-task dialogs being modal. Trigger whenever the user is designing or reviewing a model-driven app's look and behaviour: "add a button", "command bar", "command designer", "ribbon", "button icon", "which icon", "Icon is required", "new command", "custom page", "generative page", "dialog", "popup", "modal", "form layout", "make the app look better", "review my app's UX". Also trigger when building commands or pages with Microsoft's tooling, and when the user wants a UX lesson recorded. When in doubt, trigger.
 ---
 
 # Model-driven UX Conventions
@@ -12,9 +12,10 @@ it. Like the other conventions, this list grows from real builds:
 
 1. **Apply** — before adding or reviewing a command, dialog or page, skim the
    entries and apply what's relevant without being asked.
-2. **Grow** — when a new UX lesson surfaces, offer to record it once, at a
-   natural pause. Working in the marketplace repo, append it directly; from an
-   installed copy, draft it for the user to contribute back.
+2. **Grow** — when the user wants a UX lesson kept, add it in the format below.
+   Working in the marketplace repo, append it directly; from an installed copy,
+   draft it for the user to contribute back, because installed copies are
+   overwritten on update.
 
 **Never add client-identifying detail to an entry** — phrase every lesson for
 any project.
@@ -101,8 +102,6 @@ than clicking through every bar. Report missing icons, duplicated icons for
 different actions, and broken pairs.
 
 **Building a dialog or a custom page** → entry 2.
-
-**A new UX lesson surfaces mid-build** → offer to record it, once.
 
 ## Reference files
 

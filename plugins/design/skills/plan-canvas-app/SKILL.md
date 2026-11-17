@@ -22,24 +22,34 @@ and be willing to say the app shouldn't be built this way.
 
 ## The core loop
 
-0. **Onboard** — tooling, environment, target (`${PLUGIN_ROOT}/shared/canvas-preflight.md`).
+0. **Ground** — where the app lives, and the real data volumes.
 1. **Decide whether canvas is right at all.** Often it isn't.
 2. **Decide the data and delegation strategy.** The decision that ages worst.
 3. **Decide screen and navigation architecture.**
 4. **Set conventions** — naming, components, performance.
 5. **Write the plan, then hand off** to Microsoft's canvas tooling to build.
-6. **Checkpoint at real data volumes**, not test volumes.
-7. **Feed lessons back** into `${PLUGIN_ROOT}/shared/canvas-gotchas.md`.
+6. **Test at real data volumes**, not test volumes.
 
-Read `${PLUGIN_ROOT}/shared/canvas-gotchas.md` before planning.
+`${PLUGIN_ROOT}/shared/canvas-gotchas.md` holds the failures already paid for —
+check the relevant sections as decisions come up.
 
 ---
 
-## Step 0: Preflight
+## Step 0: Ground
 
-Run `${PLUGIN_ROOT}/shared/canvas-preflight.md`. Connect, confirm the environment and
-tenant with a connection card, and confirm the canvas authoring tooling is
-available before promising a generated app.
+- **Where does the app live?** Confirm the target environment and solution,
+  and whether it's dev or closer to production. A canvas app built outside a
+  solution is painful to move later — flag it if there isn't one.
+- **What are the real data volumes?** Ask for the row counts of the tables
+  the app will touch, today and in a few years. They decide the delegation
+  strategy, and so the data source and the whole architecture. "I don't
+  know" is an open question to chase, not a number to assume.
+- **Can it be generated?** Generation needs Microsoft's canvas authoring
+  tooling (see `${PLUGIN_ROOT}/shared/microsoft-refs.md`). If it isn't
+  installed, say so early: planning still works, generation won't.
+
+If a tool or sign-in isn't working, that's check-setup's job (workstation plugin) —
+hand over to it rather than debugging the toolchain here.
 
 ---
 
@@ -162,13 +172,13 @@ Structure:
 ## Navigation & state
 ## Conventions               (naming, components, startup, error/empty states)
 ## Open questions            (things to ask, not guess — volumes, licensing, owners)
-## Build order & checkpoints
+## Build order & tests
 ## Change log
 ```
 
 Render the plan as a **build-along HTML page** alongside the markdown (same
 basename, `.html`) per `${PLUGIN_ROOT}/shared/artifact-style.md` — the
-delegation table and checkpoints tickable, verdict-first status strip.
+delegation table and tests tickable, verdict-first status strip.
 Markdown stays the source of truth; regenerate on change.
 
 Then **hand execution to Microsoft's canvas authoring tooling** with these
@@ -185,42 +195,32 @@ the source of truth — update it and say whether rework is needed.
 
 ---
 
-## Step 6: Checkpoints — at real volumes
+## Step 6: Test at real volumes
 
-Risk tiers as elsewhere: 🟢 local/no data risk · 🟡 proves something new in a
-dev environment · 🔴 touches production data or real users.
+The tests that matter for canvas specifically:
 
-The checkpoints that matter for canvas specifically:
-
-- **⏸ Delegation proof · 🟡** — the one people skip. Point the app at a table
+- **Delegation proof** — the one people skip. Point the app at a table
   loaded with **more rows than the row limit** and confirm the screen returns
   what it should. Testing against 50 rows proves nothing. Script it: expected
   count, actual count, and the specific query being exercised.
-- **⏸ Startup timing · 🟡** — measure app start on a realistic device and
+- **Startup timing** — measure app start on a realistic device and
   network, not the maker's desktop.
-- **⏸ Permissions as a real user · 🟡** — run as someone with the *least*
+- **Permissions as a real user** — run as someone with the *least*
   privileged role that will use it; makers see data their users can't.
-- **⏸ Write path · 🔴** — the first checkpoint that creates or edits real
-  records. Explicit pre-conditions, and a way to undo the test data.
+- **Write path** — the first test that creates or edits real records. Agree
+  it with the user first, and have a way to undo the test data.
 
 Always flag tenant risk before it's asked about — a canvas app pointed at a
 customer's production table is a production system.
 
 ---
 
-## Step 7: Keep the plan alive, and improve the skill
+## Step 7: Keep the plan alive
 
 When reality contradicts the plan — a delegation warning, a volume that turns
 out to be ten times the estimate, a screen that needed splitting — update the
 plan, state plainly whether rework is required, and add a versioned change-log
 entry.
-
-After the build, scan for lessons that aren't specific to this app: a connector
-that delegated differently than documented, a formula pattern that quietly
-broke, a generation behaviour worth knowing. Offer them once, at a natural
-pause, for `${PLUGIN_ROOT}/shared/canvas-gotchas.md` — appending directly when working
-in the marketplace repo, or drafting the entry for the user to contribute back
-when running from an installed copy.
 
 ---
 
@@ -242,6 +242,5 @@ when running from an installed copy.
 
 ## Reference files
 
-- `${PLUGIN_ROOT}/shared/canvas-preflight.md` — onboarding the skill runs itself.
-- `${PLUGIN_ROOT}/shared/canvas-gotchas.md` — accumulated failure log. **Read before planning.**
+- `${PLUGIN_ROOT}/shared/canvas-gotchas.md` — accumulated failure log.
 - `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin names Microsoft tooling: the canvas authoring route, Learn verification, and the `pac` CLI.

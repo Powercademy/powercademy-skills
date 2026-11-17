@@ -88,7 +88,7 @@ Docs: https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp
 Use it for environment and solution operations where available; fall back to
 the `pac` commands above otherwise. Its "local development and testing"
 framing is worth quoting to enterprise reviewers — and worth respecting: a
-production import is still a 🔴 checkpoint whichever surface runs it.
+production import still needs explicit approval whichever surface runs it.
 
 ## Verifying ALM guidance against Microsoft Learn
 

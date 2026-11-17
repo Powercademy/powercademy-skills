@@ -1,7 +1,7 @@
 ---
 name: promote-solution
 description: >
-  Run a Power Platform solution promotion end to end with checkpoints - pre-flight the source and target, export the right solution as managed, move it, import, then verify with evidence - stopping before anything irreversible. Trigger whenever the user says "deploy this solution", "promote to test", "deploy to production", "ship this", "release this", "move this to UAT", "export the solution", "import the solution", "run the deployment", "publish my changes to another environment", or names two environments and a solution. Also trigger mid-deployment on "the import failed", "missing dependency", "why did my flow come across disabled", "the connection reference is wrong", or any solution import error. Drives Microsoft's deployment tooling with checkpoint discipline; never crosses a production import without explicit approval. If the task is moving a solution between environments, trigger. When in doubt, trigger.
+  Run a Power Platform solution promotion end to end - check the source and target, export the right solution as managed, move it, import, then verify with evidence - stopping before anything irreversible. Trigger whenever the user says "deploy this solution", "promote to test", "deploy to production", "ship this", "release this", "move this to UAT", "export the solution", "import the solution", "run the deployment", "publish my changes to another environment", or names two environments and a solution. Also trigger mid-deployment on "the import failed", "missing dependency", "why did my flow come across disabled", "the connection reference is wrong", or any solution import error. Drives Microsoft's deployment tooling; never crosses a production import without explicit approval. If the task is moving a solution between environments, trigger. When in doubt, trigger.
 ---
 
 # Promote Solution — deploy with the safety on
@@ -29,24 +29,19 @@ The mechanics belong to Microsoft's tooling (see
   unless you can see it.
 - **Say which environment you are about to change, every time**, before you
   change it.
-- **Promote with the CLI or native pipelines, not by clicking.** Export,
-  import, dependency checks and environment-variable values all have
-  scriptable routes — use them, so the promotion can be repeated and audited.
-  The browser is for what has no API (some admin-centre settings) and for
-  confirming the result looks right in the target environment.
+- **Promote with the CLI or native pipelines, not by clicking**, so the
+  promotion can be repeated and audited.
 
 ---
 
-## Step 0: Preflight both ends
+## Step 0: Check both ends
 
-Run `${PLUGIN_ROOT}/shared/preflight.md`, then establish the promotion's shape
-and put it in front of the user before anything moves:
+Establish the promotion's shape and show it to the user before anything
+moves:
 
 > **Promoting:** `<SolutionName>` v`<version>`
 > **From:** <source env> (unmanaged, dev) → **To:** <target env> (**PRODUCTION**)
 > **Managed:** yes · **Approval required:** yes · **Rollback:** <named plan>
->
-> Confirm before I export?
 
 Check, and report as findings rather than assumptions:
 
@@ -54,8 +49,7 @@ Check, and report as findings rather than assumptions:
 - The target is what they think it is — confirm production status explicitly.
 - Whether an **ALM process document** exists. If not, offer `design-alm-process`
   first; proceed only if they want a one-off, and say what that costs.
-- Whether this promotion has ever been rehearsed. First runs get more
-  checkpoints, not fewer.
+- Whether this promotion has ever been rehearsed.
 - **Whether the target's data policies allow what the solution uses.** A
   solution that worked in a relaxed dev environment can import cleanly into a
   stricter target and then fail at run time — an agent that can't publish, a
@@ -66,6 +60,9 @@ Check, and report as findings rather than assumptions:
   active connection points at the source you mean — an MCP session or CLI
   profile left on another environment builds or exports from the wrong place
   without complaint.
+
+If a tool or sign-in isn't working, that's check-setup's job (workstation plugin) —
+hand over to it rather than debugging the toolchain here.
 
 ---
 
@@ -84,12 +81,9 @@ Before export, catch what makes imports fail — cheaper now than mid-import:
 - **Version number** — bump it deliberately; two artefacts with one version is
   a debugging nightmare later.
 
-> ### ⏸ CHECKPOINT 1 — the solution is exportable · 🟢
-> **Run it** — the dependency and pre-flight checks above.
-> **✅ Pass when** — no unresolved dependencies, every environment variable has
-> a default, every custom connector is solutioned.
-> **📋 Send me** — the dependency list if anything is flagged, verbatim.
-> **If it fails** — fix in **dev**, never downstream, then re-run this checkpoint.
+**Check:** no unresolved dependencies, every environment variable has a
+default, every custom connector is in a solution. If anything fails, fix it in
+**dev**, never downstream, and re-run the checks.
 
 ---
 
@@ -100,31 +94,25 @@ one-way trip into an unmaintainable environment). Keep the exported artefact
 somewhere durable and named with its version — the user's working directory,
 path stated, not a temp folder.
 
-> ### ⏸ CHECKPOINT 2 — artefact in hand · 🟢
-> **Check** — file exists, size is sane, version matches what you bumped.
-> **✅ Pass when** — you can state the exact file path and version back to the user.
+**Check:** the file exists, its size is sane and its version matches the one
+you set. State the path and version back to the user.
 
 ---
 
 ## Step 3: Import to a non-production target first
 
-If a test/UAT environment exists, **always rehearse there first**, even when
-the user asks to go straight to production. Say why: the rehearsal is what
-turns the production import from a gamble into a repeat.
+If a test/UAT environment exists, recommend rehearsing there first and say
+why: the rehearsal is what turns the production import from a gamble into a
+repeat. If the user chooses to skip it, say what that risks and note it in the
+deployment record.
 
-> ### ⏸ CHECKPOINT 3 — rehearsal import · 🟡
-> **Prepare** — target confirmed non-production; note existing solution version there.
-> **Run it** — the import, with the environment named out loud.
-> **Check** — import completed *and*: flows present (note which are **off** —
-> solution flows arrive disabled by design), connection references bound,
-> environment variables holding the right per-environment values, no missing
-> dependencies.
-> **✅ Pass when** — the solution is present at the expected version and every
-> item in the config boundary reads correctly for *this* environment.
-> **📋 Send me** — the import status, and the environment-variable values as
-> they landed.
-> **If it fails** — see the symptom→cause table in `${PLUGIN_ROOT}/shared/gotchas.md`;
-> fix in dev, re-export, re-run. Do not patch the target.
+Name the target out loud and note the solution version already there, then
+import. **Check:** the import completed *and* flows are present (note which
+are **off** — solution flows arrive disabled by design), connection references
+are bound, environment variables hold the right values for *this*
+environment, and no dependencies are missing. If it fails, work the
+symptom → cause table in `${PLUGIN_ROOT}/shared/gotchas.md`; fix in dev,
+re-export, re-run. Do not patch the target.
 
 ---
 
@@ -140,37 +128,29 @@ Import is not deployment. Walk the config boundary explicitly:
   production data starts *immediately*.
 - Assign security roles / share apps as the process document specifies.
 
-> ### ⏸ CHECKPOINT 4 — it actually works here · 🟡
-> **Run it** — one real, low-risk end-to-end exercise of the solution in this
-> environment.
-> **✅ Pass when** — the thing does its job against this environment's data and
-> nothing points back at dev.
-> **📋 Send me** — what you exercised and what it produced.
+**Check:** one real, low-risk end-to-end exercise in this environment. It
+passes when the solution does its job against this environment's data and
+nothing points back at dev.
 
 ---
 
 ## Step 5: Production — the hard stop
 
-Everything above must be green before this step is even offered.
+Offer this step only once everything above is green, or the user has chosen
+to skip the rehearsal. **This is the one hard
+stop: import to production only after an explicit "yes, go" for production,
+in this conversation** — not implied by "deploy it", not carried over from an
+earlier yes.
 
-> ### ⏸ CHECKPOINT 5 — production import · 🔴
-> **Pre-conditions, all required:** rehearsal passed in a non-production
-> environment · the named approver has approved *this* deployment now · a
-> rollback plan exists and its first step has been checked · a maintenance
-> window or an honest statement that none is needed · anyone whose work depends
-> on this has been told.
-> **Prepare** — restate the target environment, the solution, the version, and
-> what will change for users when this lands.
-> **Run it** — only after an explicit "yes, go" for production, in this
-> conversation.
-> **Check** — the same verification as Checkpoint 3, plus the flows enabled
-> per the process document and one real end-to-end exercise.
-> **✅ Pass when** — the solution is live at the expected version and a real
-> transaction has worked.
-> **📋 Send me** — the import result, the enabled-flow list, and the outcome of
-> the live exercise.
-> **If it fails** — stop. Do not attempt fixes directly in production. Work the
-> rollback plan, then diagnose in dev.
+Before asking, state the environment, solution and version, what will change
+for users, and where each of these stands: the rehearsal · the named
+approver's sign-off for *this* deployment · the rollback plan · a maintenance
+window, or an honest statement that none is needed · whether anyone affected
+has been told.
+
+After the import, run the same checks as the rehearsal, enable flows per the
+process document, and exercise one real transaction. If it fails, stop: no
+fixes directly in production. Work the rollback plan, then diagnose in dev.
 
 ---
 
@@ -180,16 +160,13 @@ Write a short deployment record beside the process document: what version went
 where, when, who approved, what needed post-import configuration, and anything
 that surprised you. Render it per `${PLUGIN_ROOT}/shared/artifact-style.md`.
 
-Then offer, once: anything that surprised you belongs in
-`${PLUGIN_ROOT}/shared/gotchas.md` so the next promotion is duller.
-
 ---
 
 ## Calibration
 
-**"Deploy to production"** → Preflight, then rehearse in test first. Offer the production hop only when the rehearsal is green, and require explicit approval at the 🔴 checkpoint.
+**"Deploy to production"** → Preflight, then rehearse in test first. Offer the production hop only when the rehearsal is green, and get explicit approval for the production import.
 
-**"Just push it, I'll test in prod"** → Say plainly what that risks and offer the rehearsal path. If they insist and it's their environment, make the 🔴 checkpoint explicit and record that the rehearsal was skipped.
+**"Just push it, I'll test in prod"** → Say plainly what that risks and offer the rehearsal path. If they insist and it's their environment, get explicit approval for production and record that the rehearsal was skipped.
 
 **"The import failed"** → Read the actual error; work the symptom→cause table in the gotchas file. Fix in dev, never downstream.
 
@@ -199,7 +176,6 @@ Then offer, once: anything that surprised you belongs in
 
 ## Reference files
 
-- `${PLUGIN_ROOT}/shared/preflight.md` — onboarding and connection card.
-- `${PLUGIN_ROOT}/shared/gotchas.md` — import failures, symptom → cause → fix. **Read before promoting.**
+- `${PLUGIN_ROOT}/shared/gotchas.md` — import failures, symptom → cause → fix.
 - `${PLUGIN_ROOT}/shared/microsoft-refs.md` — pac commands, Dataverse solution skills, native pipelines.
 - `${PLUGIN_ROOT}/shared/artifact-style.md` — the rendered deployment record.

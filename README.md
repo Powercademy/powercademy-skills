@@ -151,10 +151,10 @@ build to Microsoft's tooling:
   generation. Produces a build plan, then hands execution to Microsoft's canvas
   authoring tooling — it generates far faster than you can by hand; it just
   can't tell you the app will silently return the wrong rows at 50,000 records.
-- Checkpoints run at **production volumes**, because a 50-row test proves
+- Tests run at **production volumes**, because a 50-row test proves
   nothing about delegation.
 
-### alm (0.2.0) — design the process, ship safely
+### alm (0.3.0) — design the process, ship safely
 
 How the work actually ships — and the deployment that doesn't ruin your evening:
 
@@ -163,9 +163,9 @@ How the work actually ships — and the deployment that doesn't ruin your evenin
   solution segmentation, publisher, **the config boundary** (what varies per
   environment and who owns it), promotion path and named approvers — written
   up as a process the team can follow.
-- **`promote-solution`** — runs a promotion end to end with checkpoints:
-  pre-flights dependencies, exports managed, rehearses in test, verifies with
-  evidence rather than exit codes, and treats **production import as a 🔴 hard
+- **`promote-solution`** — runs a promotion end to end: checks dependencies,
+  exports managed, recommends a rehearsal in test, verifies with evidence
+  rather than exit codes, and treats **production import as the one hard
   stop** requiring explicit in-the-moment approval. Fixes go in dev, never
   downstream.
 

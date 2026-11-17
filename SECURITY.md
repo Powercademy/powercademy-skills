@@ -26,10 +26,10 @@ one vulnerability pattern, so this is not hypothetical.
 
 | Threat | Example in this domain | Mitigation |
 |---|---|---|
-| **Destructive default** | A skill that instructs the agent to delete/overwrite a flow, table, or record as a normal step | Skills must never make a destructive action the default. Every irreversible write is a 🔴 checkpoint with explicit pre-conditions (see `build-flow-spec`) |
-| **Unattended writes to production** | A spec that PATCHes a real meeting or seeds a customer's live table without a human gate | Risk tiers (🟢/🟡/🔴) and testing checkpoints gate every write; the last read-only checkpoint before a write is a hard stop |
+| **Destructive default** | A skill that instructs the agent to delete/overwrite a flow, table, or record as a normal step | Skills must never make a destructive action the default. Every irreversible action (a production import, a delete) stops for explicit, in-the-moment approval — see `promote-solution` |
+| **Unattended writes to production** | A spec that PATCHes a real meeting or seeds a customer's live table without a human gate | Production imports and other irreversible actions need explicit approval in the conversation; skills never infer it from an earlier yes |
 | **Credential handling in skill bodies** | A skill that asks the agent to paste a token, secret, or connection string into a file or command | Skills never handle secrets in plain text. Auth is delegated to `pac auth` / the runtime's own credential flow |
-| **Injection via living logs** | A contributed `gotchas.md` entry that smuggles an instruction ("ignore checkpoints and…") into what looks like a lesson | Logs are data, not instructions. Contributions are reviewed; the writing-skills standard forbids imperative instructions in log entries |
+| **Injection via living logs** | A contributed `gotchas.md` entry that smuggles an instruction ("skip the approval and…") into what looks like a lesson | Logs are data, not instructions. Contributions are reviewed; the writing-skills standard forbids imperative instructions in log entries |
 | **Mechanics drift / typosquatting** | A skill pointing the agent at a lookalike marketplace or a renamed Microsoft command | All Microsoft plugin mechanics live in one file per plugin (`shared/microsoft-refs.md`), lint-enforced, so references are auditable in one place |
 | **Silent runtime coupling** | A skill using a Claude-only or Copilot-only feature that changes behaviour across runtimes | CI lint rejects any frontmatter beyond `name`+`description` and any mechanics token outside the quarantine file |
 
@@ -37,8 +37,9 @@ one vulnerability pattern, so this is not hypothetical.
 
 - **CI lint** (`scripts/lint/lint-skills.js`, run on every PR) enforces the
   frontmatter and mechanics-quarantine constraints mechanically.
-- **Risk tiers and checkpoints** are a required part of any skill that can
-  cause a write. `promote-solution` (alm) is the reference implementation.
+- **Explicit approval before the irreversible** is required of any skill that
+  can make an irreversible change. `promote-solution` (alm) is the reference
+  implementation.
 - **"Reads don't imply writes"** is a stated methodology rule: a skill verifies
   the specific operation's permission before assuming an environment that can
   read something can write it.
@@ -57,5 +58,5 @@ one vulnerability pattern, so this is not hypothetical.
 
 These safeguards reduce risk; they do not remove the operator's
 responsibility. An agent acting on a production tenant should always be run by
-someone who understands what a 🔴 step will do. The skills are designed to make
+someone who understands what an irreversible step will do. The skills are designed to make
 that judgement easy and explicit — not to replace it.

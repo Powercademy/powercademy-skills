@@ -97,20 +97,18 @@ copilot
 Then just describe what you need in plain language — the skill triggers on the
 description, no command to remember:
 
-> spec a flow that posts a Teams message to the delivery channel whenever a
-> Dataverse case is set to Escalated
+> we deploy our Power Platform solutions by hand and it keeps going wrong —
+> help me set up a proper ALM process
 
-What good looks like: it **interviews you first** (which solution? which
-environment? who owns it?), runs its preflight checks, verifies the API
-touchpoints against Microsoft Learn, and produces a **build spec** as a
-Markdown file in your project — action by action, with copy-pasteable
-expressions and testing checkpoints tagged 🟢/🟡/🔴. You build from that spec in
-the Power Automate designer, and paste run results back as you hit each
-checkpoint so the spec stays honest.
+What good looks like: it **looks at what you actually have first** (which
+environments are production, what's built where), asks a handful of questions
+about your team and risk appetite, and writes an **ALM process document** as a
+Markdown file in your project — environments, solutions, the per-environment
+config, the promotion path and who approves it.
 
 Mid-build, it answers box-level questions too:
 
-> what do I put in the left side of this condition?
+> should this column be a custom status choice or statecode?
 
 ## 6. Keeping it current
 

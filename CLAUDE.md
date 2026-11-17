@@ -95,13 +95,11 @@ structure, not to stretch a name.
   files with clear pointers on when to read them.
 - Skills may instruct the agent to run `pac` CLI commands directly — that is
   the preferred way to add tooling without code.
-- **Right tool for the job.** Every skill that acts on a tenant follows the
-  tool ladder: purpose-built plugin tools / MCP servers → SDK, Web API or CLI →
-  browser automation (Playwright) only for what has no API or where the UI
-  itself is being checked. Never default to the browser for data, schema,
-  solution or flow work; never tell the user something is impossible while
-  browser automation could do it. The full ladder lives in
-  `conventions/tool-selection`.
+- **Keep skills lean.** No mandatory preflight, checkpoints, gotchas files or
+  tool ladder in every skill: tooling and sign-in belong to
+  `workstation/check-setup`, tool choice to `conventions/tool-selection`.
+  A skill carries only what changes the outcome, and stops for explicit
+  approval only before something irreversible (e.g. a production import).
 - British English throughout. Practical, direct tone. No fluff.
 
 ## Versioning & licence

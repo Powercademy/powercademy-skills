@@ -84,6 +84,6 @@ the best of both.
 
 ## Grow
 
-When a task teaches a better pairing — a new API that replaces a browser
-route, or a UI-only setting worth knowing about — offer to add it to the table
+When the user wants a better pairing kept — a new API that replaces a
+browser route, or a UI-only setting worth knowing about — add it to the table
 above, the same way the other conventions grow.

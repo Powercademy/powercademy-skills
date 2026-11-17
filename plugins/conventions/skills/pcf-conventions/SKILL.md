@@ -1,7 +1,7 @@
 ---
 name: pcf-conventions
 description: >
-  Apply Powercademy's PCF judgement before building, deploying or debugging a Power Apps component framework (PCF) code component - whichever tool builds it - starting with whether PCF is even the right tool. Holds the decision gate (out-of-the-box, canvas component or generative page first), the control-type choice (field, dataset, virtual React) and the PCF gotchas log: version bump or the cached bundle keeps rendering, dev push is not ALM, manifest binding, lifecycle traps, the harness is not the real host, the premium-licensing trap, bundle weight. Trigger alongside any PCF work: "build a PCF control", "code component", "custom control", "dataset control", "ControlManifest", "pac pcf push", "my control won't update", "works in the harness but not on the form", "does this make my app premium". It does not build controls - apply it, then carry on with the build tool. Also trigger when a PCF lesson is learned, so it gets recorded. When in doubt, trigger.
+  Apply Powercademy's PCF judgement before building, deploying or debugging a Power Apps component framework (PCF) code component - whichever tool builds it - starting with whether PCF is even the right tool. Holds the decision gate (out-of-the-box, canvas component or generative page first), the control-type choice (field, dataset, virtual React) and the PCF gotchas log: version bump or the cached bundle keeps rendering, dev push is not ALM, manifest binding, lifecycle traps, the harness is not the real host, the premium-licensing trap, bundle weight. Trigger alongside any PCF work: "build a PCF control", "code component", "custom control", "dataset control", "ControlManifest", "pac pcf push", "my control won't update", "works in the harness but not on the form", "does this make my app premium". It does not build controls - apply it, then carry on with the build tool. Also trigger when the user wants a PCF lesson recorded. When in doubt, trigger.
 ---
 
 # PCF Conventions
@@ -16,10 +16,9 @@ is twofold:
    decision gate below, then read the relevant sections of
    `${PLUGIN_ROOT}/shared/pcf-gotchas.md` (the contents list makes that quick)
    and apply what fits. Then hand back to the build tool and carry on.
-2. **Grow** — when a session teaches something new, or a mistake is
-   corrected, offer to record it — once, at a natural pause. Working in the
-   marketplace repo, append it directly; running from an installed copy, draft
-   the entry for the user to contribute back, because installed copies are
+2. **Grow** — when the user wants a PCF lesson kept, add it in the format below.
+   Working in the marketplace repo, append it directly; from an installed copy,
+   draft it for the user to contribute back, because installed copies are
    overwritten on update.
 
 ## The decision gate: is PCF the right tool?

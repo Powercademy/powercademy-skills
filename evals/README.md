@@ -39,8 +39,8 @@ failure). Results land in `evals/last-run.json`.
 
 ## What this doesn't test
 
-Behaviour depth (does the spec contain checkpoints, does preflight run the
-auth ladder). That's the next tier — scenario criteria + deterministic
+Behaviour depth (does promote-solution stop before a production import,
+does plan-canvas-app ask for real data volumes). That's the next tier — scenario criteria + deterministic
 post-checks on produced files — worth adding when the skill count or
 contributor count grows. Trigger correctness is the highest-value check per
 token spent, so it comes first.

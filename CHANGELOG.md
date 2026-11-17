@@ -15,9 +15,8 @@ moves (e.g. `conventions:agent-design` → `design:agent-design`).
   unchanged. The first thing everyone runs now has a name that says so.
 - **New `design` plugin** (0.1.0) — the consultants run before building:
   `agent-design` (from conventions) and `plan-canvas-app` (from
-  canvas-planner, which is retired). Canvas's shared files are now
-  `canvas-gotchas.md` and `canvas-preflight.md`; the Learn MCP server the
-  plugin bundles comes with it.
+  canvas-planner, which is retired). Canvas's gotchas file is now
+  `canvas-gotchas.md`; the Learn MCP server the plugin bundles comes with it.
 - **`conventions`** (0.7.0) is now only rules: dataverse-, flow-,
   pcf-conventions, model-driven-ux, tool-selection.
 - **`writing-skills` leaves the marketplace** and becomes a repo skill in
@@ -25,9 +24,26 @@ moves (e.g. `conventions:agent-design` → `design:agent-design`).
   repo; users never get it. It was contributor guidance shipped to everyone,
   and half of it repeated the platforms' own skill-authoring guidance. Now
   trimmed to what they don't cover (dual-runtime traps, where a skill
-  belongs, house methodology, redaction, review) and points to theirs for the
-  general craft. The lint now checks repo skills too; its trigger eval runs
-  from the repo root.
+  belongs, redaction, review) and points to theirs for the general craft. The
+  lint now checks repo skills too; its trigger eval runs from the repo root.
+- **Leaner skills — no mandatory methodology.** Skills no longer have to
+  carry their own preflight, risk-tier checkpoints, lesson prompts or a
+  restated tool ladder; it added work the agent had to wade through without
+  changing outcomes. 322 lines removed:
+  - The ALM and canvas preflight files are gone. Tooling and sign-in belong to
+    check-setup; the skill-specific parts (map the estate, find production,
+    real data volumes) moved into the skills' first step.
+  - **alm 0.3.0:** promote-solution keeps **one hard stop — explicit approval
+    for the production import** — and drops the 🟢/🟡/🔴 checkpoint blocks and
+    "send me" pastes for plain checks. It recommends a rehearsal in test
+    rather than insisting on one.
+  - plan-canvas-app's checkpoints become plain tests at real volumes.
+  - Conventions add a lesson when the user asks; skills no longer offer to
+    record lessons mid-task.
+  - writing-skills, CLAUDE.md and SECURITY.md now require only explicit
+    approval before something irreversible.
+- docs/copilot-setup.md's worked example used the retired flow-builder; it
+  now shows design-alm-process.
 - Core install is now workstation + conventions + design.
 - `doctor` and `canvas-planner` join the manifest's `retired` list:
   check-setup and setup-workstation swap them for workstation and design

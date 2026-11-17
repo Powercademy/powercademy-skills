@@ -14,7 +14,7 @@ variables on the way up, and who is allowed to press the button.
 **This skill makes those decisions explicit and writes them down.** Execution is
 somebody else's job — Microsoft's tooling is good at it (see
 `${PLUGIN_ROOT}/shared/microsoft-refs.md`), and `promote-solution` in this
-plugin drives a promotion with checkpoints once the process exists.
+plugin drives a promotion once the process exists.
 
 You are designing *with* an experienced practitioner. Peer-to-peer, no basics,
 and be willing to say the process they have is the reason deployments hurt.
@@ -23,24 +23,22 @@ and be willing to say the process they have is the reason deployments hurt.
 
 ## The core loop
 
-0. **Onboard** — connect and see the real estate (`${PLUGIN_ROOT}/shared/preflight.md`).
+0. **Ground** — see the real estate.
 1. **Interview** — team, cadence, risk appetite, what exists today.
 2. **Decide the environment strategy.**
 3. **Decide solution segmentation, publisher and naming.**
 4. **Decide what varies per environment** — the config boundary.
 5. **Decide the promotion path and who approves.**
 6. **Write the process document**, then hand execution to the tooling.
-7. **Feed lessons back** into `${PLUGIN_ROOT}/shared/gotchas.md`.
 
-Read `${PLUGIN_ROOT}/shared/gotchas.md` before designing — most of it is
-deployment pain somebody already paid for.
+`${PLUGIN_ROOT}/shared/gotchas.md` holds deployment pain somebody already paid
+for — check the relevant sections when a decision touches them.
 
 ---
 
-## Step 0: Preflight and ground truth
+## Step 0: Ground truth
 
-Run `${PLUGIN_ROOT}/shared/preflight.md`. Then **look at what actually exists**
-before designing anything: list environments (which are production, which are
+**Look at what actually exists** before designing anything: list environments (which are production, which are
 sandboxes, who owns them), list solutions in the dev environment, and check
 whether anything is being built in the default environment.
 
@@ -48,6 +46,9 @@ whether anything is being built in the default environment.
 solutions sitting in production, no publisher convention — say so plainly and
 prove it. That inventory *is* the current ALM process, and naming it honestly
 is usually the most valuable thing you do.
+
+If a tool or sign-in isn't working, that's check-setup's job (workstation plugin) —
+hand over to it rather than debugging the toolchain here.
 
 ---
 
@@ -150,8 +151,7 @@ Two rules worth stating explicitly in every process document:
 
 - **Production imports are irreversible in practice.** A managed solution can
   be uninstalled, but data and dependencies rarely survive the round trip.
-  Treat production import as a 🔴 action requiring an explicit approval and a
-  rehearsed rollback.
+  A production import needs explicit approval and a rehearsed rollback.
 - **Nothing is built downstream.** Any change made directly in test or
   production is destroyed by the next deployment — or silently blocks it.
 
@@ -178,7 +178,7 @@ render the build-along HTML companion per
 ## Approvals & ownership    (named people or roles)
 ## Rollback                 (what we do when an import goes wrong)
 ## Open questions           (things to confirm, not guess)
-## First run                (the checkpointed rehearsal — see promote-solution)
+## First run                (the rehearsal — see promote-solution)
 ## Change log
 ```
 
@@ -191,8 +191,7 @@ has been rehearsed end to end with `promote-solution`.
 
 When reality contradicts the process — an import fails, an approver leaves, a
 solution splits — update the document, state whether anything already deployed
-needs rework, and add a change-log entry. Offer new lessons once, at a natural
-pause, for `${PLUGIN_ROOT}/shared/gotchas.md`.
+needs rework, and add a change-log entry.
 
 ---
 
@@ -210,7 +209,6 @@ pause, for `${PLUGIN_ROOT}/shared/gotchas.md`.
 
 ## Reference files
 
-- `${PLUGIN_ROOT}/shared/preflight.md` — onboarding the skill runs itself.
-- `${PLUGIN_ROOT}/shared/gotchas.md` — accumulated deployment failures. **Read before designing.**
+- `${PLUGIN_ROOT}/shared/gotchas.md` — accumulated deployment failures.
 - `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin names Microsoft tooling: pac commands, Dataverse solution skills, native pipelines, Learn verification.
 - `${PLUGIN_ROOT}/shared/artifact-style.md` — the rendered build-along page.

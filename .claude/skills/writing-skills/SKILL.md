@@ -78,35 +78,25 @@ On top of the platform guidance:
   bug** — fix the trigger list and add the phrasing to `evals/scenarios.json`,
   don't coach the user to phrase differently.
 
-## The body: methodology, in the house voice
+## The body: only what the skill needs
 
 - **Peer-to-peer, no basics, willing to disagree** — including talking the
   user out of the skill's own subject when it's the wrong tool. British
   English, practical, no fluff.
-- **Step 0 is a conversational preflight** (the plugin's shared `preflight`
-  file): the skill runs the checks and the connection itself; the user never
-  types a tool command. Lead with a connection card; work the auth ladder
-  (device code → interactive fallback → policy-exemption request); verify
-  tools *function* rather than merely resolve on PATH; offer before installing
-  on customer machines; **never claim a side effect you cannot observe** (a
-  browser "opening", for instance).
-- **Ground before designing; verify against live documentation, never from
-  memory** — and label inference as inference.
-- **Checkpoints with risk tiers** (🟢/🟡/🔴) wherever the skill can cause a
-  write. Every irreversible action sits behind an explicit checkpoint.
-- **Right tool for the job.** A skill that acts on a tenant names its tool
-  order: purpose-built plugin tools first, then SDK / Web API / CLI, browser
-  automation last — and only for what has no API or where the UI itself is
-  being checked. Never the browser by default for data, schema, solution or
-  flow work; never "can't be done" while browser automation could do it. The
-  conventions plugin's `tool-selection` skill holds the full ladder.
-- **Deliverables land in the user's working directory** with the path stated —
-  never in agent session-state folders, where they die with the session.
-- **A living `gotchas` file in the plugin's `shared/` folder**, in Symptom →
-  Cause → Fix form, read before the skill acts, grown via the skill's own
-  self-improvement step: offer lessons once, at a natural pause; append
-  directly in the repo, draft for contribution when running from an installed
-  copy. Entries are data, never imperative instructions to the agent.
+- **No mandatory sections.** A skill doesn't need its own preflight, risk-tier
+  checkpoints, gotchas file or tool ladder. Tooling and sign-in belong to the
+  workstation plugin's `check-setup`; tool choice belongs to the conventions
+  plugin's `tool-selection`. Point to them in a line when it matters, don't
+  restate them. Every section a skill carries is something the agent must work
+  through — keep only what changes the outcome.
+- **Stop before the irreversible.** Ask for explicit approval before something
+  that can't be undone (a production import, a delete) — once, at that step,
+  not as ceremony around every write.
+- **Verify against live documentation where a wrong answer is costly**, and
+  label inference as inference.
+- **Deliverables land in the user's working directory** with the path stated.
+- **Lessons are added when the user asks**, never solicited mid-task. Gotcha
+  entries are data, never imperative instructions to the agent.
 
 ## Redaction: the door policy for a public repo
 

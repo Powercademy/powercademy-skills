@@ -1,7 +1,7 @@
 ---
 name: dataverse-conventions
 description: >
-  Apply Powercademy's Dataverse and Power Platform conventions before creating or changing schema - tables, columns, choices, record status, relationships, solutions, publishers - so established judgement is applied and known mistakes are not repeated. Trigger before any Dataverse schema work: "create a table", "add a column", "new choice column", "status field", "statecode", "status reason", "set up a solution", "which publisher", "add to solution", "import failed", "missing dependency", or any Power Platform / Dynamics 365 build or review touching schema, solutions, or ALM packaging - even when nobody says "best practice". Also trigger when a new convention is agreed or a mistake is corrected during Power Platform work, so the lesson gets recorded. Each entry carries its reasoning, so you can tell when it applies and when an exception is justified. If the task creates or changes Dataverse components, trigger. When in doubt, trigger.
+  Apply Powercademy's Dataverse and Power Platform conventions before creating or changing schema - tables, columns, choices, record status, relationships, solutions, publishers - so established judgement is applied and known mistakes are not repeated. Trigger before any Dataverse schema work: "create a table", "add a column", "new choice column", "status field", "statecode", "status reason", "set up a solution", "which publisher", "add to solution", "import failed", "missing dependency", or any Power Platform / Dynamics 365 build or review touching schema, solutions, or ALM packaging - even when nobody says "best practice". Also trigger when the user wants a new convention or lesson recorded. Each entry carries its reasoning, so you can tell when it applies and when an exception is justified. If the task creates or changes Dataverse components, trigger. When in doubt, trigger.
 ---
 
 # Dataverse Conventions
@@ -13,11 +13,10 @@ on a real engagement. Its job is twofold, and both matter equally:
 1. **Apply** — before you build or change anything (a table, column, choice,
    solution, app, page, security setup), skim the entries and apply the ones
    that are relevant.
-2. **Grow** — when a new convention surfaces (the user teaches you one, you
-   discover one, or a mistake is corrected), offer to record it — once, at a
-   natural pause. Working in the marketplace repo, append it directly; running
-   from an installed copy, draft the entry for the user to contribute back,
-   because installed copies are overwritten on update.
+2. **Grow** — when the user wants a new convention kept, add it in the format below.
+   Working in the marketplace repo, append it directly; from an installed copy,
+   draft it for the user to contribute back, because installed copies are
+   overwritten on update.
 
 Treat this as accumulated judgement, not a rulebook to follow blindly — each
 entry explains its reasoning so you can tell when it genuinely applies and when
@@ -131,8 +130,6 @@ under "Tool map".
 **User proposes a custom status column** → entry 1. Explain *why* statecode wins, don't just cite the rule.
 
 **Solution import failed with missing dependencies** → entry 3. Check root-component behaviour before debugging anything else.
-
-**A new convention surfaces mid-build** → offer to record it, once, at a natural pause — phrased for any project, client names stripped.
 
 **Command buttons, dialogs, page look and feel** → not here: the model-driven-ux skill holds the UX conventions.
 

@@ -1,7 +1,7 @@
 ---
 name: check-setup
 description: >
-  Diagnose and repair an existing Power Platform development toolchain - CLIs, auth profiles, agent runtimes, plugins, MCP wiring - finding what's broken, outdated or misconfigured, repairing it with consent, and ending with a readiness card. Trigger whenever the user says "check my setup", "is my setup ok", "something's broken", "doctor", "my auth is a mess", "which account am I signed in as", "why isn't pac working", "wrong tenant", "is anything out of date", "my plugins aren't loading", or hits any environment, tooling or authentication error while doing Power Platform work. Also trigger when another skill's preflight finds a tool that exists but doesn't work. For a fresh machine or adding a workload, setup-workstation runs instead - this skill checks and repairs what's already there. If the task is diagnosing or repairing the local toolchain, trigger. When in doubt, trigger.
+  Diagnose and repair an existing Power Platform development toolchain - CLIs, auth profiles, agent runtimes, plugins, MCP wiring - finding what's broken, outdated or misconfigured, repairing it with consent, and ending with a readiness card. Trigger whenever the user says "check my setup", "is my setup ok", "something's broken", "doctor", "my auth is a mess", "which account am I signed in as", "why isn't pac working", "wrong tenant", "is anything out of date", "my plugins aren't loading", or hits any environment, tooling or authentication error while doing Power Platform work. Also trigger when another skill finds a tool that exists but doesn't work. For a fresh machine or adding a workload, setup-workstation runs instead - this skill checks and repairs what's already there. If the task is diagnosing or repairing the local toolchain, trigger. When in doubt, trigger.
 ---
 
 # Check setup — diagnose and repair
@@ -167,12 +167,5 @@ useful as evidence for an IT request.
 
 **"pac isn't working" / a tooling error pasted in** → Diagnose that layer first, repair, then offer the rest.
 
-**Another skill's preflight found a broken tool** → Run the layers that matter for that build, report in card format.
+**Another skill found a broken tool** → Run the layers that matter for that build, report in card format.
 
----
-
-## Feeding back
-
-A failure this check-up didn't cover is a finding — add the check to the
-manifest (or the fix to `${PLUGIN_ROOT}/shared/microsoft-refs.md`), or draft it
-for the user to contribute back when running from an installed copy.

@@ -1,7 +1,7 @@
 ---
 name: flow-conventions
 description: >
-  Apply Powercademy's Power Automate lessons before building, editing or debugging a cloud flow - whichever tool does the building - so known traps are avoided rather than rediscovered. This skill holds the accumulated flow gotchas log: editing flows that already run (renames, child-flow contracts, blast radius, regression checks), designer quirks (255-character descriptions, nesting), expressions, Parse JSON, HTTP and Microsoft Graph permissions, child flow patterns, environment variables and ALM, testing when a dependency is unavailable (mocks, write gates, dry-run guards) and anti-patterns. Trigger alongside any flow work: "build a flow", "edit this flow", "add a step to my flow", "why did my flow fail", "child flow", "Parse JSON", "flow expression", "Graph call from a flow", "test this flow without the real system". It does not build flows itself - apply it, then carry on with the build tool. Also trigger when a flow lesson is learned or a mistake corrected, so it gets recorded. When in doubt, trigger.
+  Apply Powercademy's Power Automate lessons before building, editing or debugging a cloud flow - whichever tool does the building - so known traps are avoided rather than rediscovered. This skill holds the accumulated flow gotchas log: editing flows that already run (renames, child-flow contracts, blast radius, regression checks), designer quirks (255-character descriptions, nesting), expressions, Parse JSON, HTTP and Microsoft Graph permissions, child flow patterns, environment variables and ALM, testing when a dependency is unavailable (mocks, write gates, dry-run guards) and anti-patterns. Trigger alongside any flow work: "build a flow", "edit this flow", "add a step to my flow", "why did my flow fail", "child flow", "Parse JSON", "flow expression", "Graph call from a flow", "test this flow without the real system". It does not build flows itself - apply it, then carry on with the build tool. Also trigger when the user wants a flow lesson recorded. When in doubt, trigger.
 ---
 
 # Flow Conventions
@@ -15,10 +15,9 @@ already cost someone hours. Its job is twofold:
    `${PLUGIN_ROOT}/shared/flow-gotchas.md` (the sections relevant to the task —
    the contents list makes that quick) and apply what fits. Then hand back to
    the build tool and carry on.
-2. **Grow** — when a session teaches something new, or a mistake is
-   corrected, offer to record it — once, at a natural pause. Working in the
-   marketplace repo, append it directly; running from an installed copy, draft
-   the entry for the user to contribute back, because installed copies are
+2. **Grow** — when the user wants a flow lesson kept, add it in the format below.
+   Working in the marketplace repo, append it directly; from an installed copy,
+   draft it for the user to contribute back, because installed copies are
    overwritten on update.
 
 ## The non-negotiables
