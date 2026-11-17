@@ -232,6 +232,8 @@ when running from an installed copy.
 
 **"The app is slow"** → Startup work and per-screen queries first; then unbounded galleries and nested lookups. Ask what device and network — maker desktops lie.
 
+**"Audit / review my existing app"** → Not this skill's job end to end. Power CAT's canvas performance analyser reads every screen of an existing app (delegation warnings, OnStart, N+1 calls, naming, accessibility) — hand the audit to it (see `${PLUGIN_ROOT}/shared/microsoft-refs.md`), then use this skill for the design decision behind any finding it raises.
+
 **"Should this be canvas or model-driven?"** → Answer it properly with the Step 1 table. This is the highest-value question anyone asks you.
 
 **"Can you just generate it?"** → Yes — after the delegation table exists. Generation is the cheap part; that's exactly why the decisions must come first.

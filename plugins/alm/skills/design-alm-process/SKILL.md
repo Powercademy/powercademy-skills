@@ -86,6 +86,19 @@ departure:
 Record for each environment: purpose, type (production vs sandbox), who has
 maker access, what data it holds (real or masked), and its refresh policy.
 
+**Data policies are part of the environment design, not an afterthought.**
+Read which data policies and advanced connector policies apply to each
+environment — tenant-wide, environment-group or per environment — before
+designing what gets built where. Agents, agent flows, approval steps and newer
+connectors are exactly what a restrictive policy blocks, and the Default
+environment's group is usually the most locked down. Microsoft's own pattern
+is strict policies in personal dev environments and relaxed ones in a
+*dedicated* dev environment where the project's connectors are explicitly
+allowed. Record, per environment, which connectors, channels and knowledge
+sources the solution needs and whether the policy allows them; anything that
+needs an admin change becomes an open question with a named owner. Details in
+`${PLUGIN_ROOT}/shared/gotchas.md` under "Data policies".
+
 ---
 
 ## Step 3: Solution segmentation, publisher, naming

@@ -80,7 +80,10 @@ keeps schema naming consistent with everything already there.
 set the `MSCRM.SolutionUniqueName` header on every metadata POST (Microsoft
 Learn's name for it; `MSCRM.SolutionName` is ignored, and the component lands
 outside the solution). Verify with the solution's `publisherid` (expand
-`customizationprefix`).
+`customizationprefix`). Microsoft's Dataverse metadata skill now asks for the
+solution and prefix itself — the judgement this entry adds is the answer:
+look up the org's existing publisher and reuse its prefix rather than
+inventing one when asked.
 
 ### 3. Include each table's subcomponents AND required dependencies; system tables as shell references only
 

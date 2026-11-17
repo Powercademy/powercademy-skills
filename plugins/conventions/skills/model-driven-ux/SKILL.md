@@ -92,6 +92,10 @@ generative-page tooling.
 **About to add a command button** → entry 1. Choose the icon with the label,
 not afterwards, and check the rest of that command bar for clashes.
 
+**Microsoft's app builder is writing the command bar** → entry 1 still
+applies: its command spec carries an optional icon that defaults to empty, so
+give every command an icon in the spec before the build runs.
+
 **Reviewing an app's command bars** → entry 1, via the one-query audit rather
 than clicking through every bar. Report missing icons, duplicated icons for
 different actions, and broken pairs.

@@ -1,8 +1,8 @@
 {
-  "takenAt": "2026-10-14",
+  "takenAt": "2026-11-17",
   "repos": {
     "microsoft/power-platform-skills": {
-      "head": "c6babc7~2026-10-14",
+      "head": "05b634d~2026-11-17",
       "marketplacePlugins": [
         "canvas-apps",
         "code-apps-preview",
@@ -18,7 +18,7 @@
       ],
       "plugins": {
         "canvas-apps": {
-          "version": "3.1.0",
+          "version": "3.1.1",
           "mcp": {
             "canvas-authoring": "dnx Microsoft.PowerApps.CanvasAuthoring.McpServer"
           },
@@ -27,7 +27,7 @@
           ]
         },
         "code-apps-preview": {
-          "version": "1.1.0",
+          "version": "1.3.0",
           "mcp": {},
           "prereqs": [
             "azure cli",
@@ -41,7 +41,7 @@
           "prereqs": []
         },
         "mobile-app": {
-          "version": "0.5.3",
+          "version": "0.6.3",
           "mcp": {
             "microsoft-learn": "http https://learn.microsoft.com/api/mcp"
           },
@@ -54,19 +54,20 @@
           ]
         },
         "model-apps": {
-          "version": "2.14.0",
+          "version": "2.28.0",
           "mcp": {
             "playwright": "node -e const path=require('node:path'); const root=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT; if(!root) throw new Error('PLUGIN_ROOT is not set'); const mod=require(path.resolve(root,'scripts','launch-playwright-mcp.js')); if(mod&&typeof mod.launch==='function') mod.launch();"
           },
           "prereqs": [
             "azure cli",
             "node 20",
+            "node 22",
             "node 22+",
             "playwright"
           ]
         },
         "pcf": {
-          "version": "1.0.0",
+          "version": "1.0.1",
           "mcp": {},
           "prereqs": [
             "azure cli",
@@ -75,7 +76,7 @@
           ]
         },
         "power-apps-mobile-extension": {
-          "version": "0.1.0",
+          "version": "0.2.0",
           "mcp": {},
           "prereqs": [
             ".net 10",
@@ -84,7 +85,7 @@
           ]
         },
         "power-automate": {
-          "version": "3.2.1",
+          "version": "3.2.10",
           "mcp": {
             "flowagent": "node -e const p=require('node:path'),fs=require('node:fs');const r=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT||process.cwd();const src=process.env.PLUGIN_ROOT?'PLUGIN_ROOT':process.env.CLAUDE_PLUGIN_ROOT?'CLAUDE_PLUGIN_ROOT':'cwd';const mjs=p.resolve(r,'server','mcp.mjs');if(!fs.existsSync(mjs)){console.error('FlowAgent MCP not found at '+mjs+' (resolved via '+src+'='+r+'). Run /setup to fix.');process.exit(1);}(async()=>{try{await import(require('node:url').pathToFileURL(mjs).href)}catch(e){console.error(e);process.exit(1)}})();",
             "microsoft-learn": "http https://learn.microsoft.com/api/mcp"
@@ -95,7 +96,7 @@
           ]
         },
         "power-pages": {
-          "version": "2.9.0",
+          "version": "3.1.1",
           "mcp": {
             "playwright": "node -e const fs=require('node:fs'); const path=require('node:path'); const fail=(message)=>{throw new Error('[Power Pages Playwright MCP] '+message);}; const declaredRoot=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT; if(!declaredRoot) fail('PLUGIN_ROOT or CLAUDE_PLUGIN_ROOT must be set; refusing to resolve the launcher from the current working directory.'); if(!path.isAbsolute(declaredRoot)) fail('Declared plugin root must be an absolute path: '+declaredRoot+'.'); let root; try{root=fs.realpathSync(declaredRoot);}catch(error){fail('Declared plugin root is invalid: '+declaredRoot+' ('+(error.code||error.message)+').');} let rootStat; try{rootStat=fs.statSync(root);}catch(error){fail('Could not inspect declared plugin root: '+root+' ('+(error.code||error.message)+').');} if(!rootStat.isDirectory()) fail('Declared plugin root is not a directory: '+declaredRoot+'.'); const candidate=path.resolve(root,'scripts','launch-playwright-mcp.js'); let entry; try{entry=fs.realpathSync(candidate);}catch(error){fail('Launcher was not found under the declared plugin root: '+candidate+'.');} const relative=path.relative(root,entry); if(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative)) fail('Resolved launcher escapes the declared plugin root: '+entry+'.'); let entryStat; try{entryStat=fs.statSync(entry);}catch(error){fail('Could not inspect resolved launcher: '+entry+' ('+(error.code||error.message)+').');} if(!entryStat.isFile()) fail('Resolved launcher is not a file: '+entry+'.'); const mod=require(entry); if(!mod||typeof mod.launch!=='function') fail('Launcher did not export launch(): '+entry+'.'); mod.launch();",
             "microsoft-learn": "http https://learn.microsoft.com/api/mcp"
@@ -113,19 +114,20 @@
           },
           "prereqs": [
             "azure cli",
-            "node 22"
+            "node 22",
+            "node 22+"
           ]
         }
       }
     },
     "microsoft/Dataverse-skills": {
-      "head": "1966192~2026-10-12",
+      "head": "79ec1e2~2026-11-16",
       "marketplacePlugins": [
         "dataverse"
       ],
       "plugins": {
         "dataverse": {
-          "version": "1.16.1",
+          "version": "1.19.0",
           "mcp": {},
           "prereqs": [
             ".net 10",
@@ -140,7 +142,7 @@
       }
     },
     "microsoft/skills-for-copilot-studio": {
-      "head": "fd9653d~2026-09-09",
+      "head": "9c42d3a~2026-10-27",
       "marketplacePlugins": [
         "copilot-studio"
       ],
@@ -149,27 +151,37 @@
           "version": "1.0.11",
           "mcp": {},
           "prereqs": [
-            "copilot studio vscode extension"
+            "copilot studio vscode extension",
+            "python 3.10"
           ]
         }
       }
     },
     "microsoft/power-cat-skills": {
-      "head": "becb8af~2026-10-13",
+      "head": "ccc4e28~2026-11-17",
       "marketplacePlugins": [
+        "loop-my-prompt",
         "powercat-admin-digest",
         "powercat-adoption",
         "powercat-architecture-advisor",
         "powercat-canvas-apps",
         "powercat-code-apps",
+        "powercat-codeappscompact",
         "powercat-dataverse",
         "powercat-governance",
         "powercat-migration-factory",
         "powercat-overflow",
         "powercat-overpage",
-        "powercat-procode-eval"
+        "powercat-pcf",
+        "powercat-procode-eval",
+        "powercat-skills-router"
       ],
       "plugins": {
+        "loop-my-prompt": {
+          "version": "0.1.0",
+          "mcp": {},
+          "prereqs": []
+        },
         "powercat-admin-digest": {
           "version": "1.0.0",
           "mcp": {},
@@ -191,6 +203,13 @@
           "version": "1.0.0",
           "mcp": {},
           "prereqs": []
+        },
+        "powercat-codeappscompact": {
+          "version": "2.7.0",
+          "mcp": {},
+          "prereqs": [
+            "node 22"
+          ]
         },
         "powercat-dataverse": {
           "version": "1.0.7",
@@ -220,8 +239,18 @@
             "playwright"
           ]
         },
+        "powercat-pcf": {
+          "version": "1.0.0",
+          "mcp": {},
+          "prereqs": []
+        },
+        "powercat-skills-router": {
+          "version": "0.1.0",
+          "mcp": {},
+          "prereqs": []
+        },
         "powercat-migration-factory": {
-          "version": "1.0.2",
+          "version": "1.0.3",
           "mcp": {},
           "prereqs": [
             "node 18+",
@@ -249,7 +278,7 @@
   },
   "galleries": {
     "microsoft/cat-agent-skills": {
-      "head": "3158d47~2026-10-11",
+      "head": "189409b~2026-11-15",
       "submissions": {
         "accessibility-pass": {
           "name": "Accessibility Pass",
@@ -281,6 +310,11 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "agent-rai-impact-assessment": {
+          "name": "Agent RAI Impact Assessment",
+          "version": "1.0.0",
+          "lanes": false
+        },
         "agent-red-team": {
           "name": "Agent Red Team",
           "version": "1.0.0",
@@ -304,6 +338,11 @@
         "anonymised-case-study-writer": {
           "name": "Anonymised Case Study Writer",
           "version": "0.1.0",
+          "lanes": false
+        },
+        "answer-research": {
+          "name": "Answer Research",
+          "version": null,
           "lanes": false
         },
         "awaiting-reply": {
@@ -351,6 +390,11 @@
           "version": "1.0.0",
           "lanes": true
         },
+        "business-case-composer": {
+          "name": "Business Case Composer",
+          "version": null,
+          "lanes": false
+        },
         "business-os": {
           "name": "Business OS",
           "version": "1.0.0",
@@ -366,6 +410,21 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "capital-markets-for-cowork": {
+          "name": "Capital Markets",
+          "version": "1.0.7",
+          "lanes": false
+        },
+        "case-preparation-brief": {
+          "name": "Case Preparation Brief",
+          "version": null,
+          "lanes": false
+        },
+        "case-triage": {
+          "name": "Case Triage",
+          "version": null,
+          "lanes": false
+        },
         "chart-builder": {
           "name": "Chart Builder",
           "version": "1.0.0",
@@ -374,6 +433,11 @@
         "classic-text-adventure": {
           "name": "Classic Text Adventure",
           "version": "0.1.0",
+          "lanes": false
+        },
+        "clinical-documentation-companion": {
+          "name": "Clinical Docs Companion",
+          "version": "1.0.3",
           "lanes": false
         },
         "clipchamp-video": {
@@ -394,6 +458,11 @@
         "competitive-battlecard-builder": {
           "name": "Competitive Battlecard Builder",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "competitive-strategy": {
+          "name": "Competitive Strategy",
+          "version": null,
           "lanes": false
         },
         "conditional-chat-reminder": {
@@ -456,6 +525,11 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "cowork-consumption-advisor": {
+          "name": "Cowork & Work IQ Consumption Advisor",
+          "version": "1.0.0",
+          "lanes": false
+        },
         "cowork-plugin-engineer": {
           "name": "Copilot Cowork Plugin Engineer",
           "version": "1.1.0",
@@ -471,9 +545,64 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "customer-engagement-and-deal-risk-insights": {
+          "name": "Customer Engagement and Deal Risk Insights",
+          "version": null,
+          "lanes": false
+        },
+        "customer-service-order-support": {
+          "name": "Customer Service & Order Support",
+          "version": "1.0.4",
+          "lanes": false
+        },
+        "deal-catchup": {
+          "name": "Deal Catch-up",
+          "version": null,
+          "lanes": false
+        },
+        "deliverable-review-quality-gate": {
+          "name": "Deliverable Quality Gate",
+          "version": "1.0.9",
+          "lanes": false
+        },
+        "denials-appeals-response": {
+          "name": "Denials & Appeals Response",
+          "version": "1.0.3",
+          "lanes": false
+        },
+        "discharge-care-transition": {
+          "name": "Discharge Transition Packet",
+          "version": "1.0.3",
+          "lanes": false
+        },
         "doc-format-converter": {
           "name": "Universal Document Converter",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "draft-customer-reply": {
+          "name": "Draft Customer Reply",
+          "version": null,
+          "lanes": false
+        },
+        "education-for-cowork": {
+          "name": "Education",
+          "version": "1.0.0",
+          "lanes": false
+        },
+        "engagement-closeout-knowledge-harvest": {
+          "name": "Closeout Knowledge Harvest",
+          "version": "1.0.5",
+          "lanes": false
+        },
+        "engagement-mobilization-onboarding-pack": {
+          "name": "Engagement Mobilization Pack",
+          "version": "1.0.7",
+          "lanes": false
+        },
+        "engagement-staffing-bench-match": {
+          "name": "Staffing & Bench Match",
+          "version": "1.1.14",
           "lanes": false
         },
         "enterprise-agent-design-authority": {
@@ -494,6 +623,26 @@
         "explainer-video": {
           "name": "Explainer Video",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "finance-for-cowork": {
+          "name": "Finance",
+          "version": "1.0.7",
+          "lanes": false
+        },
+        "fsi-asset-management": {
+          "name": "Asset Management",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "fsi-commercial-banking": {
+          "name": "Commercial Banking",
+          "version": "1.0.1",
+          "lanes": false
+        },
+        "fsi-risk-and-compliance": {
+          "name": "Risk and Compliance",
+          "version": "1.0.29",
           "lanes": false
         },
         "gantt-chart-generator": {
@@ -526,6 +675,11 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "inbox-triage": {
+          "name": "Inbox Triage",
+          "version": "1.0.0",
+          "lanes": false
+        },
         "institutional-knowledge": {
           "name": "Institutional Knowledge Archivist",
           "version": "1.0.1",
@@ -541,15 +695,30 @@
           "version": "0.8.0",
           "lanes": false
         },
+        "knowledge-harvest": {
+          "name": "Knowledge Harvest",
+          "version": null,
+          "lanes": false
+        },
         "knowledge-source-router": {
           "name": "Knowledge Source Router",
           "version": "2.0.0",
+          "lanes": false
+        },
+        "kql-grounded-queries": {
+          "name": "KQL Grounded Queries",
+          "version": "1.0.0",
           "lanes": false
         },
         "lab-column-mapper": {
           "name": "Lab Column Mapper",
           "version": "1.0.0",
           "lanes": true
+        },
+        "legal-for-cowork": {
+          "name": "Legal",
+          "version": "1.0.10",
+          "lanes": false
         },
         "linkedin-content-system": {
           "name": "LinkedIn Content System",
@@ -566,6 +735,11 @@
           "version": "1.0.0",
           "lanes": true
         },
+        "maintenance-triage": {
+          "name": "Maintenance Triage",
+          "version": "1.3.1",
+          "lanes": false
+        },
         "mct-excellence-iq": {
           "name": "MCT Excellence IQ",
           "version": "1.0.0",
@@ -576,14 +750,34 @@
           "version": null,
           "lanes": false
         },
+        "meeting-moments-library-builder-cowork": {
+          "name": "Meeting Moments Library Builder for Cowork",
+          "version": "1.2.0",
+          "lanes": false
+        },
+        "meeting-prep": {
+          "name": "Meeting Prep",
+          "version": null,
+          "lanes": false
+        },
         "microsoft-ai-platform-advisor": {
           "name": "Microsoft AI Platform Advisor",
           "version": "1.0.0",
           "lanes": false
         },
+        "missed-meeting-recovery": {
+          "name": "Missed-Meeting Recovery",
+          "version": "1.1.0",
+          "lanes": false
+        },
         "monte-carlo-analysis": {
           "name": "Monte Carlo Analysis",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "nudge-for-response": {
+          "name": "Nudge for Response",
+          "version": "1.1.0",
           "lanes": false
         },
         "own-voice-builder": {
@@ -616,6 +810,16 @@
           "version": "1.1.0",
           "lanes": false
         },
+        "pipeline-prioritizer": {
+          "name": "Pipeline Prioritizer",
+          "version": null,
+          "lanes": false
+        },
+        "post-meeting-follow-up": {
+          "name": "Post-Meeting Follow-Up",
+          "version": null,
+          "lanes": false
+        },
         "pov-line-generator": {
           "name": "POV Line Generator",
           "version": "0.1.0",
@@ -636,6 +840,11 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "power-platform-solution-compare": {
+          "name": "Power Platform Solution Compare",
+          "version": "1.0.0",
+          "lanes": true
+        },
         "powerpoint-deck-designer": {
           "name": "PowerPoint Deck Designer",
           "version": "1.0.0",
@@ -646,9 +855,24 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "prior-auth-assist": {
+          "name": "Prior Authorization Packet",
+          "version": "1.0.3",
+          "lanes": false
+        },
         "process-sop-architect": {
           "name": "Process & SOP Architect",
           "version": "1.1.0",
+          "lanes": false
+        },
+        "product-content-catalog-enrichment": {
+          "name": "Product Content & Catalog Enrichment",
+          "version": "1.0.5",
+          "lanes": false
+        },
+        "prompt-to-set-agenda": {
+          "name": "Prompt to Set Agenda",
+          "version": "1.0.0",
           "lanes": false
         },
         "qr-code-builder": {
@@ -656,14 +880,34 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "quality-inspection": {
+          "name": "Quality Inspection & Nonconformance",
+          "version": "3.1.1",
+          "lanes": false
+        },
         "redlining-content": {
           "name": "Redlining Content",
           "version": "1.0.0",
           "lanes": false
         },
+        "reg-submission-authoring": {
+          "name": "Reg Submission Authoring",
+          "version": "1.0.3",
+          "lanes": false
+        },
         "regulation-monitor": {
           "name": "Regulation Monitor",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "reschedule-declined-1-1": {
+          "name": "Reschedule Declined 1:1",
+          "version": "1.1.0",
+          "lanes": false
+        },
+        "returns-refund-case": {
+          "name": "Returns & Refund Case",
+          "version": "1.0.4",
           "lanes": false
         },
         "rich-html-presentation": {
@@ -679,6 +923,21 @@
         "route-map-visualizer": {
           "name": "Route Map Visualizer",
           "version": "1.0.0",
+          "lanes": true
+        },
+        "safety-incident-assist": {
+          "name": "Safety Incident Assist",
+          "version": "2.0.0-rc.7",
+          "lanes": false
+        },
+        "sales-progress-update": {
+          "name": "Sales Progress Update",
+          "version": null,
+          "lanes": false
+        },
+        "sap-power-platform-integration-architect": {
+          "name": "SAP–Power Platform Integration Architect",
+          "version": "0.3.1",
           "lanes": true
         },
         "scrollytelling-data": {
@@ -716,9 +975,24 @@
           "version": "1.0.0",
           "lanes": false
         },
+        "stakeholder-and-decision-map": {
+          "name": "Stakeholder & Decision Map",
+          "version": null,
+          "lanes": false
+        },
         "stoic-negotiator": {
           "name": "Stoic Negotiator",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "store-associate-assist": {
+          "name": "Store Associate Assist",
+          "version": "1.0.9",
+          "lanes": false
+        },
+        "store-task-promotion-execution": {
+          "name": "Store Task & Promotion Execution",
+          "version": "1.0.5",
           "lanes": false
         },
         "study-flashcards": {
@@ -729,6 +1003,21 @@
         "style-analyzer": {
           "name": "Communication Style Analyzer",
           "version": "1.0.0",
+          "lanes": false
+        },
+        "supplier-disruption": {
+          "name": "Supplier Disruption Assist",
+          "version": "1.4.3",
+          "lanes": false
+        },
+        "template-based-document-generation": {
+          "name": "Template-Based Document Generation",
+          "version": "3.8.0",
+          "lanes": false
+        },
+        "time-expense-narrative-compliance": {
+          "name": "Time & Expense Narrative Check",
+          "version": "1.0.13",
           "lanes": false
         },
         "tool-tracer": {
@@ -780,28 +1069,50 @@
           "name": "Work IQ Signalboard",
           "version": "2.0.0",
           "lanes": false
+        },
+        "work-iq-sphere": {
+          "name": "Work IQ Sphere",
+          "version": "2.0.0",
+          "lanes": false
+        },
+        "work-order-assist": {
+          "name": "Work Order Assistant",
+          "version": "4.0.1",
+          "lanes": false
         }
       }
     }
   },
   "packages": {
+    "url:https://nodejs.org/en/download": {
+      "items": [
+        "node"
+      ],
+      "state": "ok"
+    },
     "winget:OpenJS.NodeJS.LTS": {
       "items": [
         "node"
       ],
       "state": "ok",
-      "latest": "24.20.0"
+      "latest": "26.13.1"
     },
     "brew:node@24": {
       "items": [
         "node"
       ],
       "state": "ok",
-      "latest": "24.21.0"
+      "latest": "24.22.3"
     },
     "url:https://github.com/nvm-sh/nvm": {
       "items": [
         "node"
+      ],
+      "state": "ok"
+    },
+    "url:https://git-scm.com/downloads": {
+      "items": [
+        "git"
       ],
       "state": "ok"
     },
@@ -810,25 +1121,37 @@
         "git"
       ],
       "state": "ok",
-      "latest": "2.55.0.5"
+      "latest": "2.56.0.4"
     },
     "brew:git": {
       "items": [
         "git"
       ],
       "state": "ok",
-      "latest": "2.56.0"
+      "latest": "2.56.1"
+    },
+    "url:https://github.com/github/copilot-cli": {
+      "items": [
+        "copilot-cli"
+      ],
+      "state": "ok"
     },
     "npm:@github/copilot": {
       "items": [
         "copilot-cli"
       ],
       "state": "ok",
-      "latest": "1.0.97"
+      "latest": "1.0.112"
     },
     "url:https://docs.anthropic.com/en/docs/claude-code": {
       "items": [
         "claude-code"
+      ],
+      "state": "ok"
+    },
+    "url:https://dotnet.microsoft.com/download/dotnet/10.0": {
+      "items": [
+        "dotnet-sdk"
       ],
       "state": "ok"
     },
@@ -837,18 +1160,24 @@
         "dotnet-sdk"
       ],
       "state": "ok",
-      "latest": "10.0.402"
+      "latest": "10.0.404"
     },
     "cask:dotnet-sdk": {
       "items": [
         "dotnet-sdk"
       ],
       "state": "ok",
-      "latest": "10.0.402"
+      "latest": "11.0.100"
     },
     "url:https://learn.microsoft.com/dotnet/core/install/linux": {
       "items": [
         "dotnet-sdk"
+      ],
+      "state": "ok"
+    },
+    "url:https://learn.microsoft.com/power-platform/developer/cli/introduction": {
+      "items": [
+        "pac"
       ],
       "state": "ok"
     },
@@ -858,25 +1187,37 @@
         "mcp-pac"
       ],
       "state": "ok",
-      "latest": "2.13.1"
+      "latest": "2.15.1"
+    },
+    "url:https://learn.microsoft.com/cli/azure/install-azure-cli": {
+      "items": [
+        "azure-cli"
+      ],
+      "state": "ok"
     },
     "winget:Microsoft.AzureCLI": {
       "items": [
         "azure-cli"
       ],
       "state": "ok",
-      "latest": "2.91.0"
+      "latest": "2.93.0"
     },
     "cask:azure-cli": {
       "items": [
         "azure-cli"
       ],
       "state": "ok",
-      "latest": "2.91.0"
+      "latest": "2.93.0"
     },
     "url:https://aka.ms/InstallAzureCLIDeb": {
       "items": [
         "azure-cli"
+      ],
+      "state": "ok"
+    },
+    "url:https://www.python.org/downloads/": {
+      "items": [
+        "python"
       ],
       "state": "ok"
     },
@@ -892,14 +1233,20 @@
         "python"
       ],
       "state": "ok",
-      "latest": "3.12.15"
+      "latest": "3.12.16"
+    },
+    "url:https://pypi.org/project/PowerPlatform-Dataverse-Client/": {
+      "items": [
+        "dataverse-python-sdk"
+      ],
+      "state": "ok"
     },
     "pypi:azure-identity": {
       "items": [
         "dataverse-python-sdk"
       ],
       "state": "ok",
-      "latest": "1.26.0"
+      "latest": "1.27.0"
     },
     "pypi:requests": {
       "items": [
@@ -920,7 +1267,7 @@
         "dataverse-python-sdk"
       ],
       "state": "ok",
-      "latest": "3.0.6"
+      "latest": "3.1.1"
     },
     "pypi:msal": {
       "items": [
@@ -936,58 +1283,100 @@
       "state": "ok",
       "latest": "1.3.1"
     },
+    "url:https://code.visualstudio.com/": {
+      "items": [
+        "vscode"
+      ],
+      "state": "ok"
+    },
     "winget:Microsoft.VisualStudioCode": {
       "items": [
         "vscode"
       ],
       "state": "ok",
-      "latest": "1.141.1"
+      "latest": "1.146.0"
     },
     "cask:visual-studio-code": {
       "items": [
         "vscode"
       ],
       "state": "ok",
-      "latest": "1.141.2"
+      "latest": "1.146.0"
+    },
+    "url:https://marketplace.visualstudio.com/items?itemName=ms-CopilotStudio.vscode-copilotstudio": {
+      "items": [
+        "vscode-copilot-studio"
+      ],
+      "state": "ok"
     },
     "vscode:ms-CopilotStudio.vscode-copilotstudio": {
       "items": [
         "vscode-copilot-studio"
       ],
       "state": "ok",
-      "latest": "1.9.16"
+      "latest": "1.10.19"
+    },
+    "url:https://adoptium.net/temurin/releases/?version=17": {
+      "items": [
+        "jdk17"
+      ],
+      "state": "ok"
     },
     "winget:EclipseAdoptium.Temurin.17.JDK": {
       "items": [
         "jdk17"
       ],
       "state": "ok",
-      "latest": "17.0.20.101"
+      "latest": "17.0.21.9"
     },
     "cask:temurin@17": {
       "items": [
         "jdk17"
       ],
       "state": "ok",
-      "latest": "17.0.20.1,1"
+      "latest": "17.0.21,9"
+    },
+    "url:https://developer.android.com/studio": {
+      "items": [
+        "android-studio"
+      ],
+      "state": "ok"
     },
     "winget:Google.AndroidStudio": {
       "items": [
         "android-studio"
       ],
       "state": "ok",
-      "latest": "2026.2.1.8"
+      "latest": "2026.2.2.9"
     },
     "cask:android-studio": {
       "items": [
         "android-studio"
       ],
       "state": "ok",
-      "latest": "2026.2.1.8,rabbit1"
+      "latest": "2026.2.2.9,rabbit2-patch1"
+    },
+    "url:https://developer.apple.com/xcode/": {
+      "items": [
+        "xcode"
+      ],
+      "state": "ok"
     },
     "endpoint:https://learn.microsoft.com/api/mcp": {
       "items": [
         "mcp-learn"
+      ],
+      "state": "ok"
+    },
+    "url:https://learn.microsoft.com/training/support/mcp": {
+      "items": [
+        "mcp-learn"
+      ],
+      "state": "ok"
+    },
+    "url:https://github.com/microsoft/playwright-mcp": {
+      "items": [
+        "mcp-playwright"
       ],
       "state": "ok"
     },
@@ -996,18 +1385,43 @@
         "mcp-playwright"
       ],
       "state": "ok",
-      "latest": "0.0.83"
+      "latest": "0.0.85"
     },
     "npm:playwright": {
       "items": [
         "mcp-playwright"
       ],
       "state": "ok",
-      "latest": "1.64.1"
+      "latest": "1.65.1"
+    },
+    "url:https://learn.microsoft.com/power-platform/developer/howto/use-mcp": {
+      "items": [
+        "mcp-pac"
+      ],
+      "state": "ok"
     },
     "url:https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp": {
       "items": [
         "mcp-pac"
+      ],
+      "state": "ok"
+    },
+    "url:https://learn.microsoft.com/azure/devops/mcp-server/mcp-server-overview": {
+      "items": [
+        "mcp-azure-devops"
+      ],
+      "state": "ok"
+    },
+    "npm:@azure-devops/mcp": {
+      "items": [
+        "mcp-azure-devops"
+      ],
+      "state": "ok",
+      "latest": "2.11.0"
+    },
+    "url:https://marketplace.visualstudio.com/items?itemName=microsoft-IsvExpTools.powerplatform-vscode": {
+      "items": [
+        "vscode-pp-tools"
       ],
       "state": "ok"
     },
@@ -1016,14 +1430,20 @@
         "vscode-pp-tools"
       ],
       "state": "ok",
-      "latest": "2.0.157"
+      "latest": "2.0.163"
+    },
+    "url:https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows": {
+      "items": [
+        "pwsh7"
+      ],
+      "state": "ok"
     },
     "winget:Microsoft.PowerShell": {
       "items": [
         "pwsh7"
       ],
       "state": "ok",
-      "latest": "7.6.7.0"
+      "latest": "7.7.0.0"
     }
   }
 }

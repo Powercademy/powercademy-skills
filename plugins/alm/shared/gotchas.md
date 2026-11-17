@@ -14,7 +14,8 @@ Format per entry: **Symptom** → **Cause** → **Fix**. Short and mechanical.
 3. [Connection references and connections](#connection-references-and-connections)
 4. [Solutions, publishers and layers](#solutions-publishers-and-layers)
 5. [Environments](#environments)
-6. [Session log](#session-log)
+6. [Data policies](#data-policies)
+7. [Session log](#session-log)
 
 ---
 
@@ -76,9 +77,28 @@ resurfaces somewhere worse.
 **A recurrence flow starts the moment it's enabled.** Enabling a batch of flows after import can immediately hit production data.
 → Enable one at a time, knowing what each does on its first run.
 
+## Data policies
+
+**An agent, agent flow or approval step won't publish or run, though it worked somewhere else.**
+A data policy or advanced connector policy blocks a connector, channel or knowledge source it uses. In Copilot Studio, connectors introduced after 2019 land in the *Non-business* group by default, and many organisations block that group automatically. The Default environment's group is usually the most restrictive — a client build hit exactly this and moved to a dedicated dev environment.
+→ Check before building, not when publish fails: list the connectors, channels and knowledge sources the solution needs against each environment's policies. Copilot Studio shows a blocked tool as disabled with the reason on hover, and the agent's **Channels** page lets you download every violation as a workbook — send that to the admin rather than describing the error.
+
+**Advanced connector policies are an allowlist.**
+Everything not explicitly allowed is blocked, including connectors released later and whole MCP servers. With classic data policies also in place (mixed mode), the most restrictive setting wins.
+→ A connector that "appeared overnight" in a new feature is blocked until someone adds it. Name the connector and the policy scope when you ask.
+
+**Removing a policy from an environment group doesn't remove it from the environments.**
+Environments keep the last advanced connector policy they inherited, to avoid an enforcement gap.
+→ If a block survives a group change, check the environment's own policy.
+
+**Inline agents and other new building blocks can trip policies a classic flow never touched.**
+Seen on a client build: publishing an inline agent in a workflow failed on a policy that ordinary flow actions passed, and the documentation pointed at an older admin location.
+→ Look at the environment's advanced connector policy and the Copilot Studio rules in the Power Platform admin center before assuming the feature is broken.
+
 ## Session log
 
 Append a one-line entry per session that added a gotcha, so patterns across
 deployments become visible.
 
 - **2026-09 — seeded** from lessons already paid for on flow builds (environment variables, publisher/solution discipline, custom-connector export) plus the standard import-failure table. Entries here are expected to sharpen fast once real promotions run through `promote-solution`.
+- **2026-11 — data policies** added from a client workshop: default-environment DLP blocking agents and approvals, the move to a dedicated dev environment, advanced connector policies. Platform behaviour verified against Microsoft Learn (Copilot Studio data policies; advanced connector policies).

@@ -102,7 +102,7 @@ doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
 workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
 the whole manifest, installing into both Claude Code and Copilot CLI.
 
-### canvas-planner (0.2.1)
+### canvas-planner (0.2.2)
 
 The decisions that determine whether a canvas app survives contact with real
 data — made *before* anything is generated:
@@ -117,7 +117,7 @@ data — made *before* anything is generated:
 - Checkpoints run at **production volumes**, because a 50-row test proves
   nothing about delegation.
 
-### alm (0.1.1)
+### alm (0.2.0)
 
 How the work actually ships — and the deployment that doesn't ruin your evening:
 
@@ -136,7 +136,7 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### conventions (0.5.1)
+### conventions (0.6.0)
 
 The judgement layer as a checklist — applied before anything gets built:
 
@@ -159,6 +159,12 @@ The judgement layer as a checklist — applied before anything gets built:
   bundle keeps rendering, dev push isn't deployment, the harness isn't the
   real host, and the premium-licensing trap. Applied alongside Microsoft's
   pcf plugin.
+- **`agent-design`** — the calls to make before a Copilot Studio agent is
+  authored: agent or workflow, which harness (standard, Microsoft Copilot,
+  Customer Conversation, Agent Builder, Foundry), knowledge vs tools vs
+  workflows, what each conversation costs in credits and who pays, and whether
+  the environment's data policies allow it. Then hands the build to
+  Microsoft's Copilot Studio tooling.
 - **`tool-selection`** — the right tool for the job: Microsoft's purpose-built
   tools first, then the SDK, Web API or pac CLI, and browser automation
   (Playwright) only for what has no API or where the UI itself is being
@@ -177,13 +183,9 @@ All tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues
 - **map-tenant** — first-day cartography of an unfamiliar customer tenant
 - **session-debrief** — end-of-session retrospective that drafts gotcha
   contributions
-- **Next — the orchestrator.** A top-level "front door" skill that knows the
-  whole Power Platform delivery surface (Dataverse, Power Automate, Power
-  Pages, Code Apps, `pac`) and routes, sequences, and applies methodology
-  across them. Skills can't wrap each other, but they *can* tell the agent
-  which capability to reach for, in what order, with what checks — which is
-  where the consolidation value actually lives. Ships alongside the first
-  conventions skills (solution naming, environment strategy, ALM).
+- **The delivery method as a skill** — Capture → Consolidate → Constrain →
+  Construct → Confirm, applied across every build. (A cross-repo "router" is
+  no longer on our roadmap: Power CAT's skills router now does that job.)
 
 Tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues).
 

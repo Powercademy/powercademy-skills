@@ -45,6 +45,13 @@ built. The gotchas file has the detail and the reasoning.
   it, and can roll back. Automating the designer in a browser is slower and
   breaks on UI changes — keep it for what the tools can't reach, and for
   watching a run render. See the tool-selection skill.
+- **Built through the API? Keep changing it through the API.** Saving an
+  agent-built flow from the designer can rewrite it, and the designer's
+  validation lags the runtime — a red badge on a flow that runs is not proof
+  it's broken.
+- **With an AI step: fetch and filter first, structured output, check there's
+  something to say.** The AI decides the words; the flow decides the data and
+  the shape.
 
 ## How to add an entry
 

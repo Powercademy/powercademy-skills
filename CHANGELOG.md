@@ -3,6 +3,58 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.17.0] — 2026-11-17
+
+From a four-day client workshop on AI-assisted delivery, and a full
+deep-dive into Microsoft's power-platform-skills and power-cat-skills.
+
+### Added
+
+- **`agent-design`** (conventions 0.6.0) — the calls to make before a Copilot
+  Studio agent is authored: agent or workflow (no agent is often right);
+  which harness — standard, Microsoft Copilot harness, Customer Conversation,
+  Agent Builder or Foundry — by task weight, not novelty; knowledge vs tools
+  vs workflows vs skills vs connected agents; who pays (Microsoft 365 Copilot
+  licence coverage vs Copilot Credits) and a monthly estimate; environment
+  and data-policy fit; a written design; then hand-off to Microsoft's
+  Copilot Studio Architect / Author / Advisor. Billing rates, licence
+  coverage and harness guidance verified against Microsoft Learn and kept in
+  conventions' `microsoft-refs.md`. Nobody else covers these before-authoring
+  decisions: Microsoft's tooling maps components and writes YAML, Power CAT's
+  architecture advisor picks the product.
+- **Flow lessons** (flow-conventions) — new sections *Flows built by an
+  agent* (designer validation lags the runtime: `sort()`, a documented
+  function, flagged as unknown; saving an agent-built flow in the designer can
+  rewrite it; use the standard approval action; check connection references)
+  and *Flows with an AI step* (fetch and filter first, structured output,
+  don't generate when there's nothing to say, flag bad source data, keep a
+  person in the loop until trusted).
+- **Data policies** (alm 0.2.0) — design-alm-process treats data policies
+  and advanced connector policies as an input to environment design (agents,
+  agent flows and approvals are what restrictive policies block; Default's
+  group is usually strictest; build in a dedicated dev environment);
+  promote-solution pre-flights the target's policies and which environment
+  the tooling is actually connected to. New gotchas section, verified against
+  Learn.
+- Eval scenario for agent-design.
+
+### Changed — from the deep-dive
+
+- **plan-canvas-app** (canvas-planner 0.2.2) hands whole-app audits of an
+  existing app to Power CAT's `analyze-canvas-performance`; planning stays
+  ours.
+- **model-driven-ux**: applies when Microsoft's app builder writes command
+  bars (its icon defaults to empty).
+- **dataverse-conventions** entry 2 notes Microsoft's metadata skill now asks
+  for solution and prefix; the judgement is reusing the org's prefix.
+- **Roadmap**: the cross-repo "orchestrator" is dropped — Power CAT's
+  `powercat-skills-router` now routes across both Microsoft marketplaces.
+- **Landscape doc** refreshed: 11 + 15 plugins inventoried, verdicts for
+  every shipped skill, routing table. Nothing to retire this round.
+- Upstream baseline accepted (issue #18): model-apps and process-intelligence
+  now need Node 22+, Copilot Studio Python 3.10+ — both under our floors; four
+  new Power CAT plugins and two community gallery skills recorded.
+
 ## [0.16.0] — 2026-11-17
 
 ### Added

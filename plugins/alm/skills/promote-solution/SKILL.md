@@ -56,6 +56,16 @@ Check, and report as findings rather than assumptions:
   first; proceed only if they want a one-off, and say what that costs.
 - Whether this promotion has ever been rehearsed. First runs get more
   checkpoints, not fewer.
+- **Whether the target's data policies allow what the solution uses.** A
+  solution that worked in a relaxed dev environment can import cleanly into a
+  stricter target and then fail at run time — an agent that can't publish, a
+  flow whose connector is blocked. Compare the connectors, channels and
+  knowledge sources the solution uses with the target's policies before
+  exporting, and report any gap as a finding with the admin who can close it.
+- **Which environment the tooling is actually connected to.** Confirm the
+  active connection points at the source you mean — an MCP session or CLI
+  profile left on another environment builds or exports from the wrong place
+  without complaint.
 
 ---
 

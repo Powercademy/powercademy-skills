@@ -5,9 +5,18 @@ servers, CLI commands, or file layouts. The skill states methodology; when it
 needs mechanics, it points here. If Microsoft renames something, this file is
 the only thing that changes.
 
-**Verified 2026-07-24.**
+**Verified 2026-07-24; audit hand-off added 2026-11-17.**
 
 ---
+
+## Auditing an existing app — Power CAT
+
+Power CAT's `powercat-canvas-apps` plugin (marketplace `power-cat-skills`)
+ships `analyze-canvas-performance`: an audit of an existing canvas app or its
+`.pa.yaml` files — slow load, delegation warnings, N+1 calls, collections,
+OnStart, Named Formulas, concurrency, naming, variable scope, modern controls,
+responsive layout, accessibility. Hand whole-app reviews to it; plan-canvas-app
+owns the design decisions before (and behind) the build.
 
 ## Handing off generation to Microsoft's canvas tooling
 

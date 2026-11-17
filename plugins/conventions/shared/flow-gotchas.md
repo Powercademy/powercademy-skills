@@ -13,13 +13,15 @@ Format per entry: **Symptom** → **Cause** → **Fix**. Keep them short and mec
 
 1. [Editing flows that already run](#editing-flows-that-already-run)
 2. [Designer behaviour](#designer-behaviour)
-3. [Expressions](#expressions)
-4. [Parse JSON](#parse-json)
-5. [HTTP actions and Microsoft Graph](#http-actions-and-microsoft-graph)
-6. [Child flow patterns](#child-flow-patterns)
-7. [Environment variables and ALM](#environment-variables-and-alm)
-8. [Testing when a dependency is unavailable](#testing-when-a-dependency-is-unavailable)
-9. [Anti-patterns seen in the wild](#anti-patterns-seen-in-the-wild)
+3. [Flows built by an agent](#flows-built-by-an-agent)
+4. [Expressions](#expressions)
+5. [Parse JSON](#parse-json)
+6. [HTTP actions and Microsoft Graph](#http-actions-and-microsoft-graph)
+7. [Child flow patterns](#child-flow-patterns)
+8. [Flows with an AI step](#flows-with-an-ai-step)
+9. [Environment variables and ALM](#environment-variables-and-alm)
+10. [Testing when a dependency is unavailable](#testing-when-a-dependency-is-unavailable)
+11. [Anti-patterns seen in the wild](#anti-patterns-seen-in-the-wild)
 
 ---
 
@@ -87,6 +89,24 @@ A plan listing `Compose_X`, `Condition_Y`, `Do_Z` as consecutive headings reads 
 `Condition_not_already_flagged` with left value `coalesce(recordAutomatically, false)` compared to `false` — the **true** branch means "proceed". Name conditions after the branch semantics, then say so explicitly.
 
 ---
+
+## Flows built by an agent
+
+**A flow built through the API runs fine, but the designer shows errors on it.**
+The definition is valid, but the designer's own validation lags behind what the runtime accepts. Seen on a client build: `sort()` — a documented workflow expression function — reported as an unknown function, with a design warning that blocked publishing from the designer.
+→ Trust a successful test run over the designer's red badge, then check the function against the expression reference before "fixing" anything. If publishing is blocked, publish or patch through the flow tooling's API, or swap to an equivalent the designer recognises. Use the designer to *read* the flow, not to arbitrate whether it's valid.
+
+**Opening an agent-built flow in the designer and saving it changed the flow.**
+Seen on a client build: reopening and saving in the new designer rewrote composed outputs into variables, and every reopen reintroduced the same breakage.
+→ Once a flow is built through the API, keep changing it through the API. If someone must use the designer, export the definition first, close without saving unless the save is the point, and diff before and after.
+
+**Human approval through the agent's flow tooling was unreliable.**
+Seen on a client build: an approval step driven through the flow tooling didn't behave, where the standard approval action did.
+→ Use the standard approval action for human review. Test the reject path as well as the approve path — it's the one nobody runs.
+
+**A flow the agent generated has steps the designer can't connect.**
+Connections and connection references are created per user; a generated definition can reference a connection the person running it doesn't own.
+→ Check every connection reference resolves to a working connection before the first real run, and attach missing ones by hand rather than letting the run fail midway.
 
 ## Expressions
 
@@ -226,6 +246,27 @@ If a solution already has a test-mode environment variable, gate the dangerous w
 
 Then invert the deploy check: instead of *"did we remove the gate?"*, ask *"is the test-mode flag off in production?"* A gate left in place with the flag on means the flow silently does nothing.
 
+## Flows with an AI step
+
+**Fetch and filter before the AI step, not inside it.**
+Asking the AI step (or an agent) to go and find the data is slower, costs more and is less predictable than handing it exactly the rows it needs.
+→ Retrieve with ordinary actions, filter as early as possible (ideally in the query, so fewer rows come back at all), then pass the AI step only what it must read.
+
+**Ask for structured output, then build the document deterministically.**
+Free text from an AI step drifts in wording and layout from run to run.
+→ Give the AI step a schema (summary, highlights, per-project lines) and assemble the HTML, email or file from that output in ordinary actions. The AI decides the words; the flow decides the shape.
+
+**Don't generate when there's nothing to say.**
+A scheduled report flow sent a customer an empty report for a week with no logged work.
+→ Check there are rows to report on before the AI step runs. A skipped run costs nothing; an empty report costs trust.
+
+**Flag bad source data — don't summarise it.**
+Seen on a client build: one day logged as 50 hours while the detailed entries summed to 5. An AI summary would have smoothed it over.
+→ Compare totals against their details in ordinary actions and route mismatches for review. Use typed columns (yes/no, choice, number) for anything the flow branches on, never free text the AI has to interpret.
+
+**Keep a person in the loop until the output has earned trust.**
+→ Route the first runs through approval before anything reaches a customer. Store rejected drafts somewhere editable (a list with the draft, status, customer and date) and revise them there — with an agent if you like — rather than building an approve/reject loop into the flow. Remove the approval only once the team has seen enough good runs to agree.
+
 ## Environment variables and ALM
 
 **Build in the dev environment that holds the unmanaged solution.**
@@ -307,3 +348,4 @@ Common, and usually inherited. Don't copy it into new flows — use environment 
 Append a one-line entry per session that added a gotcha, so patterns across builds become visible.
 
 - **2026-07 — Auto-record sweep (client build):** seeded this file. Descriptions truncating at 255 chars, Condition advanced-mode error, and the guest-mailbox blocker were the three that cost the most time.
+- **2026-11 — client workshop (AI-assisted delivery):** agent-built flows and the designer (validation lag on `sort()`, save-rewrites), approvals, and the AI-step patterns from a scheduled customer-report build. `sort()` verified against the workflow expression reference.

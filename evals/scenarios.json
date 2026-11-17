@@ -89,6 +89,14 @@
       "alternates": [
         "review the command bar on my model-driven app - does anything look off?"
       ]
+    },
+    {
+      "skill": "agent-design",
+      "plugin": "conventions",
+      "prompt": "we want a Copilot Studio agent that sends each customer a weekly summary of the hours we logged for them - how should we build it?",
+      "alternates": [
+        "should this agent use the standard harness or the new Copilot harness, and what will it cost us per month?"
+      ]
     }
   ]
 }
