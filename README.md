@@ -72,7 +72,7 @@ Manual bootstrap, inside a Claude Code or Copilot CLI session:
 
 ## What's included
 
-### doctor (0.5.3) — start here
+### doctor (0.6.0) — start here
 
 The answer to "why is setting this up such a pain?" — the first thing you run,
 and the place you come back to when something breaks:
@@ -83,7 +83,11 @@ and the place you come back to when something breaks:
   Copilot harness agents — PCF, mobile, process mining, ALM), inventories
   what's there, shows **one plan** for one approval, then installs — user-scoped first, with anything needing admin rights written
   up as a paste-ready IT request. Signs you in, verifies every tool actually
-  runs, and ends with a readiness card. Re-run it to add a workload.
+  runs, and hands over a **workstation health report**: a score out of 100 with
+  a one-line summary, the top fixes, everything installed, and the workloads
+  not set up yet with what each unlocks and links to its docs. Asks which
+  project-management tool the team uses and, for Azure DevOps, offers its MCP
+  server. Re-run it to add a workload.
 - **`check-setup`** — diagnose and repair an existing toolchain: outdated or
   shimmed CLIs, **auth profiles** (who am I signed in as, where — the pain
   centre), the wrong tenant, plugins that won't load or drift between

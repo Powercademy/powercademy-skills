@@ -51,9 +51,15 @@ jobs:
       - name: Smoke — every workload + recommended tier
         run: node scripts/test/workstation-smoke.js --recommended --report smoke.md
 
+      - name: Health report — what setup-workstation hands the user
+        if: always()
+        run: node plugins/doctor/scripts/workstation-report.js --out-dir health
+
       - name: Report
         if: always()
-        run: cat smoke.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "no report" >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          cat smoke.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "no smoke report" >> "$GITHUB_STEP_SUMMARY"
+          cat health/workstation-report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "no health report" >> "$GITHUB_STEP_SUMMARY"
 
   agent:
     name: agent (setup-workstation, windows)

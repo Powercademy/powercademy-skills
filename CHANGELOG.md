@@ -3,6 +3,47 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.16.0] — 2026-11-17
+
+### Added
+
+- **Workstation health report** (doctor 0.6.0) —
+  `plugins/doctor/scripts/workstation-report.js`, read-only, run at the end of
+  setup-workstation and check-setup. Writes `workstation-report.md` and a
+  rendered `.html`: a **score out of 100** (core toolchain 60, your workloads
+  30, recommended 10; outdated or one-runtime-only items earn half) with a
+  verdict band and one-line summary on top, the top three fixes with the
+  phrase to say, everything installed with versions, the workloads not set up
+  yet — what each unlocks, the phrase to add it, links to its docs — then
+  recommended extras and integrations. Every manifest item now carries a
+  verified `docs` link; every workload an `unlocks` line and a `tryFirst`
+  prompt.
+- **Azure DevOps, ask-first** — a new `integrations` section in the manifest.
+  setup-workstation asks which project-management tool the team uses; for
+  Azure DevOps it offers the Azure DevOps MCP server and asks for the
+  organisation name before installing. Copilot CLI uses Microsoft's hosted
+  remote server; Claude Code uses Microsoft's local server, because the remote
+  one needs a custom Entra app registration with admin consent in Claude Code
+  (verified against Microsoft Learn).
+- Shared read-only check module (`plugins/doctor/scripts/toolchain.js`) used
+  by both the health report and the fresh-machine smoke test, so they can't
+  disagree; the fresh-machine workflow now also generates the health report
+  on every VM.
+
+### Fixed
+
+- **MCP servers registered for the folder, not the user.** The manifest's
+  Learn and Playwright commands ran `claude mcp add` without a scope, so the
+  server only existed in the folder setup ran in — the "tools vanished in my
+  new project folder" problem seen in a client workshop. Now `--scope user`;
+  check-setup diagnoses folder scope, parent-folder sessions and servers stuck
+  pending approval.
+- Upstream watch: `npx -y <package>` no longer reads `-y` as a package;
+  URLs with a `{placeholder}` are skipped; manifest docs links are checked
+  weekly.
+- Smoke test: error text was mangled by a `/s+/` regex that should have been
+  `/s+/`.
+
 ## [0.15.1] — 2026-11-12
 
 ### Fixed

@@ -65,6 +65,17 @@ Then offer the **recommended** tier as an opt-in, one line each with its *why*.
 Default answer: yes to Microsoft Learn MCP (it underpins "verify, never recall"),
 the user's choice for the rest.
 
+Then ask each of the manifest's `integrations` questions — today, **"Which
+project-management tool does your team use?"** Nothing in an integration is
+installed by default (`askBeforeInstall`):
+
+- **Azure DevOps** → say what the Azure DevOps MCP server gives them (work items,
+  pull requests, pipelines, wikis and test plans from the conversation), ask
+  whether they want it, and if so ask for the **organisation name** (the
+  `{organization}` in the install command — just the name, e.g. `contoso`, not
+  the URL). Respect the item's `runtimeNote`: the method differs by runtime.
+- **Anything else, or none** → nothing to install; carry on.
+
 ---
 
 ## Step 3: Inventory before installing
@@ -126,6 +137,10 @@ Work the approved plan:
    (its `runtimeNote` says why). Exact commands per runtime are in
    `${PLUGIN_ROOT}/shared/microsoft-refs.md`. New plugins and MCP servers load
    only after the agent restarts — say so, and say it once, at the end.
+5. **MCP servers machine-wide.** Prefer the MCP servers plugins already bundle.
+   When registering one directly, register it for the user, not the folder
+   (the manifest's commands do) — a folder-scoped server silently vanishes in
+   every other project folder.
 
 **The IT request** — when admin items can't be installed here, write
 `it-request.md` into the working directory: one line per item with its exact
@@ -152,10 +167,25 @@ it's the right place.
 
 ## Step 7: Verify and hand over
 
-Re-run every check in the plan. Then produce the **readiness card** (same shape
-as `check-setup` uses) and write it, plus a short setup record, into the working
-directory as `workstation-setup.md` with a rendered page per
-`${PLUGIN_ROOT}/shared/artifact-style.md`:
+Re-run every check in the plan. Then generate the **workstation health
+report** — run it, don't hand-write it, so the score is the same every time:
+
+```
+node ${PLUGIN_ROOT}/scripts/workstation-report.js --out-dir <working directory>
+```
+
+It is read-only. It writes `workstation-report.md` and a rendered
+`workstation-report.html`: a **health score out of 100** with a one-line
+summary at the top, then the top three fixes, everything they have (with
+versions), their workloads, the workloads they *don't* have yet — each with
+what it unlocks, the phrase to add it and links to its docs — and the
+recommended extras and integrations. Give the user both paths and the score
+in one line, and suggest they open the page. If the score isn't 100, say what
+the top fix is.
+
+Then give the **readiness card** in the chat (same shape as `check-setup`
+uses), and write a short setup record — what was installed, what's waiting
+on IT — into the working directory as `workstation-setup.md`:
 
 > ## Workstation ready
 > | Layer | Status |
@@ -194,4 +224,5 @@ delta in the plan, and never reinstall something whose check passes.
 
 - `${PLUGIN_ROOT}/shared/toolchain-manifest.json` — **the source of truth**: items, tiers, checks, install commands, workloads.
 - `${PLUGIN_ROOT}/shared/microsoft-refs.md` — marketplace/plugin commands per runtime, PATH refresh, auth ladder.
-- `${PLUGIN_ROOT}/shared/artifact-style.md` — the rendered setup record.
+- `${PLUGIN_ROOT}/scripts/workstation-report.js` — the read-only health report (score, summary, what's ready, what to add).
+- `${PLUGIN_ROOT}/shared/artifact-style.md` — house style the report's page follows.

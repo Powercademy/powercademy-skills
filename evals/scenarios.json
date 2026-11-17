@@ -14,7 +14,8 @@
       "plugin": "doctor",
       "prompt": "set up my new laptop for Power Platform development - install everything I need",
       "alternates": [
-        "add Copilot Studio development to my workstation setup"
+        "add Copilot Studio development to my workstation setup",
+        "add Azure DevOps to my workstation setup so the agent can read our work items"
       ]
     },
     {

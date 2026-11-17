@@ -154,3 +154,32 @@ dnx Microsoft.PowerApps.CLI.Tool --yes copilot mcp --run   # zero-install, .NET 
 
 Register via the `claude mcp add-json pac-cli …` command Microsoft publishes:
 https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp
+
+**MCP scope (Claude Code).** `claude mcp add` without a scope registers the
+server for the current folder only. Use `--scope user` (the manifest's commands
+do) so the server is there in every project. Copilot CLI's MCP servers live in
+the user-level `~/.copilot/mcp-config.json`. Servers bundled by plugins are
+machine-wide in both runtimes.
+
+## Azure DevOps MCP server (integration — ask first)
+
+Verified 2026-11-17 against Microsoft Learn (*Enable AI assistance with Azure
+DevOps MCP Server*; *Set up the remote Azure DevOps MCP Server*) and the
+`microsoft/azure-devops-mcp` getting-started guide.
+
+| | Copilot CLI | Claude Code |
+|---|---|---|
+| Server | **Remote** (Microsoft-hosted, recommended) | **Local** (`@azure-devops/mcp`, Node 20+) |
+| Why | Copilot CLI is a supported remote client | Remote needs a custom Entra app registration with admin consent |
+| Add | `/mcp add` → HTTP → `https://mcp.dev.azure.com/{organization}` | `claude mcp add --scope user --transport stdio azure-devops -- npx -y @azure-devops/mcp {organization}` |
+| Sign-in | Microsoft Entra, prompted on first use | Interactive browser sign-in on first use |
+
+- `{organization}` is the organisation **name** (`contoso`), not the URL.
+- The remote server needs an organisation backed by Microsoft Entra; a
+  standalone Microsoft-account organisation uses the local server in both
+  runtimes (Copilot CLI: add it as a stdio server running the same `npx`
+  command).
+- Least privilege: the remote server accepts an `X-MCP-Readonly: true` header
+  and `X-MCP-Toolsets` (e.g. `core,wit,repos`) to narrow what the agent can
+  touch; the local server takes `-d core work work-items` to limit domains.
+- Check it works: ask *"list the projects in my Azure DevOps organisation"*.

@@ -21,28 +21,21 @@
  * Exit 1 if any item ends neither ready nor legitimately skipped.
  */
 
-const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");
-const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "plugins/doctor/shared/toolchain-manifest.json"), "utf8"));
+// The same read-only checks the doctor plugin's health report uses.
+const tc = require(path.join(ROOT, "plugins/doctor/scripts/toolchain.js"));
+const { OS, sh, osPick, cmdOf, runnable, checkTool, mcpNameFromCmd } = tc;
+const manifest = tc.loadManifest();
 
 const args = process.argv.slice(2);
 const flag = (n) => args.includes(n);
 const opt = (n, d) => { const i = args.indexOf(n); return i === -1 ? d : args[i + 1]; };
 
-const OS = process.platform === "win32" ? "win" : process.platform === "darwin" ? "mac" : "linux";
-const POSIX = OS !== "win";
 const INSTALL = !flag("--no-install");
 const CMD_TIMEOUT = 20 * 60 * 1000;
-
-// ── shell ─────────────────────────────────────────────────────
-function sh(cmd, { timeout = 120000 } = {}) {
-  const r = spawnSync(cmd, { shell: OS === "win" ? "cmd.exe" : "/bin/bash", encoding: "utf8", timeout, env: process.env, windowsHide: true });
-  const out = `${r.stdout || ""}${r.stderr || ""}`.trim();
-  return { ok: r.status === 0 && !r.error, code: r.error ? r.error.code : r.status, out };
-}
 
 // Merge newly registered PATH entries into this process — append what's
 // missing, never replace (replacing drops session-only entries such as the
@@ -65,19 +58,7 @@ function refreshPath() {
   process.env.PATH = have.join(sep);
 }
 
-// ── manifest helpers ──────────────────────────────────────────
 const byId = Object.fromEntries(manifest.items.map((i) => [i.id, i]));
-const osPick = (v) => (v == null ? null : typeof v === "string" ? v : v[OS] ?? (POSIX ? v.posix : null) ?? v.all ?? null);
-const cmdOf = (text) => (text ? text.split(/\s{2,}\(|\s+\(then /)[0].trim() : null);
-const runnable = (c) => c && !/^https?:/.test(c) && !/^(Install|Use) /.test(c) && !c.includes("→");
-
-function versionOf(out) { const m = out.match(/(\d+\.\d+(?:\.\d+)?)/); return m ? m[1] : null; }
-function cmpVer(a, b) {
-  const pa = a.split(".").map(Number), pb = b.split(".").map(Number);
-  for (let i = 0; i < 3; i++) { const d = (pa[i] || 0) - (pb[i] || 0); if (d) return d < 0 ? -1 : 1; }
-  return 0;
-}
-function regexOf(s) { const ci = s.startsWith("(?i)"); return new RegExp(ci ? s.slice(4) : s, ci ? "i" : ""); }
 
 // ── resolve the plan ──────────────────────────────────────────
 function resolvePlan() {
@@ -98,21 +79,6 @@ function resolvePlan() {
 }
 
 // ── tool items ────────────────────────────────────────────────
-function checkTool(item) {
-  const c = osPick(item.check?.cmd);
-  if (!c) return { state: "nocheck" };
-  const r = sh(c);
-  for (const d of item.check.diagnose || []) if (r.out.includes(d.match)) return { state: "repair", repair: d.repair, out: r.out };
-  if (item.check.failIfOutputMatches && r.out.includes(item.check.failIfOutputMatches)) return { state: "repair", repair: "shim", out: r.out };
-  if (!r.ok) return { state: "missing", out: r.out };
-  const expect = osPick(item.check.expectOutputMatches);
-  if (expect && !regexOf(expect).test(r.out)) return { state: "missing", out: r.out };
-  const v = versionOf(r.out);
-  if (item.check.min && v && cmpVer(v, item.check.min) < 0) return { state: "outdated", version: v };
-  if (item.check.min && !v) return { state: "noversion", out: r.out };
-  return { state: "ready", version: v };
-}
-
 // The action setup-workstation would take for a check state: install, upgrade,
 // or the named repair (whose optional setEnv is applied to this session too).
 function actionFor(item, c) {

@@ -1,41 +1,51 @@
 {
   "schemaVersion": 1,
-  "lastVerified": "2026-10-12",
+  "lastVerified": "2026-11-17",
   "verifiedAgainst": {
     "power-platform-skills": "7d6b845 (2026-10-09)",
     "dataverse": "1.14.0",
     "copilot-studio": "1.0.11",
     "note": "Every winget id and VS Code extension id below was resolved live on the verification date."
   },
-  "comment": "Single source of truth for what a Power Platform agent workstation needs. Read by setup-workstation (installs), check-setup (diagnoses), scripts/install.js (bootstrap minimums) and scripts/watch/upstream-watch.js (staleness, version floors, and a weekly existence check of every package ID and URL parsed from the install commands below). This file is the machine-readable companion to shared/microsoft-refs.md — vendor mechanics live here and there, nowhere else.",
-
+  "comment": "Single source of truth for what a Power Platform agent workstation needs. Read by setup-workstation (installs), check-setup (diagnoses), plugins/doctor/scripts/workstation-report.js (health report), scripts/install.js (bootstrap minimums) and scripts/watch/upstream-watch.js (staleness, version floors, and a weekly existence check of every package ID and URL parsed from the install commands below). This file is the machine-readable companion to shared/microsoft-refs.md — vendor mechanics live here and there, nowhere else.",
   "items": [
     {
       "id": "node",
       "name": "Node.js LTS",
       "tier": "bootstrap",
       "why": "Runs the agent CLIs and most Microsoft plugin MCP servers. Several Microsoft plugins require 22+; mobile-apps requires 24 LTS.",
-      "check": { "cmd": "node --version", "min": "24.0.0" },
+      "check": {
+        "cmd": "node --version",
+        "min": "24.0.0"
+      },
       "install": {
         "win": "winget install -e --id OpenJS.NodeJS.LTS --accept-source-agreements --accept-package-agreements",
         "mac": "brew install node@24",
         "linux": "Install via nvm: https://github.com/nvm-sh/nvm then `nvm install 24`"
       },
-      "scope": { "win": "admin" },
-      "after": "Open a new terminal so PATH refreshes."
+      "scope": {
+        "win": "admin"
+      },
+      "after": "Open a new terminal so PATH refreshes.",
+      "docs": "https://nodejs.org/en/download"
     },
     {
       "id": "git",
       "name": "git",
       "tier": "bootstrap",
       "why": "Agent runtimes clone plugin marketplaces with git; without it every marketplace add fails.",
-      "check": { "cmd": "git --version" },
+      "check": {
+        "cmd": "git --version"
+      },
       "install": {
         "win": "winget install -e --id Git.Git --accept-source-agreements --accept-package-agreements",
         "mac": "xcode-select --install   (or: brew install git)",
         "linux": "sudo apt install git   (or your distro's package manager)"
       },
-      "scope": { "win": "user-possible" }
+      "scope": {
+        "win": "user-possible"
+      },
+      "docs": "https://git-scm.com/downloads"
     },
     {
       "id": "copilot-cli",
@@ -43,12 +53,18 @@
       "tier": "bootstrap",
       "runtimeAlternative": "claude-code",
       "why": "Agent runtime. Plugin marketplace commands need 1.0.71+.",
-      "check": { "cmd": "copilot --version", "min": "1.0.71" },
+      "check": {
+        "cmd": "copilot --version",
+        "min": "1.0.71"
+      },
       "install": {
         "all": "npm install -g @github/copilot   (then run `copilot` once to sign in)"
       },
-      "scope": { "win": "user" },
-      "update": "copilot update"
+      "scope": {
+        "win": "user"
+      },
+      "update": "copilot update",
+      "docs": "https://github.com/github/copilot-cli"
     },
     {
       "id": "claude-code",
@@ -56,23 +72,35 @@
       "tier": "bootstrap",
       "runtimeAlternative": "copilot-cli",
       "why": "Agent runtime (alternative to Copilot CLI — one is enough).",
-      "check": { "cmd": "claude --version" },
-      "install": { "all": "https://docs.anthropic.com/en/docs/claude-code" },
-      "scope": { "win": "user" }
+      "check": {
+        "cmd": "claude --version"
+      },
+      "install": {
+        "all": "https://docs.anthropic.com/en/docs/claude-code"
+      },
+      "scope": {
+        "win": "user"
+      },
+      "docs": "https://docs.anthropic.com/en/docs/claude-code"
     },
-
     {
       "id": "dotnet-sdk",
       "name": ".NET 10 SDK",
       "tier": "required",
       "why": "Installs and runs pac, runs Microsoft's canvas authoring MCP server (dnx), and packages solutions.",
-      "check": { "cmd": "dotnet --version", "min": "10.0.0" },
+      "check": {
+        "cmd": "dotnet --version",
+        "min": "10.0.0"
+      },
       "install": {
         "win": "winget install -e --id Microsoft.DotNet.SDK.10 --accept-source-agreements --accept-package-agreements",
         "mac": "brew install --cask dotnet-sdk",
         "linux": "https://learn.microsoft.com/dotnet/core/install/linux"
       },
-      "scope": { "win": "admin" }
+      "scope": {
+        "win": "admin"
+      },
+      "docs": "https://dotnet.microsoft.com/download/dotnet/10.0"
     },
     {
       "id": "pac",
@@ -84,60 +112,95 @@
         "min": "2.11.1",
         "failIfOutputMatches": "No Microsoft.PowerApps.CLI has been installed",
         "diagnose": [
-          { "match": "You must install .NET to run this application", "repair": "dotnetRoot", "meaning": ".NET is installed outside its default folder (Homebrew formula, dotnet-install script), so the pac launcher can't find it." }
+          {
+            "match": "You must install .NET to run this application",
+            "repair": "dotnetRoot",
+            "meaning": ".NET is installed outside its default folder (Homebrew formula, dotnet-install script), so the pac launcher can't find it."
+          }
         ]
       },
-      "install": { "all": "dotnet tool install --global Microsoft.PowerApps.CLI.Tool" },
+      "install": {
+        "all": "dotnet tool install --global Microsoft.PowerApps.CLI.Tool"
+      },
       "update": "dotnet tool update --global Microsoft.PowerApps.CLI.Tool",
       "repair": {
         "shim": "pac install latest   (user-scoped, no admin — fixes an Intune/MSI shim on PATH with no CLI behind it)",
         "dotnetRoot": {
           "posix": "for f in ~/.zshrc ~/.bashrc; do grep -q DOTNET_ROOT \"$f\" 2>/dev/null || echo 'export DOTNET_ROOT=\"$(dirname \"$(readlink -f \"$(command -v dotnet)\")\")\"' >> \"$f\"; done   (persists DOTNET_ROOT for new terminals)",
-          "setEnv": { "DOTNET_ROOT": "dirname \"$(readlink -f \"$(command -v dotnet)\")\"" }
+          "setEnv": {
+            "DOTNET_ROOT": "dirname \"$(readlink -f \"$(command -v dotnet)\")\""
+          }
         }
       },
-      "scope": { "win": "user" },
-      "after": "Open a new terminal so PATH refreshes."
+      "scope": {
+        "win": "user"
+      },
+      "after": "Open a new terminal so PATH refreshes.",
+      "docs": "https://learn.microsoft.com/power-platform/developer/cli/introduction"
     },
     {
       "id": "azure-cli",
       "name": "Azure CLI",
       "tier": "required",
       "why": "Most Microsoft Power Platform plugins (FlowAgent included) authenticate through `az login`.",
-      "check": { "cmd": "az version" },
+      "check": {
+        "cmd": "az version"
+      },
       "install": {
         "win": "winget install -e --id Microsoft.AzureCLI --accept-source-agreements --accept-package-agreements",
         "mac": "brew install --cask azure-cli",
         "linux": "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
       },
-      "scope": { "win": "admin" },
-      "managedDevice": "Machine-wide MSI — a standard user gets UAC exit code 1602. Route to the IT request."
+      "scope": {
+        "win": "admin"
+      },
+      "managedDevice": "Machine-wide MSI — a standard user gets UAC exit code 1602. Route to the IT request.",
+      "docs": "https://learn.microsoft.com/cli/azure/install-azure-cli"
     },
     {
       "id": "python",
       "name": "Python 3.12+",
       "tier": "required",
       "why": "Microsoft's Dataverse skills run on the Dataverse Python SDK.",
-      "check": { "cmd": { "win": "py --version", "posix": "python3 --version" }, "min": "3.12.0" },
+      "check": {
+        "cmd": {
+          "win": "py --version",
+          "posix": "python3 --version"
+        },
+        "min": "3.12.0"
+      },
       "install": {
         "win": "winget install -e --id Python.Python.3.12 --accept-source-agreements --accept-package-agreements",
         "mac": "brew install python@3.12",
         "linux": "sudo apt install python3.12 python3-pip"
       },
-      "scope": { "win": "user" }
+      "scope": {
+        "win": "user"
+      },
+      "docs": "https://www.python.org/downloads/"
     },
     {
       "id": "dataverse-python-sdk",
       "name": "Dataverse Python SDK and auth libraries",
       "tier": "required",
-      "dependsOn": ["python"],
+      "dependsOn": [
+        "python"
+      ],
       "why": "Required by Microsoft's dv-* Dataverse skills (same package list as their dv-connect). On macOS/Linux the install is user-scoped: --break-system-packages only lets pip write to the user's own site-packages on an externally managed Python (Homebrew, Ubuntu 24.04+); the system Python's packages are untouched.",
-      "check": { "cmd": { "win": "py -m pip show PowerPlatform-Dataverse-Client", "posix": "python3 -m pip show PowerPlatform-Dataverse-Client" } },
+      "check": {
+        "cmd": {
+          "win": "py -m pip show PowerPlatform-Dataverse-Client",
+          "posix": "python3 -m pip show PowerPlatform-Dataverse-Client"
+        }
+      },
       "install": {
         "win": "py -m pip install --upgrade azure-identity requests PowerPlatform-Dataverse-Client pandas msal msal-extensions",
         "posix": "python3 -m pip install --user --upgrade --break-system-packages azure-identity requests PowerPlatform-Dataverse-Client pandas msal msal-extensions"
       },
-      "scope": { "win": "user" }
+      "scope": {
+        "win": "user"
+      },
+      "docs": "https://pypi.org/project/PowerPlatform-Dataverse-Client/"
     },
     {
       "id": "mkt-microsoft",
@@ -155,9 +218,16 @@
       "type": "plugin",
       "plugin": "dataverse",
       "marketplace": "power-platform-skills",
-      "marketplaceByRuntime": { "claude": "claude-plugins-official" },
+      "marketplaceByRuntime": {
+        "claude": "claude-plugins-official"
+      },
       "runtimeNote": "Claude Code fails to clone the shorthand git-subdir source in Microsoft's marketplace entry on machines without a GitHub SSH key; Anthropic's official marketplace lists the same Microsoft plugin with a full HTTPS URL.",
-      "dependsOn": ["mkt-microsoft", "mkt-claude-official", "dataverse-python-sdk", "pac"],
+      "dependsOn": [
+        "mkt-microsoft",
+        "mkt-claude-official",
+        "dataverse-python-sdk",
+        "pac"
+      ],
       "why": "Schema, data, query, solution and security operations for Dataverse — used by nearly every build."
     },
     {
@@ -165,7 +235,9 @@
       "name": "Anthropic official plugin marketplace (Claude Code only)",
       "tier": "required",
       "type": "marketplace",
-      "runtimes": ["claude"],
+      "runtimes": [
+        "claude"
+      ],
       "marketplace": "claude-plugins-official",
       "repo": "anthropics/claude-plugins-official"
     },
@@ -182,20 +254,125 @@
       "name": "Powercademy core plugins (doctor, conventions)",
       "tier": "required",
       "type": "plugin",
-      "plugins": ["doctor", "conventions"],
+      "plugins": [
+        "doctor",
+        "conventions"
+      ],
       "marketplace": "powercademy-skills",
-      "dependsOn": ["mkt-powercademy"]
+      "dependsOn": [
+        "mkt-powercademy"
+      ]
     },
-
-    { "id": "plugin-power-automate", "name": "Power Automate (FlowAgent)", "tier": "workload", "type": "plugin", "plugin": "power-automate", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-canvas-apps", "name": "Canvas apps (canvas authoring MCP)", "tier": "workload", "type": "plugin", "plugin": "canvas-apps", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "dotnet-sdk"] },
-    { "id": "plugin-canvas-planner", "name": "canvas-planner", "tier": "workload", "type": "plugin", "plugin": "canvas-planner", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy"] },
-    { "id": "plugin-model-apps", "name": "Model-driven apps & generative pages", "tier": "workload", "type": "plugin", "plugin": "model-apps", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-power-pages", "name": "Power Pages", "tier": "workload", "type": "plugin", "plugin": "power-pages", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-code-apps", "name": "Code apps (preview)", "tier": "workload", "type": "plugin", "plugin": "code-apps-preview", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-process-intelligence", "name": "Process mining", "tier": "workload", "type": "plugin", "plugin": "process-intelligence", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli"] },
-    { "id": "plugin-pcf", "name": "PCF code components (Microsoft, preview)", "tier": "workload", "type": "plugin", "plugin": "pcf", "marketplace": "power-platform-skills", "why": "Builds, tests, diagnoses, upgrades, deploys and verifies PCF controls from Microsoft-maintained templates. Needs Node 20+; pac and .NET to deploy; Azure CLI to verify.", "dependsOn": ["mkt-microsoft", "pac", "dotnet-sdk", "azure-cli"] },
-    { "id": "plugin-alm", "name": "alm", "tier": "workload", "type": "plugin", "plugin": "alm", "marketplace": "powercademy-skills", "dependsOn": ["mkt-powercademy", "plugin-dataverse"] },
+    {
+      "id": "plugin-power-automate",
+      "name": "Power Automate (FlowAgent)",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "power-automate",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "azure-cli"
+      ]
+    },
+    {
+      "id": "plugin-canvas-apps",
+      "name": "Canvas apps (canvas authoring MCP)",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "canvas-apps",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "dotnet-sdk"
+      ]
+    },
+    {
+      "id": "plugin-canvas-planner",
+      "name": "canvas-planner",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "canvas-planner",
+      "marketplace": "powercademy-skills",
+      "dependsOn": [
+        "mkt-powercademy"
+      ]
+    },
+    {
+      "id": "plugin-model-apps",
+      "name": "Model-driven apps & generative pages",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "model-apps",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "azure-cli"
+      ]
+    },
+    {
+      "id": "plugin-power-pages",
+      "name": "Power Pages",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "power-pages",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "azure-cli"
+      ]
+    },
+    {
+      "id": "plugin-code-apps",
+      "name": "Code apps (preview)",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "code-apps-preview",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "azure-cli"
+      ]
+    },
+    {
+      "id": "plugin-process-intelligence",
+      "name": "Process mining",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "process-intelligence",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "azure-cli"
+      ]
+    },
+    {
+      "id": "plugin-pcf",
+      "name": "PCF code components (Microsoft, preview)",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "pcf",
+      "marketplace": "power-platform-skills",
+      "why": "Builds, tests, diagnoses, upgrades, deploys and verifies PCF controls from Microsoft-maintained templates. Needs Node 20+; pac and .NET to deploy; Azure CLI to verify.",
+      "dependsOn": [
+        "mkt-microsoft",
+        "pac",
+        "dotnet-sdk",
+        "azure-cli"
+      ]
+    },
+    {
+      "id": "plugin-alm",
+      "name": "alm",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "alm",
+      "marketplace": "powercademy-skills",
+      "dependsOn": [
+        "mkt-powercademy",
+        "plugin-dataverse"
+      ]
+    },
     {
       "id": "mkt-copilot-studio",
       "name": "Copilot Studio skills marketplace",
@@ -204,7 +381,19 @@
       "marketplace": "skills-for-copilot-studio",
       "repo": "microsoft/skills-for-copilot-studio"
     },
-    { "id": "plugin-copilot-studio", "name": "Copilot Studio skills (standard agents)", "tier": "workload", "type": "plugin", "plugin": "copilot-studio", "marketplace": "skills-for-copilot-studio", "dependsOn": ["mkt-copilot-studio", "vscode", "vscode-copilot-studio"] },
+    {
+      "id": "plugin-copilot-studio",
+      "name": "Copilot Studio skills (standard agents)",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "copilot-studio",
+      "marketplace": "skills-for-copilot-studio",
+      "dependsOn": [
+        "mkt-copilot-studio",
+        "vscode",
+        "vscode-copilot-studio"
+      ]
+    },
     {
       "id": "mkt-copilot-studio-harness",
       "name": "Copilot Studio harness plugin marketplace",
@@ -221,35 +410,92 @@
       "plugin": "mcs-assistant",
       "marketplace": "copilot-studio-plugin",
       "why": "Create, edit, validate and test harness agents, and migrate classic agents to the harness. Needs pac 2.9.3+ (the manifest's pac floor already covers it).",
-      "dependsOn": ["mkt-copilot-studio-harness", "pac"]
+      "dependsOn": [
+        "mkt-copilot-studio-harness",
+        "pac"
+      ]
     },
     {
       "id": "vscode",
       "name": "Visual Studio Code",
       "tier": "workload",
-      "check": { "cmd": "code --version" },
-      "install": { "win": "winget install -e --id Microsoft.VisualStudioCode --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask visual-studio-code", "linux": "sudo snap install code --classic" },
-      "scope": { "win": "user" }
+      "check": {
+        "cmd": "code --version"
+      },
+      "install": {
+        "win": "winget install -e --id Microsoft.VisualStudioCode --accept-source-agreements --accept-package-agreements",
+        "mac": "brew install --cask visual-studio-code",
+        "linux": "sudo snap install code --classic"
+      },
+      "scope": {
+        "win": "user"
+      },
+      "docs": "https://code.visualstudio.com/"
     },
     {
       "id": "vscode-copilot-studio",
       "name": "Copilot Studio VS Code extension",
       "tier": "workload",
-      "dependsOn": ["vscode"],
+      "dependsOn": [
+        "vscode"
+      ],
       "why": "Microsoft's Copilot Studio skills depend on it (language server, validation).",
-      "check": { "cmd": "code --list-extensions", "expectOutputMatches": "(?i)ms-copilotstudio\\.vscode-copilotstudio" },
-      "install": { "all": "code --install-extension ms-CopilotStudio.vscode-copilotstudio" },
-      "scope": { "win": "user" }
+      "check": {
+        "cmd": "code --list-extensions",
+        "expectOutputMatches": "(?i)ms-copilotstudio\\.vscode-copilotstudio"
+      },
+      "install": {
+        "all": "code --install-extension ms-CopilotStudio.vscode-copilotstudio"
+      },
+      "scope": {
+        "win": "user"
+      },
+      "docs": "https://marketplace.visualstudio.com/items?itemName=ms-CopilotStudio.vscode-copilotstudio"
     },
-    { "id": "plugin-mobile-app", "name": "Mobile apps", "tier": "workload", "type": "plugin", "plugin": "mobile-app", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "azure-cli", "jdk17", "android-studio"] },
-    { "id": "plugin-pam-extension", "name": "Power Apps Mobile extension controls", "tier": "workload", "type": "plugin", "plugin": "power-apps-mobile-extension", "marketplace": "power-platform-skills", "dependsOn": ["mkt-microsoft", "jdk17", "android-studio"] },
+    {
+      "id": "plugin-mobile-app",
+      "name": "Mobile apps",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "mobile-app",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "azure-cli",
+        "jdk17",
+        "android-studio"
+      ]
+    },
+    {
+      "id": "plugin-pam-extension",
+      "name": "Power Apps Mobile extension controls",
+      "tier": "workload",
+      "type": "plugin",
+      "plugin": "power-apps-mobile-extension",
+      "marketplace": "power-platform-skills",
+      "dependsOn": [
+        "mkt-microsoft",
+        "jdk17",
+        "android-studio"
+      ]
+    },
     {
       "id": "jdk17",
       "name": "Eclipse Temurin JDK 17",
       "tier": "workload",
-      "check": { "cmd": "java -version", "min": "17.0.0" },
-      "install": { "win": "winget install -e --id EclipseAdoptium.Temurin.17.JDK --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask temurin@17", "linux": "sudo apt install temurin-17-jdk   (Adoptium repo)" },
-      "scope": { "win": "admin" }
+      "check": {
+        "cmd": "java -version",
+        "min": "17.0.0"
+      },
+      "install": {
+        "win": "winget install -e --id EclipseAdoptium.Temurin.17.JDK --accept-source-agreements --accept-package-agreements",
+        "mac": "brew install --cask temurin@17",
+        "linux": "sudo apt install temurin-17-jdk   (Adoptium repo)"
+      },
+      "scope": {
+        "win": "admin"
+      },
+      "docs": "https://adoptium.net/temurin/releases/?version=17"
     },
     {
       "id": "android-studio",
@@ -261,33 +507,56 @@
           "mac": "ls \"/Applications/Android Studio.app\"",
           "linux": "command -v android-studio"
         },
-        "expectOutputMatches": { "win": "True" }
+        "expectOutputMatches": {
+          "win": "True"
+        }
       },
-      "install": { "win": "winget install -e --id Google.AndroidStudio --accept-source-agreements --accept-package-agreements", "mac": "brew install --cask android-studio", "linux": "sudo snap install android-studio --classic" },
-      "scope": { "win": "admin" }
+      "install": {
+        "win": "winget install -e --id Google.AndroidStudio --accept-source-agreements --accept-package-agreements",
+        "mac": "brew install --cask android-studio",
+        "linux": "sudo snap install android-studio --classic"
+      },
+      "scope": {
+        "win": "admin"
+      },
+      "docs": "https://developer.android.com/studio"
     },
     {
       "id": "xcode",
       "name": "Xcode (macOS only — iOS builds)",
       "tier": "workload",
-      "platforms": ["mac"],
-      "check": { "cmd": "xcodebuild -version" },
-      "install": { "mac": "Install from the Mac App Store, then `sudo xcode-select -s /Applications/Xcode.app`" }
+      "platforms": [
+        "mac"
+      ],
+      "check": {
+        "cmd": "xcodebuild -version"
+      },
+      "install": {
+        "mac": "Install from the Mac App Store, then `sudo xcode-select -s /Applications/Xcode.app`"
+      },
+      "docs": "https://developer.apple.com/xcode/"
     },
-
     {
       "id": "mcp-learn",
       "name": "Microsoft Learn MCP server",
       "tier": "recommended",
       "type": "mcp",
       "why": "Lets every skill verify against live Microsoft documentation instead of memory.",
-      "bundledIn": ["power-automate", "power-pages", "mobile-app", "canvas-planner", "alm"],
+      "bundledIn": [
+        "power-automate",
+        "power-pages",
+        "mobile-app",
+        "canvas-planner",
+        "alm"
+      ],
       "endpoint": "https://learn.microsoft.com/api/mcp",
       "install": {
-        "claude": "claude mcp add --transport http microsoft-learn https://learn.microsoft.com/api/mcp",
+        "claude": "claude mcp add --scope user --transport http microsoft-learn https://learn.microsoft.com/api/mcp",
         "copilot": "/mcp add  →  HTTP  →  https://learn.microsoft.com/api/mcp"
       },
-      "note": "Remote, no auth. A plain browser fetch returns 405 — that means alive. Skip registering if any installed plugin already bundles it."
+      "note": "Remote, no auth. A plain browser fetch returns 405 — that means alive. Skip registering if any installed plugin already bundles it.",
+      "docs": "https://learn.microsoft.com/training/support/mcp",
+      "mcpMatch": "learn\\.microsoft\\.com/api/mcp|microsoft-learn"
     },
     {
       "id": "mcp-playwright",
@@ -295,35 +564,75 @@
       "tier": "recommended",
       "type": "mcp",
       "why": "Lets the agent drive a browser to test what it built.",
-      "bundledIn": ["model-apps", "power-pages"],
+      "bundledIn": [
+        "model-apps",
+        "power-pages"
+      ],
       "install": {
-        "claude": "claude mcp add playwright -- npx @playwright/mcp@latest",
+        "claude": "claude mcp add --scope user playwright -- npx @playwright/mcp@latest",
         "copilot": "/mcp add  →  stdio  →  npx @playwright/mcp@latest",
         "browsers": "npx playwright install chromium"
       },
-      "note": "Skip registering if model-apps or power-pages is installed — they bundle it."
+      "note": "Skip registering if model-apps or power-pages is installed — they bundle it.",
+      "docs": "https://github.com/microsoft/playwright-mcp",
+      "mcpMatch": "playwright"
     },
     {
       "id": "mcp-pac",
       "name": "pac CLI built-in MCP server",
       "tier": "recommended",
       "type": "mcp",
-      "dependsOn": ["pac", "dotnet-sdk"],
+      "dependsOn": [
+        "pac",
+        "dotnet-sdk"
+      ],
       "why": "Natural-language pac operations (environments, solutions, auth).",
       "install": {
         "run": "pac copilot mcp --run   (zero-install alt: dnx Microsoft.PowerApps.CLI.Tool --yes copilot mcp --run)",
         "claude": "Use the `claude mcp add-json pac-cli …` registration Microsoft publishes: https://learn.microsoft.com/en-us/power-platform/developer/howto/use-mcp"
       },
-      "note": "Microsoft frames it as for local development and testing."
+      "note": "Microsoft frames it as for local development and testing.",
+      "docs": "https://learn.microsoft.com/power-platform/developer/howto/use-mcp",
+      "mcpMatch": "copilot mcp|pac-cli"
+    },
+    {
+      "id": "mcp-azure-devops",
+      "name": "Azure DevOps MCP server",
+      "tier": "integration",
+      "type": "mcp",
+      "why": "Lets the agent read and update work items, pull requests, pipelines, wikis and test plans in Azure DevOps, so a build can start from the ticket and finish by updating it.",
+      "needs": [
+        "organization"
+      ],
+      "dependsOn": [
+        "node"
+      ],
+      "install": {
+        "claude": "claude mcp add --scope user --transport stdio azure-devops -- npx -y @azure-devops/mcp {organization}",
+        "copilot": "/mcp add  →  HTTP  →  https://mcp.dev.azure.com/{organization}   (remote server; Microsoft Entra sign-in)"
+      },
+      "runtimeNote": "Microsoft recommends the hosted remote server, which Copilot CLI connects to directly. Claude Code can only use the remote server with a custom Entra app registration and admin consent, so for Claude Code use Microsoft's local server (Node 20+), which signs in interactively. The remote server needs an Entra-backed organisation; for a standalone Microsoft-account organisation use the local server in both runtimes.",
+      "mcpMatch": "azure-devops|mcp\\.dev\\.azure\\.com",
+      "docs": "https://learn.microsoft.com/azure/devops/mcp-server/mcp-server-overview"
     },
     {
       "id": "vscode-pp-tools",
       "name": "Power Platform Tools VS Code extension",
       "tier": "recommended",
-      "dependsOn": ["vscode"],
-      "check": { "cmd": "code --list-extensions", "expectOutputMatches": "(?i)microsoft-isvexptools\\.powerplatform-vscode" },
-      "install": { "all": "code --install-extension microsoft-IsvExpTools.powerplatform-vscode" },
-      "scope": { "win": "user" }
+      "dependsOn": [
+        "vscode"
+      ],
+      "check": {
+        "cmd": "code --list-extensions",
+        "expectOutputMatches": "(?i)microsoft-isvexptools\\.powerplatform-vscode"
+      },
+      "install": {
+        "all": "code --install-extension microsoft-IsvExpTools.powerplatform-vscode"
+      },
+      "scope": {
+        "win": "user"
+      },
+      "docs": "https://marketplace.visualstudio.com/items?itemName=microsoft-IsvExpTools.powerplatform-vscode"
     },
     {
       "id": "mkt-power-cat",
@@ -338,13 +647,21 @@
       "id": "pwsh7",
       "name": "PowerShell 7",
       "tier": "recommended",
-      "platforms": ["win"],
-      "check": { "cmd": "pwsh --version" },
-      "install": { "win": "winget install -e --id Microsoft.PowerShell --accept-source-agreements --accept-package-agreements" },
-      "scope": { "win": "admin" }
+      "platforms": [
+        "win"
+      ],
+      "check": {
+        "cmd": "pwsh --version"
+      },
+      "install": {
+        "win": "winget install -e --id Microsoft.PowerShell --accept-source-agreements --accept-package-agreements"
+      },
+      "scope": {
+        "win": "admin"
+      },
+      "docs": "https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows"
     }
   ],
-
   "retired": [
     {
       "plugin": "flow-builder",
@@ -361,29 +678,152 @@
       "action": "Uninstall it from every runtime; make sure conventions and Microsoft's pcf plugin are installed."
     }
   ],
-
   "workloads": [
-    { "id": "flows",          "label": "Power Automate flows",              "items": ["plugin-power-automate"] },
-    { "id": "canvas",         "label": "Canvas apps",                       "items": ["plugin-canvas-apps", "plugin-canvas-planner"] },
-    { "id": "model-driven",   "label": "Model-driven apps & generative pages", "items": ["plugin-model-apps"] },
-    { "id": "pages",          "label": "Power Pages sites",                 "items": ["plugin-power-pages"] },
-    { "id": "code-apps",      "label": "Code apps",                         "items": ["plugin-code-apps"] },
+    {
+      "id": "flows",
+      "label": "Power Automate flows",
+      "items": [
+        "plugin-power-automate"
+      ],
+      "unlocks": "Build, edit, run and debug Power Automate cloud flows from a conversation.",
+      "tryFirst": "build a flow that emails me when a Dataverse case is escalated"
+    },
+    {
+      "id": "canvas",
+      "label": "Canvas apps",
+      "items": [
+        "plugin-canvas-apps",
+        "plugin-canvas-planner"
+      ],
+      "unlocks": "Plan canvas apps that survive real data volumes, then generate and edit them.",
+      "tryFirst": "plan a canvas app for field engineers to log site visits"
+    },
+    {
+      "id": "model-driven",
+      "label": "Model-driven apps & generative pages",
+      "items": [
+        "plugin-model-apps"
+      ],
+      "unlocks": "Build model-driven apps, forms, views and generative pages from a description.",
+      "tryFirst": "build a model-driven app to manage supplier onboarding"
+    },
+    {
+      "id": "pages",
+      "label": "Power Pages sites",
+      "items": [
+        "plugin-power-pages"
+      ],
+      "unlocks": "Create, customise, secure and deploy Power Pages sites.",
+      "tryFirst": "create a Power Pages site where customers can track their cases"
+    },
+    {
+      "id": "code-apps",
+      "label": "Code apps",
+      "items": [
+        "plugin-code-apps"
+      ],
+      "unlocks": "Build React code apps on Dataverse and Power Platform connectors.",
+      "tryFirst": "create a code app that lists my open opportunities"
+    },
     {
       "id": "copilot-studio",
       "label": "Copilot Studio agents",
       "items": [],
       "variants": {
         "question": "Which kind of Copilot Studio agents — standard, GitHub Copilot harness, or both?",
-        "default": ["standard", "harness"],
+        "default": [
+          "standard",
+          "harness"
+        ],
         "options": {
-          "standard": { "label": "Standard agents (classic orchestration)", "items": ["mkt-copilot-studio", "vscode", "vscode-copilot-studio", "plugin-copilot-studio"] },
-          "harness":  { "label": "GitHub Copilot harness agents (and migrating classic agents to them)", "items": ["mkt-copilot-studio-harness", "plugin-copilot-studio-harness"] }
+          "standard": {
+            "label": "Standard agents (classic orchestration)",
+            "items": [
+              "mkt-copilot-studio",
+              "vscode",
+              "vscode-copilot-studio",
+              "plugin-copilot-studio"
+            ]
+          },
+          "harness": {
+            "label": "GitHub Copilot harness agents (and migrating classic agents to them)",
+            "items": [
+              "mkt-copilot-studio-harness",
+              "plugin-copilot-studio-harness"
+            ]
+          }
+        }
+      },
+      "unlocks": "Author, test and publish Copilot Studio agents as files, standard or harness.",
+      "tryFirst": "build a Copilot Studio agent that answers HR policy questions"
+    },
+    {
+      "id": "pcf",
+      "label": "PCF code components",
+      "items": [
+        "plugin-pcf"
+      ],
+      "unlocks": "Build, test and deploy PCF code components from Microsoft's templates.",
+      "tryFirst": "should this be a PCF control? I want a star rating on a form"
+    },
+    {
+      "id": "mobile",
+      "label": "Mobile apps",
+      "items": [
+        "jdk17",
+        "android-studio",
+        "xcode",
+        "plugin-mobile-app",
+        "plugin-pam-extension"
+      ],
+      "unlocks": "Build native Power Apps mobile apps for iOS and Android.",
+      "tryFirst": "create a mobile app for inspectors to log site visits offline"
+    },
+    {
+      "id": "process-mining",
+      "label": "Process mining",
+      "items": [
+        "plugin-process-intelligence"
+      ],
+      "unlocks": "Analyse processes with Process Mining: variants, bottlenecks and their drivers.",
+      "tryFirst": "which process variants are slowest this quarter?"
+    },
+    {
+      "id": "alm",
+      "label": "ALM & deployments",
+      "items": [
+        "plugin-alm"
+      ],
+      "unlocks": "Design the delivery process and promote solutions safely between environments.",
+      "tryFirst": "help me set up a proper ALM process for this project"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "project-management",
+      "label": "Project management",
+      "question": "Which project-management tool does your team use?",
+      "askBeforeInstall": true,
+      "options": {
+        "azure-devops": {
+          "label": "Azure DevOps",
+          "items": [
+            "mcp-azure-devops"
+          ]
+        },
+        "jira": {
+          "label": "Jira",
+          "items": []
+        },
+        "github": {
+          "label": "GitHub Issues / Projects",
+          "items": []
+        },
+        "other": {
+          "label": "Something else, or none",
+          "items": []
         }
       }
-    },
-    { "id": "pcf",            "label": "PCF code components",               "items": ["plugin-pcf"] },
-    { "id": "mobile",         "label": "Mobile apps",                       "items": ["jdk17", "android-studio", "xcode", "plugin-mobile-app", "plugin-pam-extension"] },
-    { "id": "process-mining", "label": "Process mining",                    "items": ["plugin-process-intelligence"] },
-    { "id": "alm",            "label": "ALM & deployments",                 "items": ["plugin-alm"] }
+    }
   ]
 }

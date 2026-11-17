@@ -115,11 +115,28 @@ Are the MCP servers the user relies on connected? Don't probe the Learn
 endpoint with a plain fetch — a **405 means alive**. A server bundled by two
 plugins and also registered by hand is duplication worth tidying.
 
+**"The tools were there yesterday"** is usually scope, not breakage. A server
+registered without a user scope belongs to the folder it was added in, so it
+vanishes in every other project folder — and a session opened in a *parent*
+folder doesn't see a project folder's servers either. Check where the session
+is running, then re-register the server for the user (the manifest's commands
+do) or rely on the plugin that bundles it. A server stuck *pending approval*
+or needing sign-in shows as connected-but-toolless: approve it or sign in
+through the runtime's MCP panel, then restart.
+
 ---
 
 ## The readiness card
 
-Always finish with this:
+Always finish with the readiness card **and the health report**. Generate the
+report — read-only, scored the same way every time:
+
+```
+node ${PLUGIN_ROOT}/scripts/workstation-report.js --out-dir <working directory>
+```
+
+Quote its score and top fix in the chat, and give both paths
+(`workstation-report.md`, `workstation-report.html`). Then the card:
 
 > ## Machine readiness
 >

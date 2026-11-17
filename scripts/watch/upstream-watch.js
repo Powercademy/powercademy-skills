@@ -180,15 +180,18 @@ function manifestPackages(manifest) {
   for (const item of manifest.items) {
     const texts = [...Object.values(item.install || {}), ...Object.values(item.repair || {})].filter((x) => typeof x === "string");
     if (item.endpoint) add("endpoint", item.endpoint, item.id);
+    if (item.docs) add("url", item.docs, item.id);
     for (const t of texts) {
       for (const m of t.matchAll(/winget install[^\n]*?--id\s+(\S+)/g)) add("winget", m[1], item.id);
       for (const m of t.matchAll(/brew install\s+(--cask\s+)?([\w@.+-]+)/g)) add(m[1] ? "cask" : "brew", m[2], item.id);
       for (const m of t.matchAll(/npm install -g\s+(\S+)/g)) add("npm", m[1], item.id);
-      for (const m of t.matchAll(/npx\s+(@?[\w.-]+(?:\/[\w.-]+)?)/g)) add("npm", m[1].replace(/@latest$/, ""), item.id);
+      // npx [flags] <package>: skip flags such as -y so they aren't read as packages.
+      for (const m of t.matchAll(/npx\s+(?:-\S+\s+)*(@?[\w.-]+(?:\/[\w.-]+)?)/g)) add("npm", m[1].replace(/@latest$/, ""), item.id);
       for (const m of t.matchAll(/(?:dotnet tool install --global|dnx)\s+(\S+)/g)) add("nuget", m[1], item.id);
       for (const m of t.matchAll(/pip install((?:\s+[^\s(]+)+)/g)) m[1].trim().split(/\s+/).filter((x) => !x.startsWith("-")).forEach((p) => add("pypi", p, item.id));
       for (const m of t.matchAll(/code --install-extension\s+(\S+)/g)) add("vscode", m[1], item.id);
-      for (const m of t.matchAll(/https?:\/\/[^\s)`'"]+/g)) { const u = m[0].replace(/[.,]$/, ""); if (u !== item.endpoint) add("url", u, item.id); }
+      // URLs with a {placeholder} (e.g. an organisation name) aren't fetchable as-is.
+      for (const m of t.matchAll(/https?:\/\/[^\s)`'"]+/g)) { const u = m[0].replace(/[.,]$/, ""); if (u !== item.endpoint && !u.includes("{")) add("url", u, item.id); }
     }
   }
   return [...pk.values()].map((p) => ({ ...p, items: [...p.items] }));
