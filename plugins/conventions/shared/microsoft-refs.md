@@ -81,7 +81,7 @@ the installed plugins — Microsoft add and rename tools often.
 | 2 — SDK / API / CLI | Dataverse data and schema | Dataverse Python SDK (`PowerPlatform-Dataverse-Client`) or the Web API; for bulk work use batching — search Learn for `Dataverse Web API batch requests` and `CreateMultiple UpdateMultiple` |
 | 2 | Solutions, environments, auth, components | `pac` CLI (`pac solution`, `pac admin`, `pac auth`, `pac pcf`); native Power Platform pipelines for promotion |
 | 2 | Azure resources and sign-in | `az` CLI |
-| 3 — browser | UI-only settings, visual checks, user's-eye testing | Playwright MCP — bundled by `model-apps` and `power-pages`; standalone registration in doctor's toolchain manifest |
+| 3 — browser | UI-only settings, visual checks, user's-eye testing | Playwright MCP — bundled by `model-apps` and `power-pages`; standalone registration in the workstation plugin's toolchain manifest |
 | — | Platform facts | Microsoft Learn MCP server (see above) |
 
 Microsoft's own Power Pages guidance makes the cost point concretely: each
