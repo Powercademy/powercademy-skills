@@ -4,7 +4,7 @@
  *
  * The one step that has to happen before any skill can run: checks the
  * bootstrap tier (Node, git, an agent runtime), registers the Powercademy
- * marketplace, and installs the `doctor` plugin. Everything else — SDKs, CLIs,
+ * marketplace, and installs the `workstation` plugin. Everything else — SDKs, CLIs,
  * Microsoft's plugins, workloads, MCP servers — is done conversationally by the
  * setup-workstation skill, which this installer hands over to.
  *
@@ -24,8 +24,8 @@ const https = require("https");
 
 const REPO = "Powercademy/powercademy-skills";
 const MARKETPLACE = "powercademy-skills";
-const BOOTSTRAP_PLUGINS = ["doctor"];
-const MANIFEST_REL = "plugins/doctor/shared/toolchain-manifest.json";
+const BOOTSTRAP_PLUGINS = ["workstation"];
+const MANIFEST_REL = "plugins/workstation/shared/toolchain-manifest.json";
 const FALLBACK_MIN = { node: "24.0.0", "copilot-cli": "1.0.71" };
 
 // ── output ────────────────────────────────────────────────────
@@ -108,7 +108,7 @@ function installFor(cli, results) {
     // still points at an older source — e.g. the pre-transfer HowdangPowercademy slug.
     warn(`${MARKETPLACE} is declared in your Claude Code settings with an older source.`);
     info(`Fix: in ~/.claude/settings.json set extraKnownMarketplaces.${MARKETPLACE}.source.repo to "${REPO}",`);
-    info(`then run: claude plugin marketplace add ${REPO}   (or ask the doctor: "check my setup")`);
+    info(`then run: claude plugin marketplace add ${REPO}   (or say: "check my setup")`);
     return;
   } else {
     return fail(`Could not register ${MARKETPLACE}: ${add.output}`);

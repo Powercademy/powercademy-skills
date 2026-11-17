@@ -1,7 +1,7 @@
 # Microsoft references
 
 The **only** place in this plugin that names Microsoft plugin commands, MCP
-servers, CLI commands, or file layouts. The skill states methodology; when it
+servers, CLI commands, or file layouts. The skills state methodology; when it
 needs mechanics, it points here. If Microsoft renames something, this file is
 the only thing that changes.
 
@@ -102,3 +102,48 @@ Microsoft.PowerApps.CLI has been installed"*, it's a deployment shim — run
 
 Install pac: `dotnet tool install --global Microsoft.PowerApps.CLI.Tool` or
 https://aka.ms/PowerPlatformCLI.
+
+## Agent design (agent-design)
+
+Verified 2026-11-17 against Microsoft Learn. Rates and coverage change — check
+the linked pages before quoting a figure to a client.
+
+**Harness guidance:** *Harnesses in Copilot Studio* (`/microsoft-copilot-studio/harnesses-overview`)
+and *Compare Copilot Studio agent harnesses* (`/microsoft-copilot-studio/guidance/choose-harness`).
+Agents on the Microsoft Copilot harness have no child agents — skills for
+in-agent capabilities, connected agents for separate ones
+(*FAQ for agents powered by the Microsoft Copilot harness*).
+
+**Who pays** (*Manage costs for agents powered by the Microsoft Copilot harness*, Power Platform admin):
+
+| Feature | Covered by a Microsoft 365 Copilot licence? |
+|---|---|
+| Standard harness agents | Yes, in Microsoft 365 channels, for licensed authenticated users |
+| Agent flows | Yes, when a standard harness agent calls them via *When an agent calls the flow* for a licensed user; otherwise billed (including autonomous runs). Test runs aren't billed |
+| Workflows, prompts | Yes, inside a standard harness agent used by a licensed user |
+| Microsoft Copilot harness agents | **No** — all creation and runtime billed |
+| Computer use | No |
+
+**Copilot Credit rates** (*Billing rates and management*, standard harness):
+
+| Event | Credits |
+|---|---|
+| Classic answer | 1 |
+| Generative answer | 2 |
+| Agent action | 5 |
+| Tenant graph grounding | 10 |
+| Agent flow actions | 13 per 100 actions |
+| AI tools — basic / standard / premium | 0.1 / 1.5 / 10 per 1,000 tokens |
+| Reasoning models | feature rate **plus** premium per 1,000 tokens |
+
+Estimator: the *Microsoft Copilot Studio agent usage estimator*
+(`https://microsoft.github.io/copilot-studio-estimator/`).
+
+**Hand-off tooling** (Microsoft):
+
+| Need | Tool |
+|---|---|
+| Microsoft Copilot harness agent — map requirements to components, write the YAML | `copilot-studio-plugin` marketplace, `mcs-assistant` plugin: **Copilot Studio Architect** agent |
+| Standard harness agent — author YAML | `skills-for-copilot-studio`, `copilot-studio` plugin: **Copilot Studio Author** agent |
+| Patterns, reviews, troubleshooting (standard) | Same plugin: **Copilot Studio Advisor** agent |
+| Whole-solution architecture ("agent, app or site?") | Power CAT `powercat-architecture-advisor` |

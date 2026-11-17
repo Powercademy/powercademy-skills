@@ -1,0 +1,18 @@
+{
+  "name": "skill-authoring",
+  "version": "0.1.0",
+  "description": "The Powercademy Skills house standard for writing agent skills that work in both GitHub Copilot CLI and Claude Code: the founding dual-runtime rule, the lint-enforced constraints, trigger-description craft, the house methodology shape, redaction rules for client lessons, and the review checklist. For contributors and for teams building their own Power Platform skills - not needed to use the marketplace.",
+  "author": {
+    "name": "Howdang Rashid"
+  },
+  "homepage": "https://github.com/Powercademy/powercademy-skills",
+  "repository": "https://github.com/Powercademy/powercademy-skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "authoring",
+    "agent-skills",
+    "contributing",
+    "powercademy"
+  ]
+}

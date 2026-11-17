@@ -1,4 +1,4 @@
-# Microsoft references — the doctor's command book
+# Microsoft references — the workstation's command book
 
 Together with its machine-readable companion `toolchain-manifest.json`, this is
 the **only** place in this plugin that names Microsoft plugin commands, MCP

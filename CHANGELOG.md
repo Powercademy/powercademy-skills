@@ -3,6 +3,34 @@
 All notable changes to this marketplace are documented here.
 Versioning follows [semver](https://semver.org/).
 
+## [0.18.0] — 2026-11-17
+
+Plugins regrouped so each name says what kind of help is inside. **Skill names
+are unchanged** — triggers and evals behave as before; only the plugin prefix
+moves (e.g. `conventions:agent-design` → `design:agent-design`).
+
+### Changed
+
+- **`doctor` → `workstation`** (0.7.0): setup-workstation and check-setup,
+  unchanged. The first thing everyone runs now has a name that says so.
+- **New `design` plugin** (0.1.0) — the consultants run before building:
+  `agent-design` (from conventions) and `plan-canvas-app` (from
+  canvas-planner, which is retired). Canvas's shared files are now
+  `canvas-gotchas.md` and `canvas-preflight.md`; the Learn MCP server the
+  plugin bundles comes with it.
+- **`conventions`** (0.7.0) is now only rules: dataverse-, flow-,
+  pcf-conventions, model-driven-ux, tool-selection.
+- **New `skill-authoring` plugin** (0.1.0) holds `writing-skills`, opt-in and
+  not installed by setup — it no longer imposes this repo's lint rules on
+  anyone writing their own, unrelated skills.
+- Core install is now workstation + conventions + design.
+- `doctor` and `canvas-planner` join the manifest's `retired` list:
+  check-setup and setup-workstation swap them for workstation and design
+  wherever they're installed.
+- CLAUDE.md gains "Where a skill belongs" — the five plugin roles.
+- Installer, smoke test, upstream watch, workflows, evals and docs follow the
+  new paths.
+
 ## [0.17.0] — 2026-11-17
 
 From a four-day client workshop on AI-assisted delivery, and a full

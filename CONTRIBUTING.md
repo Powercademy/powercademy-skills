@@ -6,7 +6,7 @@ prevented one, a trigger phrasing that should have fired and didn't.
 
 ## The fast path: contribute a gotcha
 
-1. Find the right log: canvas-planner has a `shared/gotchas.md`; flow and PCF lessons live in
+1. Find the right log: the design plugin has `shared/canvas-gotchas.md`; flow and PCF lessons live in
    `plugins/conventions/shared/flow-gotchas.md` and `pcf-gotchas.md`, and Dataverse conventions in
    `plugins/conventions/skills/dataverse-conventions/SKILL.md`.
 2. Write the entry in the established form — **Symptom → Cause → Fix**, short
@@ -18,7 +18,7 @@ prevented one, a trigger phrasing that should have fired and didn't.
 ## Contributing or changing a skill
 
 The house standard is itself a skill: read
-[`plugins/conventions/skills/writing-skills/SKILL.md`](plugins/conventions/skills/writing-skills/SKILL.md)
+[`plugins/skill-authoring/skills/writing-skills/SKILL.md`](plugins/skill-authoring/skills/writing-skills/SKILL.md) (install the `skill-authoring` plugin to have your agent apply it)
 before authoring — it encodes the dual-runtime constraints (frontmatter,
 description length, path conventions, the mechanics quarantine), the trigger-
 description craft, and the review checklist. The lint enforces the hard rules:

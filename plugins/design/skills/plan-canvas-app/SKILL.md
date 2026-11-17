@@ -22,22 +22,22 @@ and be willing to say the app shouldn't be built this way.
 
 ## The core loop
 
-0. **Onboard** — tooling, environment, target (`${PLUGIN_ROOT}/shared/preflight.md`).
+0. **Onboard** — tooling, environment, target (`${PLUGIN_ROOT}/shared/canvas-preflight.md`).
 1. **Decide whether canvas is right at all.** Often it isn't.
 2. **Decide the data and delegation strategy.** The decision that ages worst.
 3. **Decide screen and navigation architecture.**
 4. **Set conventions** — naming, components, performance.
 5. **Write the plan, then hand off** to Microsoft's canvas tooling to build.
 6. **Checkpoint at real data volumes**, not test volumes.
-7. **Feed lessons back** into `${PLUGIN_ROOT}/shared/gotchas.md`.
+7. **Feed lessons back** into `${PLUGIN_ROOT}/shared/canvas-gotchas.md`.
 
-Read `${PLUGIN_ROOT}/shared/gotchas.md` before planning.
+Read `${PLUGIN_ROOT}/shared/canvas-gotchas.md` before planning.
 
 ---
 
 ## Step 0: Preflight
 
-Run `${PLUGIN_ROOT}/shared/preflight.md`. Connect, confirm the environment and
+Run `${PLUGIN_ROOT}/shared/canvas-preflight.md`. Connect, confirm the environment and
 tenant with a connection card, and confirm the canvas authoring tooling is
 available before promising a generated app.
 
@@ -218,7 +218,7 @@ entry.
 After the build, scan for lessons that aren't specific to this app: a connector
 that delegated differently than documented, a formula pattern that quietly
 broke, a generation behaviour worth knowing. Offer them once, at a natural
-pause, for `${PLUGIN_ROOT}/shared/gotchas.md` — appending directly when working
+pause, for `${PLUGIN_ROOT}/shared/canvas-gotchas.md` — appending directly when working
 in the marketplace repo, or drafting the entry for the user to contribute back
 when running from an installed copy.
 
@@ -242,6 +242,6 @@ when running from an installed copy.
 
 ## Reference files
 
-- `${PLUGIN_ROOT}/shared/preflight.md` — onboarding the skill runs itself.
-- `${PLUGIN_ROOT}/shared/gotchas.md` — accumulated failure log. **Read before planning.**
+- `${PLUGIN_ROOT}/shared/canvas-preflight.md` — onboarding the skill runs itself.
+- `${PLUGIN_ROOT}/shared/canvas-gotchas.md` — accumulated failure log. **Read before planning.**
 - `${PLUGIN_ROOT}/shared/microsoft-refs.md` — the only place this plugin names Microsoft tooling: the canvas authoring route, Learn verification, and the `pac` CLI.

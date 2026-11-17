@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Powercademy doctor — workstation health report.
+ * Powercademy workstation — health report.
  *
  * Read-only. Checks every item in the toolchain manifest on this machine, in
  * every agent runtime present, scores the workstation's health and writes:
@@ -173,7 +173,7 @@ const md = [
   "",
   table(integrations),
   "",
-  `_Scored over: core 60, your workloads 30, recommended 10. Ready = full credit; outdated or one runtime only = half; needs repair = a quarter. Read-only check by the Powercademy doctor plugin._`,
+  `_Scored over: core 60, your workloads 30, recommended 10. Ready = full credit; outdated or one runtime only = half; needs repair = a quarter. Read-only check by the Powercademy workstation plugin._`,
   "",
 ].join("\n");
 
@@ -226,7 +226,7 @@ ul{padding-left:20px}li{margin:6px 0}.foot{font-size:12px;color:var(--muted);mar
 <h2>Available to add</h2><div class="card"><ul>${toAdd.map((x) => `<li><b>${esc(x.w.label)}</b> — ${esc(x.w.unlocks)}<br>Say ${say(`add ${x.w.label.toLowerCase()} to my setup`)} ${pluginItems(x.items).map((p) => docsOf(p)).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).map((d) => `<a href="${esc(d)}" target="_blank" rel="noopener">docs</a>`).join(" ")}</li>`).join("")}</ul></div>
 <h2>Recommended extras</h2>${htable(recommended)}
 <h2>Integrations</h2>${htable(integrations)}
-<p class="foot">Scored over: core 60, your workloads 30, recommended 10. Ready earns full credit; outdated or installed in one runtime only earns half; needs repair earns a quarter. A read-only check by the Powercademy doctor plugin — it changed nothing on this machine.</p>
+<p class="foot">Scored over: core 60, your workloads 30, recommended 10. Ready earns full credit; outdated or installed in one runtime only earns half; needs repair earns a quarter. A read-only check by the Powercademy workstation plugin — it changed nothing on this machine.</p>
 </main></body></html>
 `;
 

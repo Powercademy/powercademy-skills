@@ -23,7 +23,7 @@ methodology the capability-scoped Microsoft skills can't hold.
 
 ## Start here — two steps
 
-1. **Bootstrap** (one command, below) — installs the `doctor` plugin into
+1. **Bootstrap** (one command, below) — installs the `workstation` plugin into
    GitHub Copilot CLI and/or Claude Code.
 2. **Say "set up my workstation"** — the `setup-workstation` skill asks what
    you'll build, then installs everything else: SDKs, CLIs, Microsoft's
@@ -55,7 +55,7 @@ iwr https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/script
 
 The installer is a **bootstrap**: it checks Node.js and git, detects Claude
 Code and/or GitHub Copilot CLI, registers this marketplace and installs the
-`doctor` plugin. Then start your agent and say:
+`workstation` plugin. Then start your agent and say:
 
 > set up my workstation
 
@@ -67,12 +67,12 @@ Manual bootstrap, inside a Claude Code or Copilot CLI session:
 
 ```
 /plugin marketplace add Powercademy/powercademy-skills
-/plugin install doctor@powercademy-skills
+/plugin install workstation@powercademy-skills
 ```
 
 ## What's included
 
-### doctor (0.6.0) — start here
+### workstation (0.7.0) — start here
 
 The answer to "why is setting this up such a pain?" — the first thing you run,
 and the place you come back to when something breaks:
@@ -94,7 +94,7 @@ and the place you come back to when something breaks:
   runtimes, MCP wiring. Say "check my setup" or "my auth is a mess".
 
 Both read one versioned
-[toolchain manifest](plugins/doctor/shared/toolchain-manifest.json), and a
+[toolchain manifest](plugins/workstation/shared/toolchain-manifest.json), and a
 weekly [upstream watch](.github/workflows/upstream-watch.yml) opens an issue
 whenever Microsoft's plugins change what they need, a package in the manifest
 is renamed or pulled, or a community skill lands in our lanes — so the setup
@@ -102,43 +102,10 @@ doesn't quietly rot. A [fresh-machine](.github/workflows/fresh-machine.yml)
 workflow proves it: clean Windows, macOS and Linux VMs run the bootstrap and
 the whole manifest, installing into both Claude Code and Copilot CLI.
 
-### canvas-planner (0.2.2)
+### conventions (0.7.0) — the rules
 
-The decisions that determine whether a canvas app survives contact with real
-data — made *before* anything is generated:
-
-- **`plan-canvas-app`** — is canvas even the right shape (or is this a
-  model-driven app?), then the decision that ages worst: **delegation and data
-  strategy**, verified per connector against Microsoft Learn rather than from
-  memory. Plus screen and navigation architecture, and conventions set before
-  generation. Produces a build plan, then hands execution to Microsoft's canvas
-  authoring tooling — it generates far faster than you can by hand; it just
-  can't tell you the app will silently return the wrong rows at 50,000 records.
-- Checkpoints run at **production volumes**, because a 50-row test proves
-  nothing about delegation.
-
-### alm (0.2.0)
-
-How the work actually ships — and the deployment that doesn't ruin your evening:
-
-- **`design-alm-process`** — grounds in the estate you really have (including
-  the uncomfortable bits), interviews, then decides environment strategy,
-  solution segmentation, publisher, **the config boundary** (what varies per
-  environment and who owns it), promotion path and named approvers — written
-  up as a process the team can follow.
-- **`promote-solution`** — runs a promotion end to end with checkpoints:
-  pre-flights dependencies, exports managed, rehearses in test, verifies with
-  evidence rather than exit codes, and treats **production import as a 🔴 hard
-  stop** requiring explicit in-the-moment approval. Fixes go in dev, never
-  downstream.
-
-Routes execution to Microsoft's Dataverse solution skills, native pipelines and
-`pac` — and hands Power Pages promotion off entirely, because their plugin
-already covers it end to end.
-
-### conventions (0.6.0)
-
-The judgement layer as a checklist — applied before anything gets built:
+Applied before and while you build, whichever tool does the building. Each
+rule carries its reasoning:
 
 - **`dataverse-conventions`** — living Dataverse schema and ALM conventions,
   each with its reasoning: `statecode`/`statuscode` over custom status
@@ -159,20 +126,63 @@ The judgement layer as a checklist — applied before anything gets built:
   bundle keeps rendering, dev push isn't deployment, the harness isn't the
   real host, and the premium-licensing trap. Applied alongside Microsoft's
   pcf plugin.
+- **`tool-selection`** — the right tool for the job: Microsoft's purpose-built
+  tools first, then the SDK, Web API or pac CLI, and browser automation
+  (Playwright) only for what has no API or where the UI itself is being
+  checked. Stops agents clicking through the maker portal for work one SDK
+  call does — and stops them saying "can't be done" when the browser can.
+
+### design (0.1.0) — the consultants
+
+The decisions that are expensive to change later, made before anything is
+built. Each one interviews, decides, writes the design down, then hands the
+build to Microsoft's tooling:
+
 - **`agent-design`** — the calls to make before a Copilot Studio agent is
   authored: agent or workflow, which harness (standard, Microsoft Copilot,
   Customer Conversation, Agent Builder, Foundry), knowledge vs tools vs
   workflows, what each conversation costs in credits and who pays, and whether
   the environment's data policies allow it. Then hands the build to
   Microsoft's Copilot Studio tooling.
-- **`tool-selection`** — the right tool for the job: Microsoft's purpose-built
-  tools first, then the SDK, Web API or pac CLI, and browser automation
-  (Playwright) only for what has no API or where the UI itself is being
-  checked. Stops agents clicking through the maker portal for work one SDK
-  call does — and stops them saying "can't be done" when the browser can.
+- **`plan-canvas-app`** — is canvas even the right shape (or is this a
+  model-driven app?), then the decision that ages worst: **delegation and data
+  strategy**, verified per connector against Microsoft Learn rather than from
+  memory. Plus screen and navigation architecture, and conventions set before
+  generation. Produces a build plan, then hands execution to Microsoft's canvas
+  authoring tooling — it generates far faster than you can by hand; it just
+  can't tell you the app will silently return the wrong rows at 50,000 records.
+- Checkpoints run at **production volumes**, because a 50-row test proves
+  nothing about delegation.
+
+### alm (0.2.0) — design the process, ship safely
+
+How the work actually ships — and the deployment that doesn't ruin your evening:
+
+- **`design-alm-process`** — grounds in the estate you really have (including
+  the uncomfortable bits), interviews, then decides environment strategy,
+  solution segmentation, publisher, **the config boundary** (what varies per
+  environment and who owns it), promotion path and named approvers — written
+  up as a process the team can follow.
+- **`promote-solution`** — runs a promotion end to end with checkpoints:
+  pre-flights dependencies, exports managed, rehearses in test, verifies with
+  evidence rather than exit codes, and treats **production import as a 🔴 hard
+  stop** requiring explicit in-the-moment approval. Fixes go in dev, never
+  downstream.
+
+Routes execution to Microsoft's Dataverse solution skills, native pipelines and
+`pac` — and hands Power Pages promotion off entirely, because their plugin
+already covers it end to end.
+
+### skill-authoring (0.1.0) — for skill writers
+
+Not needed to use the marketplace. Install it when you're writing skills —
+for this repo or your own team's:
+
 - **`writing-skills`** — the house standard for authoring marketplace skills:
   dual-runtime constraints, trigger-description craft, redaction rules, and
-  the review checklist. The contribution workflow, as a skill.
+  the review checklist. The contribution workflow, as a skill — and a solid base for a team building
+  its own Power Platform skills.
+
 
 ## Roadmap
 

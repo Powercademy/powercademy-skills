@@ -25,8 +25,8 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");
-// The same read-only checks the doctor plugin's health report uses.
-const tc = require(path.join(ROOT, "plugins/doctor/scripts/toolchain.js"));
+// The same read-only checks the workstation plugin's health report uses.
+const tc = require(path.join(ROOT, "plugins/workstation/scripts/toolchain.js"));
 const { OS, sh, osPick, cmdOf, runnable, checkTool, mcpNameFromCmd } = tc;
 const manifest = tc.loadManifest();
 

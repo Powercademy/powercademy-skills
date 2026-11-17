@@ -38,7 +38,7 @@ layer opinions on top.
    plugin (`shared/microsoft-refs.md`), never scattered through skills.
    - Exception: a plugin that needs those mechanics in machine-readable form
      (install commands, version floors, package IDs) may add ONE JSON companion
-     beside it — currently only `plugins/doctor/shared/toolchain-manifest.json`.
+     beside it — currently only `plugins/workstation/shared/toolchain-manifest.json`.
      The rule is unchanged in spirit: one place per plugin for prose, one for
      data, nothing vendor-specific in SKILL.md bodies.
    - The toolchain manifest is the single source of truth for what gets
@@ -54,11 +54,11 @@ layer opinions on top.
 powercademy-skills/
 ├── .claude-plugin/marketplace.json
 ├── plugins/
-│   └── <plugin>/            # alm, canvas-planner, conventions, doctor
+│   └── <plugin>/            # workstation, conventions, design, alm, skill-authoring
 │       ├── .claude-plugin/plugin.json
 │       ├── skills/<skill-name>/SKILL.md
 │       └── shared/               # refs incl. microsoft-refs.md
-│                                 # (doctor also: toolchain-manifest.json)
+│                                 # (workstation also: toolchain-manifest.json)
 ├── scripts/install.js            # bootstrapper
 ├── scripts/watch/                # upstream watch (weekly CI)
 ├── watch/upstream-snapshot.json  # accepted upstream baseline
@@ -66,6 +66,22 @@ powercademy-skills/
 ├── CHANGELOG.md
 └── README.md
 ```
+
+## Where a skill belongs
+
+Plugins are grouped by **what kind of help** a skill gives, so the name tells
+users what's inside:
+
+- **workstation** — set up and repair the machine.
+- **conventions** — rules applied before and while building ("do it this way,
+  here's why").
+- **design** — consultants run *before* building: interview, decide, write the
+  design, hand the build to Microsoft's tooling.
+- **alm** — the delivery lifecycle: design the process, run promotions safely.
+- **skill-authoring** — for people writing skills; not installed by default.
+
+A new skill that doesn't fit one of these is a signal to discuss the
+structure, not to stretch a name.
 
 ## Skill authoring rules
 
@@ -97,7 +113,7 @@ A change is done only when verified in BOTH runtimes:
 1. `claude --plugin-dir ./plugins/<plugin>` — skill triggers and behaves
 2. Copilot CLI local install of the same plugin — skill triggers and behaves
 3. Fresh-clone install flow works via `scripts/install.js`
-4. Anything touching the doctor plugin, the toolchain manifest or the
+4. Anything touching the workstation plugin, the toolchain manifest or the
    installer: the `fresh-machine` workflow is green on Windows, macOS and
    Linux (throwaway GitHub-hosted VMs; installs into both runtimes). Never run
    `scripts/test/workstation-smoke.js` without `--no-install` on a real

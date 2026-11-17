@@ -7,7 +7,7 @@
     "copilot-studio": "1.0.11",
     "note": "Every winget id and VS Code extension id below was resolved live on the verification date."
   },
-  "comment": "Single source of truth for what a Power Platform agent workstation needs. Read by setup-workstation (installs), check-setup (diagnoses), plugins/doctor/scripts/workstation-report.js (health report), scripts/install.js (bootstrap minimums) and scripts/watch/upstream-watch.js (staleness, version floors, and a weekly existence check of every package ID and URL parsed from the install commands below). This file is the machine-readable companion to shared/microsoft-refs.md — vendor mechanics live here and there, nowhere else.",
+  "comment": "Single source of truth for what a Power Platform agent workstation needs. Read by setup-workstation (installs), check-setup (diagnoses), plugins/workstation/scripts/workstation-report.js (health report), scripts/install.js (bootstrap minimums) and scripts/watch/upstream-watch.js (staleness, version floors, and a weekly existence check of every package ID and URL parsed from the install commands below). This file is the machine-readable companion to shared/microsoft-refs.md — vendor mechanics live here and there, nowhere else.",
   "items": [
     {
       "id": "node",
@@ -251,12 +251,13 @@
     },
     {
       "id": "plugin-powercademy-core",
-      "name": "Powercademy core plugins (doctor, conventions)",
+      "name": "Powercademy core plugins (workstation, conventions, design)",
       "tier": "required",
       "type": "plugin",
       "plugins": [
-        "doctor",
-        "conventions"
+        "workstation",
+        "conventions",
+        "design"
       ],
       "marketplace": "powercademy-skills",
       "dependsOn": [
@@ -285,17 +286,6 @@
       "dependsOn": [
         "mkt-microsoft",
         "dotnet-sdk"
-      ]
-    },
-    {
-      "id": "plugin-canvas-planner",
-      "name": "canvas-planner",
-      "tier": "workload",
-      "type": "plugin",
-      "plugin": "canvas-planner",
-      "marketplace": "powercademy-skills",
-      "dependsOn": [
-        "mkt-powercademy"
       ]
     },
     {
@@ -546,7 +536,7 @@
         "power-automate",
         "power-pages",
         "mobile-app",
-        "canvas-planner",
+        "design",
         "alm"
       ],
       "endpoint": "https://learn.microsoft.com/api/mcp",
@@ -676,6 +666,20 @@
       "retiredIn": "0.13.0",
       "replacedBy": "Microsoft's pcf plugin builds, tests, deploys and verifies PCF controls. The PCF judgement (is PCF the right tool, licensing, gotchas) moved to the conventions plugin (pcf-conventions).",
       "action": "Uninstall it from every runtime; make sure conventions and Microsoft's pcf plugin are installed."
+    },
+    {
+      "plugin": "doctor",
+      "marketplace": "powercademy-skills",
+      "retiredIn": "0.18.0",
+      "replacedBy": "Renamed to workstation (setup-workstation and check-setup, unchanged).",
+      "action": "Uninstall it from every runtime; install workstation."
+    },
+    {
+      "plugin": "canvas-planner",
+      "marketplace": "powercademy-skills",
+      "retiredIn": "0.18.0",
+      "replacedBy": "plan-canvas-app moved to the design plugin, alongside agent-design.",
+      "action": "Uninstall it from every runtime; install design."
     }
   ],
   "workloads": [
@@ -692,8 +696,7 @@
       "id": "canvas",
       "label": "Canvas apps",
       "items": [
-        "plugin-canvas-apps",
-        "plugin-canvas-planner"
+        "plugin-canvas-apps"
       ],
       "unlocks": "Plan canvas apps that survive real data volumes, then generate and edit them.",
       "tryFirst": "plan a canvas app for field engineers to log site visits"

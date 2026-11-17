@@ -15,7 +15,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "plugins/doctor/**"
+      - "plugins/workstation/**"
       - "scripts/install.js"
       - "scripts/test/**"
       - ".github/workflows/fresh-machine.yml"
@@ -53,7 +53,7 @@ jobs:
 
       - name: Health report — what setup-workstation hands the user
         if: always()
-        run: node plugins/doctor/scripts/workstation-report.js --out-dir health
+        run: node plugins/workstation/scripts/workstation-report.js --out-dir health
 
       - name: Report
         if: always()

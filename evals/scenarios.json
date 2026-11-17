@@ -11,7 +11,7 @@
     },
     {
       "skill": "setup-workstation",
-      "plugin": "doctor",
+      "plugin": "workstation",
       "prompt": "set up my new laptop for Power Platform development - install everything I need",
       "alternates": [
         "add Copilot Studio development to my workstation setup",
@@ -20,7 +20,7 @@
     },
     {
       "skill": "check-setup",
-      "plugin": "doctor",
+      "plugin": "workstation",
       "prompt": "pac isn't working and my auth profiles are a mess - check my setup and fix what's wrong",
       "alternates": [
         "which account and tenant am I actually signed in as right now?"
@@ -28,7 +28,7 @@
     },
     {
       "skill": "plan-canvas-app",
-      "plugin": "canvas-planner",
+      "plugin": "design",
       "prompt": "plan a canvas app for field engineers to log site visits against Dataverse",
       "alternates": [
         "why is my gallery only showing 500 records?"
@@ -44,7 +44,7 @@
     },
     {
       "skill": "writing-skills",
-      "plugin": "conventions",
+      "plugin": "skill-authoring",
       "prompt": "I want to contribute a new skill to the powercademy-skills marketplace - walk me through writing the SKILL.md properly",
       "alternates": [
         "review my draft SKILL.md against the powercademy house standard before I open the PR"
@@ -92,7 +92,7 @@
     },
     {
       "skill": "agent-design",
-      "plugin": "conventions",
+      "plugin": "design",
       "prompt": "we want a Copilot Studio agent that sends each customer a weekly summary of the hours we logged for them - how should we build it?",
       "alternates": [
         "should this agent use the standard harness or the new Copilot harness, and what will it cost us per month?"

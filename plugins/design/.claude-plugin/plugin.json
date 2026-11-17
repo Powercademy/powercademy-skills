@@ -1,0 +1,21 @@
+{
+  "name": "design",
+  "version": "0.1.0",
+  "description": "Powercademy's consultants for the decisions that are expensive to change later, made before anything is built: whether a canvas app survives real data (shape, delegation strategy, screens), and whether a Copilot Studio agent is worth building and affordable to run (agent or workflow, harness, components, credit cost, environment fit). Each one interviews, decides, writes the design down, then hands the build to Microsoft's tooling.",
+  "author": {
+    "name": "Howdang Rashid"
+  },
+  "homepage": "https://github.com/Powercademy/powercademy-skills",
+  "repository": "https://github.com/Powercademy/powercademy-skills",
+  "license": "MIT",
+  "keywords": [
+    "design",
+    "architecture",
+    "canvas-apps",
+    "copilot-studio",
+    "agents",
+    "delegation",
+    "power-platform",
+    "powercademy"
+  ]
+}

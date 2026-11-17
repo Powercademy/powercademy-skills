@@ -45,7 +45,7 @@ any time.
 ## 3. Bootstrap
 
 **Option A — one command (recommended).** Checks Node and git, registers the
-Powercademy marketplace and installs the `doctor` plugin — in Copilot *and*
+Powercademy marketplace and installs the `workstation` plugin — in Copilot *and*
 Claude Code if you have both:
 
 ```bash
@@ -65,7 +65,7 @@ iwr https://raw.githubusercontent.com/Powercademy/powercademy-skills/main/script
 ```
 
 ```
-/plugin install doctor@powercademy-skills
+/plugin install workstation@powercademy-skills
 ```
 
 ## 4. Set up your workstation
@@ -121,7 +121,7 @@ The Copilot CLI plugin surface moves fast. To update the skills:
 ```
 
 ```
-/plugin update doctor@powercademy-skills
+/plugin update workstation@powercademy-skills
 ```
 
 Restart the session afterwards — a running session keeps the old copy.

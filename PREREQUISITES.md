@@ -5,7 +5,7 @@ nothing to ready:
 
 1. **Bootstrap** — the one-line installer in the README. It needs Node.js and
    git, checks for an agent runtime (GitHub Copilot CLI or Claude Code),
-   registers this marketplace and installs the `doctor` plugin.
+   registers this marketplace and installs the `workstation` plugin.
 2. **Say "set up my workstation"** — the `setup-workstation` skill does the rest
    conversationally: asks what you'll build, installs the SDKs, CLIs,
    Microsoft's plugins and the workloads you choose, signs you in, verifies
@@ -19,7 +19,7 @@ Afterwards, if anything stops working, say **"check my setup"**.
 The complete, versioned list — every item, the check that proves it works, the
 install command per OS, whether it needs admin, and which workloads need it —
 lives in one place:
-[`plugins/doctor/shared/toolchain-manifest.json`](plugins/doctor/shared/toolchain-manifest.json).
+[`plugins/workstation/shared/toolchain-manifest.json`](plugins/workstation/shared/toolchain-manifest.json).
 Both skills and the installer read it, so they can never disagree.
 
 At a glance:

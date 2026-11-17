@@ -1,28 +1,32 @@
 {
-    "name": "powercademy-skills",
-    "owner": {
-        "name": "Powercademy"
+  "name": "powercademy-skills",
+  "owner": {
+    "name": "Powercademy"
+  },
+  "metadata": {
+    "description": "Opinionated Power Platform delivery skills that layer on top of Microsoft's official plugins — methodology, conventions, and architecture judgement for Claude Code and GitHub Copilot",
+    "pluginRoot": "."
+  },
+  "plugins": [
+    {
+      "name": "workstation",
+      "source": "./plugins/workstation"
     },
-    "metadata": {
-        "description": "Opinionated Power Platform delivery skills that layer on top of Microsoft's official plugins — methodology, conventions, and architecture judgement for Claude Code and GitHub Copilot",
-        "pluginRoot": "."
+    {
+      "name": "conventions",
+      "source": "./plugins/conventions"
     },
-    "plugins": [
-        {
-            "name": "doctor",
-            "source": "./plugins/doctor"
-        },
-        {
-            "name": "canvas-planner",
-            "source": "./plugins/canvas-planner"
-        },
-        {
-            "name": "conventions",
-            "source": "./plugins/conventions"
-        },
-        {
-            "name": "alm",
-            "source": "./plugins/alm"
-        }
-    ]
+    {
+      "name": "design",
+      "source": "./plugins/design"
+    },
+    {
+      "name": "alm",
+      "source": "./plugins/alm"
+    },
+    {
+      "name": "skill-authoring",
+      "source": "./plugins/skill-authoring"
+    }
+  ]
 }

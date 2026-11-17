@@ -1,5 +1,5 @@
 /**
- * Powercademy doctor — shared, read-only toolchain checks.
+ * Powercademy workstation — shared, read-only toolchain checks.
  *
  * One implementation of "is this item ready?" for everything that asks:
  * the workstation health report (scripts/workstation-report.js) and the

@@ -41,7 +41,7 @@ scattered through the skill. The constraints below exist to protect this rule.
    `microsoft-refs` in the plugin's `shared/` folder. Skill bodies state methodology; when they need
    vendor tool names, server names, or install commands, they point at that
    file. A plugin that needs machine-readable mechanics (install commands,
-   version floors) may add one JSON companion beside it — the doctor's
+   version floors) may add one JSON companion beside it — the workstation plugin's
    `toolchain-manifest.json` — and nothing else. If the vendor renames
    something, one place changes.
 

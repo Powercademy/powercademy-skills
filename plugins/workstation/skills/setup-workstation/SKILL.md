@@ -8,7 +8,7 @@ description: >
 
 The first thing anyone runs. It installs what a Power Platform agent workstation
 needs, in the right order, with consent — then proves it all works. Afterwards,
-`check-setup` (the doctor) is where they go when something breaks.
+`check-setup` is where they go when something breaks.
 
 **The single source of truth is `${PLUGIN_ROOT}/shared/toolchain-manifest.json`.**
 Read it before doing anything. Every item, tier, check command, install command,
@@ -193,7 +193,7 @@ on IT — into the working directory as `workstation-setup.md`:
 > | Core | ✅ node 24 · git · .NET 10 · pac 2.13 · az 2.81 · Python 3.12 |
 > | Identity | ✅ user@contoso.com · Contoso Dev |
 > | Runtimes | ✅ Copilot CLI 1.0.80 · ✅ Claude Code |
-> | Plugins | ✅ dataverse · power-automate · conventions · doctor |
+> | Plugins | ✅ dataverse · power-automate · workstation · conventions · design |
 > | Recommended | ✅ Learn MCP (bundled) · ✅ Playwright (bundled) |
 > | Waiting on IT | ⏳ Azure CLI — see `it-request.md` |
 >

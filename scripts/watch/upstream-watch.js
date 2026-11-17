@@ -45,7 +45,7 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const SNAPSHOT = path.join(ROOT, "watch", "upstream-snapshot.json");
-const MANIFEST = path.join(ROOT, "plugins", "doctor", "shared", "toolchain-manifest.json");
+const MANIFEST = path.join(ROOT, "plugins", "workstation", "shared", "toolchain-manifest.json");
 const STALE_DAYS = 90;
 
 const UPSTREAMS = [
@@ -413,7 +413,7 @@ const lines = [
   `# Upstream watch — ${cur.takenAt}`,
   "",
   actionable.length
-    ? `**${actionable.length} change(s) need attention.** Update \`plugins/doctor/shared/toolchain-manifest.json\` (and any affected skill), then accept the new baseline with \`node scripts/watch/upstream-watch.js --update-snapshot\` and close this issue.`
+    ? `**${actionable.length} change(s) need attention.** Update \`plugins/workstation/shared/toolchain-manifest.json\` (and any affected skill), then accept the new baseline with \`node scripts/watch/upstream-watch.js --update-snapshot\` and close this issue.`
     : "No actionable changes.",
   "",
 ];
