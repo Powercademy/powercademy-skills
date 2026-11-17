@@ -18,10 +18,13 @@ prevented one, a trigger phrasing that should have fired and didn't.
 ## Contributing or changing a skill
 
 The house standard is itself a skill: read
-[`plugins/skill-authoring/skills/writing-skills/SKILL.md`](plugins/skill-authoring/skills/writing-skills/SKILL.md) (install the `skill-authoring` plugin to have your agent apply it)
-before authoring — it encodes the dual-runtime constraints (frontmatter,
-description length, path conventions, the mechanics quarantine), the trigger-
-description craft, and the review checklist. The lint enforces the hard rules:
+[`.claude/skills/writing-skills/SKILL.md`](.claude/skills/writing-skills/SKILL.md)
+before authoring. It's a repo skill, so Claude Code and GitHub Copilot CLI
+both load it automatically when you work in a clone of this repo. It covers
+only what the platforms' own skill-authoring guidance doesn't: the
+dual-runtime constraints (frontmatter, description length, path conventions,
+the mechanics quarantine), which plugin a skill belongs in, the house
+methodology, redaction, and the review checklist. The lint enforces the hard rules:
 
 ```bash
 node scripts/lint/lint-skills.js

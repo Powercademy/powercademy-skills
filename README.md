@@ -173,17 +173,6 @@ Routes execution to Microsoft's Dataverse solution skills, native pipelines and
 `pac` — and hands Power Pages promotion off entirely, because their plugin
 already covers it end to end.
 
-### skill-authoring (0.1.0) — for skill writers
-
-Not needed to use the marketplace. Install it when you're writing skills —
-for this repo or your own team's:
-
-- **`writing-skills`** — the house standard for authoring marketplace skills:
-  dual-runtime constraints, trigger-description craft, redaction rules, and
-  the review checklist. The contribution workflow, as a skill — and a solid base for a team building
-  its own Power Platform skills.
-
-
 ## Roadmap
 
 All tracked in [issues](https://github.com/Powercademy/powercademy-skills/issues) with the `roadmap` label. Headlines:

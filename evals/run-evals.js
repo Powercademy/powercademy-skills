@@ -23,6 +23,7 @@
  *
  * Notes:
  *   - Runs against the INSTALLED plugins (user scope). Update installs first
+ *     (scenarios with "cwd": "repo" test a repo skill and run from the repo root)
  *     so you're testing what you think you're testing.
  *   - Claude runtime must be run from a normal terminal (it needs an
  *     authenticated `claude`); inside an agent session it may fail with an
@@ -206,7 +207,8 @@ function runOne(runtimeName, prompt, expectedSkill, cwd) {
       for (const [i, prompt] of prompts.entries()) {
         const label = `${rt} · ${s.skill}${i > 0 ? ` (alt ${i})` : ""}`;
         process.stdout.write(`… ${label} `);
-        const r = await runOne(rt, prompt, s.skill, cwd);
+        // repo skills (.claude/skills) only load inside this repo
+        const r = await runOne(rt, prompt, s.skill, s.cwd === "repo" ? path.resolve(__dirname, "..") : cwd);
         const icon = r.verdict === "PASS" ? "✓" : r.verdict === "ERROR" ? "~" : "✗";
         console.log(`\r${icon} ${label} — ${r.verdict} (${r.detail}) [${r.seconds}s]`);
         results.push({ runtime: rt, skill: s.skill, alt: i, ...r, prompt });

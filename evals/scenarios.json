@@ -44,11 +44,11 @@
     },
     {
       "skill": "writing-skills",
-      "plugin": "skill-authoring",
       "prompt": "I want to contribute a new skill to the powercademy-skills marketplace - walk me through writing the SKILL.md properly",
       "alternates": [
         "review my draft SKILL.md against the powercademy house standard before I open the PR"
-      ]
+      ],
+      "cwd": "repo"
     },
     {
       "skill": "design-alm-process",

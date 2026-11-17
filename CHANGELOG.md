@@ -20,14 +20,19 @@ moves (e.g. `conventions:agent-design` → `design:agent-design`).
   plugin bundles comes with it.
 - **`conventions`** (0.7.0) is now only rules: dataverse-, flow-,
   pcf-conventions, model-driven-ux, tool-selection.
-- **New `skill-authoring` plugin** (0.1.0) holds `writing-skills`, opt-in and
-  not installed by setup — it no longer imposes this repo's lint rules on
-  anyone writing their own, unrelated skills.
+- **`writing-skills` leaves the marketplace** and becomes a repo skill in
+  `.claude/skills/` — both runtimes load it when working in a clone of this
+  repo; users never get it. It was contributor guidance shipped to everyone,
+  and half of it repeated the platforms' own skill-authoring guidance. Now
+  trimmed to what they don't cover (dual-runtime traps, where a skill
+  belongs, house methodology, redaction, review) and points to theirs for the
+  general craft. The lint now checks repo skills too; its trigger eval runs
+  from the repo root.
 - Core install is now workstation + conventions + design.
 - `doctor` and `canvas-planner` join the manifest's `retired` list:
   check-setup and setup-workstation swap them for workstation and design
   wherever they're installed.
-- CLAUDE.md gains "Where a skill belongs" — the five plugin roles.
+- CLAUDE.md gains "Where a skill belongs" — the four plugin roles, and where contributor-only skills live.
 - Installer, smoke test, upstream watch, workflows, evals and docs follow the
   new paths.
 

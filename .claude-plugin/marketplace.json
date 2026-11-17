@@ -23,10 +23,6 @@
     {
       "name": "alm",
       "source": "./plugins/alm"
-    },
-    {
-      "name": "skill-authoring",
-      "source": "./plugins/skill-authoring"
     }
   ]
 }

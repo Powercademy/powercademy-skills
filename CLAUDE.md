@@ -54,7 +54,7 @@ layer opinions on top.
 powercademy-skills/
 ├── .claude-plugin/marketplace.json
 ├── plugins/
-│   └── <plugin>/            # workstation, conventions, design, alm, skill-authoring
+│   └── <plugin>/            # workstation, conventions, design, alm
 │       ├── .claude-plugin/plugin.json
 │       ├── skills/<skill-name>/SKILL.md
 │       └── shared/               # refs incl. microsoft-refs.md
@@ -78,7 +78,9 @@ users what's inside:
 - **design** — consultants run *before* building: interview, decide, write the
   design, hand the build to Microsoft's tooling.
 - **alm** — the delivery lifecycle: design the process, run promotions safely.
-- **skill-authoring** — for people writing skills; not installed by default.
+- Skills only contributors need (the house authoring standard,
+  `writing-skills`) live in `.claude/skills/` — a repo skill both runtimes
+  load inside this repo, never shipped to users.
 
 A new skill that doesn't fit one of these is a signal to discuss the
 structure, not to stretch a name.

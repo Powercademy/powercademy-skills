@@ -210,6 +210,12 @@ function main() {
     }
   }
 
+  // repo skills (.claude/skills): read by both runtimes, so the same rules apply
+  for (const skillMd of walk(path.join(ROOT, ".claude", "skills"), "SKILL.md")) {
+    skillCount++;
+    lintSkill(skillMd);
+  }
+
   // 5. artifact-style.md sync: the canonical rendered-artifact spec is
   // duplicated per plugin (installed plugins are self-contained); copies must
   // stay byte-identical or the design language forks silently.
